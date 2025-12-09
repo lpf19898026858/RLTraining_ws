@@ -185,6 +185,8 @@ vlm_service/DescribeScene.h
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/include/nlp_drone_control/vlm_service/DescribeScene.h
 vlm_service/CaptureImage.h
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/include/nlp_drone_control/vlm_service/CaptureImage.h
+regex
+-
 
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/lib/cpr/include/cpr/accept_encoding.h
 curl/curlver.h

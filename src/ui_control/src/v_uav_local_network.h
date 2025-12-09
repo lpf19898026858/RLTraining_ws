@@ -69,7 +69,7 @@ public:
   void current_position_sub_cb(const geometry_msgs::PoseStamped::ConstPtr &msg);
   void camera_request_sub_cb(const std_msgs::Bool::ConstPtr &msg);
   void feedbackCallback(const std_msgs::String::ConstPtr& msg);
-  void reasoningCallback(const std_msgs::String::ConstPtr& msg); // ++ 新增：新的回调函数
+  void reasoningCallback(const std_msgs::String::ConstPtr& msg); 
   
   void init_ros();
   bool set_object_name(std::string objectName);
@@ -92,12 +92,16 @@ public Q_SLOTS:
   
   void on_v_uav_0_stop_command_button_clicked(); 
   
+  void on_v_uav_0_rereasoning_command_button_clicked(); 
+  
+  void on_v_uav_0_run_command_button_clicked(); 
+  
    // 需要一个槽来接收这个信号
   void updateFeedbackDisplay(const QString &text); 
-void updateReasoningDisplay(const QString &text); // ++ 新增：用于更新思考过程的槽
+void updateReasoningDisplay(const QString &text); // 用于更新思考过程的槽
 
-  void on_clear_reasoning_button_clicked(); // ++ 新增
-  void on_clear_feedback_button_clicked();  // ++ 新增
+  void on_clear_reasoning_button_clicked(); 
+  void on_clear_feedback_button_clicked();  
   //---->iot
 
   //ros
@@ -145,11 +149,14 @@ private:
   bool m_isStreamingInProgress; 
 
   int _object_id;
-  std::string _nlp_stop_pub_topic; // **新增：用于存储 stop topic 名称**
-  ros::Publisher _nlp_stop_pub;    // **新增：stop 命令的发布者**
+  std::string _nlp_stop_pub_topic; // 用于存储 stop topic 名称
+  ros::Publisher _nlp_stop_pub;    //stop 命令的发布者**
   std::string _nlp_reason_sub_topic;
-  ros::Subscriber _nlp_reasoning_sub; // ++ 新增：用于接收思考过程的订阅者
-  
+  ros::Subscriber _nlp_reasoning_sub; // 用于接收思考过程的订阅者
+    std::string _nlp_rereasoning_pub_topic; 
+  ros::Publisher _nlp_rereasoning_pub;   
+    std::string _nlp_run_pub_topic; // 用于存储 stop topic 名称
+  ros::Publisher _nlp_run_pub;    //stop 命令的发布者**
   
 };
 

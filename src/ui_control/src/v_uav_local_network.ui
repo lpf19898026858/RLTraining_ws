@@ -68,7 +68,7 @@
    <widget class="QLabel" name="v_uav_0_current_position_label">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>750</x>
       <y>140</y>
       <width>131</width>
       <height>31</height>
@@ -182,9 +182,9 @@
    <widget class="QPlainTextEdit" name="feedback_text_edit">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>380</x>
       <y>110</y>
-      <width>211</width>
+      <width>301</width>
       <height>271</height>
      </rect>
     </property>
@@ -192,7 +192,7 @@
    <widget class="QLabel" name="v_uav_0_mission_id_label_2">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>720</x>
       <y>190</y>
       <width>71</width>
       <height>20</height>
@@ -205,7 +205,7 @@
    <widget class="QLabel" name="v_uav_0_mission_id_label_3">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>720</x>
       <y>220</y>
       <width>71</width>
       <height>20</height>
@@ -218,7 +218,7 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_2">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>810</x>
       <y>190</y>
       <width>81</width>
       <height>22</height>
@@ -231,7 +231,7 @@
    <widget class="QLabel" name="v_uav_0_mission_id_label_4">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>720</x>
       <y>250</y>
       <width>71</width>
       <height>20</height>
@@ -244,7 +244,7 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_3">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>810</x>
       <y>220</y>
       <width>81</width>
       <height>22</height>
@@ -257,7 +257,7 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_4">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>810</x>
       <y>250</y>
       <width>81</width>
       <height>22</height>
@@ -270,7 +270,7 @@
    <widget class="QPushButton" name="v_uav_0_stop_command_button">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>680</x>
       <y>60</y>
       <width>80</width>
       <height>22</height>
@@ -285,7 +285,7 @@
      <rect>
       <x>40</x>
       <y>110</y>
-      <width>411</width>
+      <width>321</width>
       <height>271</height>
      </rect>
     </property>
@@ -293,7 +293,7 @@
    <widget class="QPushButton" name="clear_reasoning_button">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>260</x>
       <y>390</y>
       <width>80</width>
       <height>22</height>
@@ -306,7 +306,7 @@
    <widget class="QPushButton" name="clear_feedback_button">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>450</x>
       <y>390</y>
       <width>80</width>
       <height>22</height>
@@ -314,6 +314,32 @@
     </property>
     <property name="text">
      <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="v_uav_0_rereasoning_command_button">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>390</y>
+      <width>101</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rereasoning</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="v_uav_0_run_command_button">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>390</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Run</string>
     </property>
    </widget>
   </widget>

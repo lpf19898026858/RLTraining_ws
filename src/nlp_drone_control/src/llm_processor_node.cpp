@@ -133,6 +133,9 @@ for (const std::string& drone_id : drone_ids_) {
     llm_goal_pubs_[drone_id] = nh_.advertise<geometry_msgs::PoseStamped>("/" + drone_id + "/llm_goal", 1);
 }
 
+rereasoning_sub_ = nh_.subscribe("/nlp_rereasoning", 1, &LLMProcessorNode::rereasoningCallback, this);
+run_sub_ = nh_.subscribe("/nlp_run", 1, &LLMProcessorNode::runCallback, this);
+
 // 5. 创建中央接口
 describe_scene_client_ = nh_.serviceClient<vlm_service::DescribeScene>("/vision_service/describe_scene");
 central_nlp_command_sub_ = nh_.subscribe("/nlp_command", 1, &LLMProcessorNode::centralNlpCommandCallback, this);
@@ -183,6 +186,48 @@ needs_replan_ = false;
 latest_user_command_.clear();
 last_replan_reason_.clear();
 }
+void LLMProcessorNode::rereasoningCallback(const std_msgs::Empty::ConstPtr& msg) {
+    ROS_INFO("Rereasoning command received from UI.");
+    publishFeedback("User requested re-reasoning. Restarting reasoning phase...");
+
+    // 先打断旧流
+    interrupt_llm_request_.store(true);
+
+    std::lock_guard<std::mutex> lock(llm_thread_mutex_);
+    if (llm_request_thread_.joinable()) {
+        llm_request_thread_.join();
+    }
+    interrupt_llm_request_.store(false); // 准备新请求
+
+    llm_request_thread_ = std::thread(
+        &LLMProcessorNode::executeLlmRequest,
+        this,
+        last_user_command_,              // 复用上一轮的prompt（见第4点的说明）
+        RequestMode::REASONING_ONLY
+    );
+}
+
+void LLMProcessorNode::runCallback(const std_msgs::Empty::ConstPtr& msg) {
+    ROS_INFO("Run command received from UI.");
+    publishFeedback("User confirmed execution. Running tool calls...");
+
+    // 先打断旧流
+    interrupt_llm_request_.store(true);
+
+    std::lock_guard<std::mutex> lock(llm_thread_mutex_);
+    if (llm_request_thread_.joinable()) {
+        llm_request_thread_.join();
+    }
+    interrupt_llm_request_.store(false); // 准备新请求
+
+    llm_request_thread_ = std::thread(
+        &LLMProcessorNode::executeLlmRequest,
+        this,
+        last_user_command_,              // 复用上一轮的prompt（见第4点的说明）
+        RequestMode::TOOL_CALLS
+    );
+}
+
 
 void LLMProcessorNode::dronePoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg, const std::string& drone_id) {
 std::lock_guard<std::mutex> lock(contexts_map_mutex_);
@@ -309,170 +354,293 @@ if (!_pois.empty()) {
 }
 return dynamic_info_str;
 }
-// 在 llm_processor_node.cpp 文件中
+bool LLMProcessorNode::streamCallbackForGemini(const std::string& chunk) {
+    ROS_INFO_STREAM("streamCallbackForGemini current_mode = "
+        << (current_mode == RequestMode::TOOL_CALLS ? "TOOL_CALLS" : "REASONING_ONLY"));
 
-// 【最终版本】替换你整个的 streamCallback 函数
-bool LLMProcessorNode::streamCallback(const std::string& chunk) {
     std::lock_guard<std::mutex> buffer_lock(stream_buffer_mutex_);
     stream_buffer_ += chunk;
 
-    while (true) {
-        size_t end_pos = stream_buffer_.find("\n\n");
-        if (end_pos == std::string::npos) break;
+    std::istringstream ss(stream_buffer_);
+    std::string line;
+    size_t processed_chars = 0;
 
-        std::string message_block = stream_buffer_.substr(0, end_pos);
-        stream_buffer_.erase(0, end_pos + 2);
+    while (std::getline(ss, line)) {
+        processed_chars += line.size() + 1; // +1 for '\n'
 
-        std::stringstream ss(message_block);
-        std::string line;
-        while (std::getline(ss, line)) {
-            if (line.rfind("data: ", 0) != 0) continue;
-            
-            std::string data_str = line.substr(6);
-            if (data_str == "[DONE]") continue;
+        if (line.empty()) {
+            ROS_DEBUG_STREAM("[SKIP] Empty line");
+            continue;
+        }
+        if (line.rfind("data:", 0) != 0) {
+            ROS_DEBUG_STREAM("[SKIP] Non-data line: " << line);
+            continue;
+        }
 
-            try {
-                json delta_json = json::parse(data_str);
-                // --- 【【【 最核心的调试日志 】】】 ---
-                // 打印出整个 delta_json 的内容，这样我们能看到所有字段
-                ROS_INFO_STREAM("--- RECEIVED DELTA JSON ---\n" << delta_json.dump(2));
-                // --- 【【【 END OF DEBUG LOG 】】】 ---
-                
-                if (!delta_json.contains("choices") || delta_json["choices"].empty()) continue;
+        std::string json_str = line.substr(5);
+        if (!json_str.empty() && json_str.back() == '\r') json_str.pop_back();
+        ROS_INFO_STREAM("[SSE raw line] " << json_str);
+        ROS_INFO_STREAM("[BUFFER SIZE after append] " << stream_buffer_.size());
 
-                const auto& delta = delta_json["choices"][0]["delta"];
 
-                // 1. 处理思考过程的文本流 (content)
-                if (delta.contains("content") && delta["content"].is_string()) {
-                    accumulated_reasoning_response_ += delta["content"].get<std::string>();
-                    // 实时发布思考过程
-                    size_t newline_pos;
-                    while ((newline_pos = accumulated_reasoning_response_.find('\n')) != std::string::npos) {
-                        std::string line_to_publish = accumulated_reasoning_response_.substr(0, newline_pos);
-                        if (!line_to_publish.empty()) {
-                            publishReasoning(line_to_publish);
-                        }
-                        accumulated_reasoning_response_.erase(0, newline_pos + 1);
-                    }
-                }
+        if (json_str.empty() || json_str == "[DONE]") {
+            ROS_INFO_STREAM("[SKIP] Empty or [DONE] marker");
+            continue;
+        }
 
-                // 2. 处理工具调用的结构化流 (tool_calls)
-                if (delta.contains("tool_calls")) {
-                    for (const auto& tool_call_chunk : delta["tool_calls"]) {
-                        int index = tool_call_chunk["index"];
+        try {
+if (!json::accept(json_str)) {
+    ROS_WARN_STREAM("[WAIT] Incomplete JSON, keep in buffer (len=" << json_str.size() << "): " << json_str.substr(0,200) << "...");
+    // ⚠️ 不要加 processed_chars，不要 erase，直接 return true
+    return true;
+}
+ROS_INFO_STREAM("[BUFFER before parse] size=" << stream_buffer_.size());
 
-                        // 如果是新的工具调用，创建基本结构
-                        if (accumulated_tool_calls_.size() <= index) {
-                            accumulated_tool_calls_.push_back(json::object({{"index", index}}));
-                        }
+            json response_part = json::parse(json_str);
+            ROS_INFO_STREAM("[DEBUG response_part] " << response_part.dump(2));
 
-                        // 累积 id, type, function name
-                        if (tool_call_chunk.contains("id")) {
-                            accumulated_tool_calls_[index]["id"] = tool_call_chunk["id"];
-                        }
-                        if (tool_call_chunk.contains("type")) {
-                            accumulated_tool_calls_[index]["type"] = tool_call_chunk["type"];
-                        }
-                        if (tool_call_chunk.contains("function")) {
-                            if (tool_call_chunk["function"].contains("name")) {
-                                if (!accumulated_tool_calls_[index].contains("function")) {
-                                    accumulated_tool_calls_[index]["function"] = json::object();
-                                }
-                                accumulated_tool_calls_[index]["function"]["name"] = tool_call_chunk["function"]["name"];
-                            }
-                            // 累积 arguments 片段
-                            if (tool_call_chunk["function"].contains("arguments")) {
-                                if (!accumulated_tool_calls_[index]["function"].contains("arguments")) {
-                                    accumulated_tool_calls_[index]["function"]["arguments"] = "";
-                                }
-                                accumulated_tool_calls_[index]["function"]["arguments"] = accumulated_tool_calls_[index]["function"]["arguments"].get<std::string>() + tool_call_chunk["function"]["arguments"].get<std::string>();
-                            }
-                        }
-                    }
-                }
-
-            } catch (const json::exception& e) {
-                ROS_WARN_STREAM("Stream parsing error: " << e.what() << " | Data: " << data_str);
+            if (!response_part.contains("candidates")) {
+                ROS_WARN_STREAM("[SKIP] No candidates field");
+                continue;
             }
+            if (response_part["candidates"].empty()) {
+                ROS_WARN_STREAM("[SKIP] candidates empty");
+                continue;
+            }
+
+            for (const auto& cand : response_part["candidates"]) {
+                if (!cand.contains("content")) {
+                    ROS_WARN_STREAM("[SKIP] candidate without content: " << cand.dump(2));
+                    continue;
+                }
+                const auto& content = cand["content"];
+                ROS_INFO_STREAM("[DEBUG CANDIDATE CONTENT] " << content.dump(2));
+
+                if (!content.contains("parts")) {
+                    ROS_WARN_STREAM("[SKIP] content without parts: " << content.dump(2));
+                    continue;
+                }
+
+                const auto& parts = content["parts"];
+                ROS_INFO_STREAM("[DEBUG parts count] " << parts.size());
+
+                for (const auto& part : parts) {
+                    ROS_INFO_STREAM("[DEBUG PART RAW] " << part.dump(2));
+
+                    if (current_mode == RequestMode::REASONING_ONLY) {
+                        if (part.contains("text")) {
+                            std::string text_chunk = part["text"];
+                            accumulated_reasoning_response_ += text_chunk;
+                            publishReasoning(text_chunk);
+                            ROS_INFO_STREAM("[REASONING] appended text chunk");
+                        } else {
+                            ROS_WARN_STREAM("[REASONING] part without text: " << part.dump(2));
+                        }
+                    } 
+                    else if (current_mode == RequestMode::TOOL_CALLS) {
+                        ROS_INFO_STREAM("Enter TOOL_CALLS mode");
+
+                        if (part.contains("functionCall") || part.contains("function_call")) {
+                            ROS_INFO_STREAM("[FOUND FUNCTIONCALL] " << part.dump(2));
+                            try {
+                                const auto& function_call = part.contains("functionCall")
+                                    ? part.at("functionCall")
+                                    : part.at("function_call");
+
+                                json formatted_tool_call;
+                                formatted_tool_call["function"]["name"] = function_call.at("name");
+
+                                if (function_call.contains("args")) {
+                                    formatted_tool_call["function"]["arguments"] = function_call.at("args").dump();
+                                } else {
+                                    formatted_tool_call["function"]["arguments"] = "{}";
+                                }
+
+                                accumulated_tool_calls_.push_back(formatted_tool_call);
+                                ROS_INFO_STREAM("[PUSHED tool call] " << formatted_tool_call.dump(2));
+                            } catch (const std::exception& e) {
+                                ROS_ERROR_STREAM("[ERROR parsing functionCall] " << e.what()
+                                    << " | Raw part: " << part.dump(2));
+                            }
+                        } else {
+                            if (part.contains("text")) {
+                                ROS_WARN_STREAM("[TOOL_CALLS] Got text instead of functionCall: "
+                                    << part["text"].get<std::string>());
+                            } else {
+                                ROS_WARN_STREAM("[TOOL_CALLS] No functionCall in part: " << part.dump(2));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (const json::exception& e) {
+            ROS_ERROR_STREAM("[PARSE ERROR] " << e.what() << " | Raw line: " << json_str);
+            continue;
         }
     }
+ROS_INFO_STREAM("[BUFFER after erase] size=" << stream_buffer_.size());
+    if (current_mode == RequestMode::TOOL_CALLS) {
+        ROS_INFO_STREAM("[SUMMARY] Accumulated tool calls so far: " << accumulated_tool_calls_.size());
+    }
+
+    stream_buffer_.erase(0, processed_chars);
     return true;
 }
 
-
-// 【最终版本】替换你整个的 executeLlmRequest 函数
-void LLMProcessorNode::executeLlmRequest(std::string command_to_process) {
+void LLMProcessorNode::executeLlmRequest(std::string command_to_process, RequestMode mode)
+{
     interrupt_llm_request_.store(false);
     publishFeedback("LLM is thinking...");
+    ROS_INFO_STREAM("executeLlmRequest setting current_mode = " 
+        << (mode == RequestMode::TOOL_CALLS ? "TOOL_CALLS" : "REASONING_ONLY"));
+    current_mode = mode;
 
-    // 重置状态
+    last_user_command_ = command_to_process; // 记录用户的原始命令
     accumulated_tool_calls_ = json::array();
+    in_progress_tool_calls_.clear();
     accumulated_reasoning_response_.clear();
-    
-    // 构建标准的OpenAI请求体
-    std::string dynamic_info_str = getSwarmStateAsText();
-    std::string final_system_prompt = system_prompt_content_ + "\n" + dynamic_info_str;
-    
-    json conversation_for_api = json::array();
-    conversation_for_api.push_back({{"role", "system"}, {"content", final_system_prompt}});
-    // 注意：这里可以添加更多历史记录，但为了简化，我们只用最新的
-    conversation_for_api.push_back({{"role", "user"}, {"content", command_to_process}});
 
-    json request_body = {
-        {"model", "gpt-4o"},
-        {"messages", conversation_for_api},
-        {"tools", getFleetToolDefinitions()},
-        {"tool_choice", "auto"},
-        {"stream", true}
+    // 1. 构建 contents
+    json gemini_contents = json::array();
+
+    if (mode == RequestMode::REASONING_ONLY) {
+        // 推理模式：把用户命令传进去
+        gemini_contents.push_back({
+            {"role", "user"},
+            {"parts", {{{"text", command_to_process}}}}
+        });
+    } else { // TOOL_CALLS 模式
+        if (!has_cached_plan_.load()) {
+            publishFeedback("No cached plan to execute. Please run reasoning first.");
+            return;
+        }
+    // 把 POI/机群上下文也给到译器（很关键）
+    std::string ctx = getSwarmStateAsText();
+
+    // 只喂动作序列 + 清晰映射规则
+    std::string translator_user_text;
+    translator_user_text.reserve(4096);
+    translator_user_text += "Context:\n";
+    translator_user_text += ctx;
+    translator_user_text += "\n\n"
+        "Translate the following action sequence plan into tool calls. "
+        "Do NOT rethink or reorder. Keep it 1:1.\n\n"
+        "Mapping rules:\n"
+        "- For each numbered action under a drone header (e.g., V_UAV_0), set `drone_id` to that header.\n"
+        "- \"Take off from the current location.\" → takeoff {drone_id}\n"
+        "- \"Land.\" → land {drone_id}\n"
+        "- \"Go to the best approach point for [POI].\" → go_to_waypoint {drone_id, x, y, z}\n"
+        "    Selection policy for (x,y): if POI has candidate_interaction_points, pick the FIRST candidate point; "
+        "otherwise use the POI reference coordinates. For z use 2.0.\n"
+        "- \"Inspect [POI]\" → perform_visual_inspection {drone_id, target_name:[POI]}\n"
+        "- \"Return to the launch location.\" → return_to_launch {drone_id}\n"
+        "- \"Wait [N] seconds\" → wait {drone_id, duration_seconds:N}\n"
+        "Return only function calls.\n\n"
+        "Plan:\n" + last_plan_text_;
+
+    gemini_contents.push_back({
+        {"role", "user"},
+        {"parts", {{{"text", translator_user_text}}}}
+    });
+}
+
+    json request_body;
+    request_body["contents"] = gemini_contents;
+
+    if (mode == RequestMode::TOOL_CALLS) {
+        // 翻译阶段才带 tools
+        request_body["toolConfig"] = {
+            {"functionCallingConfig", {{"mode", "ANY"}}}
+        };
+        request_body["tools"] = { getGeminiToolDefinitions() };
+    }
+
+    // 2. 构建 systemInstruction
+    std::string final_system_prompt;
+    if (mode == RequestMode::REASONING_ONLY) {
+        std::string dynamic_info_str = getSwarmStateAsText();
+        final_system_prompt = system_prompt_content_ + "\n" + dynamic_info_str + R"(
+Your output MUST be natural language reasoning ONLY.
+
+Follow this template exactly:
+
+---
+**1. Reasoning:**
+*   **Mission Goal:** [Briefly restate the user's high-level goal]
+*   **Drone Assignments:**
+    *   V_UAV_0 POIs: [List all POIs for V_UAV_0]
+    *   V_UAV_1 POIs: [List all POIs for V_UAV_1]
+*   **Pre-flight Check:**
+    *   V_UAV_0 ...
+    *   V_UAV_1 ...
+*   **Full Action Sequence Plan (Text Version):**
+    *   [Numbered list of actions for each drone]
+---
+**2. Summary:**
+[Provide a brief, one-sentence summary for the user]
+
+CRITICAL RULES:
+- Do NOT include JSON.
+- Do NOT include tool calls.
+)";
+} else { // TOOL_CALLS
+    final_system_prompt = R"(
+You are a translator. Convert the provided plan into tool calls using the given tool schema.
+Do NOT rethink. Do NOT change order or content. Return only function calls (no natural language).
+)";
+}
+    request_body["systemInstruction"] = {
+        {"parts", {{{"text", final_system_prompt}}}}
     };
 
-    ROS_INFO_STREAM("--- Sending LLM Request ---");
+    request_body["generationConfig"] = {
+        {"temperature", 0.0}
+    };
+
+    ROS_INFO_STREAM("--- Sending Gemini Request ---\n" << request_body.dump(2));
+
+    // 3. 发起 HTTP 请求
+    std::string model_name = "gemini-1.5-pro";
+    std::string api_endpoint = "https://api.zhizengzeng.com/google/v1beta/models/" 
+        + model_name + ":streamGenerateContent?key=" + api_key_;
 
     cpr::WriteCallback write_callback{[this](const std::string_view& data, intptr_t userdata) -> bool {
         if (interrupt_llm_request_.load()) return false;
-        return this->streamCallback(std::string(data));
+        return this->streamCallbackForGemini(std::string(data));
     }};
 
     cpr::Response r = cpr::Post(
-        cpr::Url{"https://api.zhizengzeng.com/v1/chat/completions"},
-        cpr::Header{{"Authorization", "Bearer " + api_key_}, {"Content-Type", "application/json"}},
+        cpr::Url{api_endpoint},
+        cpr::Header{{"Content-Type", "application/json"}},
         cpr::Body{request_body.dump()},
         write_callback,
         cpr::Proxies{{"https", "http://127.0.0.1:7897"}}
     );
 
-    // --- 请求结束后的处理 ---
-    if (interrupt_llm_request_.load()) {
-        ROS_INFO("LLM request interrupted by user.");
-        publishFeedback("LLM thought process stopped.");
-        return;
-    }
+    // 4. 请求完成后处理
+    if (interrupt_llm_request_.load()) return;
 
     if (r.status_code == 200) {
-        // 发布最后剩余的思考过程文本
-        if (!accumulated_reasoning_response_.empty()) {
-            publishReasoning(accumulated_reasoning_response_);
-        }
-        // --- 【【【 最关键的调试日志 】】】 ---
-        // 在做任何其他事情之前，打印出 streamCallback 组装的最终结果
-        ROS_INFO_STREAM("--- Accumulated Tool Calls at End of Stream ---\n" 
-                        << accumulated_tool_calls_.dump(2));
-        // --- 【【【 END OF DEBUG LOG 】】】 ---
-        // 现在检查累积的工具调用
-        if (!accumulated_tool_calls_.empty()) {
-            publishFeedback("New plan received. Updating tasks for drones...");
-            
-            // 在调度之前，将我们自己构建的 tool_calls 转换为 dispatchToolCalls 期望的格式
-            // 我们的 dispatch 函数期望一个简单的函数对象数组
-            json functions_to_dispatch = json::array();
-            for(const auto& tool_call : accumulated_tool_calls_){
-                if(tool_call.contains("function")){
-                    functions_to_dispatch.push_back({{"function", tool_call["function"]}});
-                }
+        if (current_mode == RequestMode::REASONING_ONLY) {
+            // 缓存推理结果
+            last_reasoning_text_ = accumulated_reasoning_response_;
+            last_plan_text_      = extractPlanFromReasoning(last_reasoning_text_);
+            has_cached_plan_.store(!last_plan_text_.empty());
+
+            if (!accumulated_reasoning_response_.empty()) {
+                publishReasoning(accumulated_reasoning_response_);
             }
-            
-            dispatchToolCalls(functions_to_dispatch, ReplanMode::REPLACE);
+            publishFeedback("Reasoning complete.");
+            return; // 推理阶段不期待 tool calls
+        }
+
+        if (!accumulated_tool_calls_.empty()) {
+            ROS_INFO_STREAM("Final collected tool calls: " << accumulated_tool_calls_.dump(2));
+            publishFeedback("New plan received. Updating tasks for drones...");
+            dispatchToolCalls(accumulated_tool_calls_, ReplanMode::REPLACE);
         } else {
+            ROS_ERROR_STREAM("No tool calls parsed! Last raw reasoning: " 
+                             << accumulated_reasoning_response_);
             publishFeedback("LLM finished without a clear action.");
         }
     } else {
@@ -480,6 +648,7 @@ void LLMProcessorNode::executeLlmRequest(std::string command_to_process) {
         publishFeedback("Error: LLM API request failed. Status: " + std::to_string(r.status_code));
     }
 }
+
 
 void LLMProcessorNode::processingLoop() {
 ros::Rate rate(5); // 循环频率可以保持不变，每秒检查5次
@@ -523,7 +692,7 @@ bool should_replan = false;
         // 启动一个新的线程来执行耗时的网络请求
         // this 指针和 command_to_process 作为参数传递给新线程
         ROS_INFO("Starting new LLM request in a background thread.");
-        llm_request_thread_ = std::thread(&LLMProcessorNode::executeLlmRequest, this, command_to_process);
+        llm_request_thread_ = std::thread(&LLMProcessorNode::executeLlmRequest, this, command_to_process, RequestMode::REASONING_ONLY);
     }
 
     rate.sleep();
@@ -555,14 +724,17 @@ void LLMProcessorNode::dispatchToolCalls(const json& tool_calls, ReplanMode mode
 // 按drone_id对tool_calls进行分组
 std::map<std::string, std::vector<json>> tasks_by_drone;
 for (const auto& tool_call : tool_calls) {
-try {
-json args = json::parse(tool_call.at("function").at("arguments").get<std::string>());
-std::string drone_id = args.at("drone_id").get<std::string>();
-tasks_by_drone[drone_id].push_back(tool_call);
-} catch (const std::exception& e) {
-ROS_ERROR("Error parsing tool call for dispatch: %s", e.what());
+    try {
+        const auto& arg_node = tool_call.at("function").at("arguments");
+        json args = arg_node.is_string() ? json::parse(arg_node.get<std::string>())
+                                         : arg_node;  // 兼容两种形态
+        std::string drone_id = args.at("drone_id").get<std::string>();
+        tasks_by_drone[drone_id].push_back(tool_call);
+    } catch (const std::exception& e) {
+        ROS_ERROR("Error parsing tool call for dispatch: %s", e.what());
+    }
 }
-}
+
 
 // 创建一个列表，用于存储需要被中断的无人机ID
 // 我们将把阻塞的服务调用延迟到锁释放之后进行
@@ -622,172 +794,195 @@ for (const auto& drone_id : drones_to_interrupt) {
 }
 }
 
-json LLMProcessorNode::getFleetToolDefinitions() {
-return json::parse(R"END([
-{
-"type": "function",
-"function": {
-"name": "takeoff",
-"description": "命令指定的无人机从地面起飞至标准悬停高度。 (Commands a specific drone to take off from the ground to a standard hover altitude.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": {
-"type": "string",
-"description": "要执行此动作的无人机ID。必须是机队列表中的一个有效ID。 (The ID of the drone to perform this action. Must be a valid ID from the fleet list, e.g., 'V_UAV_0')."
-}
-},
-"required": ["drone_id"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "land",
-"description": "命令指定的无人机从当前位置就地降落。 (Commands a specific drone to land at its current position.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": {
-"type": "string",
-"description": "要执行此动作的无人机ID。"
-}
-},
-"required": ["drone_id"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "go_to_waypoint",
-"description": "命令指定的无人机飞往一个具体的三维世界坐标点。 (Commands a specific drone to fly to a specific 3D world coordinate.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"x": { "type": "number", "description": "目标X坐标 (单位：米)。 (Target X coordinate in meters)." },
-"y": { "type": "number", "description": "目标Y坐标 (单位：米)。 (Target Y coordinate in meters)." },
-"z": { "type": "number", "description": "目标Z坐标 (单位：米)。 (Target Z coordinate in meters)." }
-},
-"required": ["drone_id", "x", "y", "z"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "perform_visual_inspection",
-"description": "【首选】命令指定的无人机在其当前位置，朝向一个目标POI，执行一次完整的、可靠的视觉检查扫描序列。这是一个复合宏任务。(PREFERRED METHOD: Commands a drone to perform a full, reliable visual inspection sequence at its current location, oriented towards a target POI. This is a compound macro-task.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"target_name": { 
-    "type": "string", 
-    "description": "要检查的兴趣点（POI）的**精确名称**。**必须使用 'target_name' 这个键名**，例如：'House1'。(The **exact name** of the POI to inspect. **You MUST use the key name 'target_name'**, e.g., 'House1')." 
-}
-},
-"required": ["drone_id", "target_name"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "wait",
-"description": "命令指定的无人机在当前位置悬停指定的秒数。 (Commands a specific drone to hover at its current position for a specified number of seconds.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"duration_seconds": {
-"type": "number",
-"description": "悬停的秒数。 (The duration to hover in seconds)."
-}
-},
-"required": ["drone_id", "duration_seconds"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "return_to_launch",
-"description": "命令指定的无人机返回其原始起飞点并悬停，为降落做准备。(Commands a specific drone to return to its original launch point and hover, preparing for landing.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": {
-"type": "string",
-"description": "要执行此动作的无人机ID。"
-}
-},
-"required": ["drone_id"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "cancel_all_tasks",
-"description": "【紧急】立即取消指定无人机当前和所有排队的任务，使其悬停等待新指令。(EMERGENCY: Immediately cancels the current and all queued tasks for a specific drone, causing it to hover.)",
-"parameters": {
-"type": "object",
-"properties": { "drone_id": { "type": "string", "description": "要取消其任务的无人机ID。" }},
-"required": ["drone_id"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "rotate_drone_yaw_relative",
-"description": "【专家模式】命令无人机相对当前朝向旋转指定的偏航角度。(EXPERT MODE: Commands a drone to rotate its yaw by a specified number of degrees relative to its current heading.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"angle_degrees": { "type": "number", "description": "相对旋转的角度（度）。正值为顺时针，负值为逆时针。(The relative angle to rotate in degrees. Positive is clockwise, negative is counter-clockwise.)" }
-},
-"required": ["drone_id", "angle_degrees"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "backup",
-"description": "【专家模式】命令无人机从当前位置向后移动指定的距离。(EXPERT MODE: Commands a drone to move backward from its current position by a specified distance.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"distance": { "type": "number", "description": "向后移动的距离（米）。" }
-},
-"required": ["drone_id", "distance"]
-}
-}
-},
-{
-"type": "function",
-"function": {
-"name": "adjust_camera_pitch",
-"description": "【专家模式】调整无人机摄像头的俯仰角。(EXPERT MODE: Adjusts the drone's camera pitch angle.)",
-"parameters": {
-"type": "object",
-"properties": {
-"drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"pitch_angle": { "type": "number", "description": "目标俯仰角（度）。负值为上仰，正值为下俯。(Target pitch angle in degrees. Negative values tilt up, positive values tilt down.)" }
-},
-"required": ["drone_id", "pitch_angle"]
-}
-}
-}
-])END");
+static std::string trim(const std::string& s) {
+    auto a = s.find_first_not_of(" \t\r\n");
+    if (a == std::string::npos) return "";
+    auto b = s.find_last_not_of(" \t\r\n");
+    return s.substr(a, b - a + 1);
 }
 
+std::string LLMProcessorNode::extractPlanFromReasoning(const std::string& md) {
+    // 匹配你模板里的段落标题
+    std::regex re(R"(Full Action Sequence Plan\s*\(Text Version\)\s*:\s*([\s\S]*?)(?:\n---|\n\*\*2\. Summary|\Z))");
+    std::smatch m;
+    if (std::regex_search(md, m, re) && m.size() > 1) {
+        return trim(m[1].str());
+    }
+    // 兜底：找不到就全部返回（仍能被翻译器 prompt 正常处理）
+    return trim(md);
+}
+
+
+json LLMProcessorNode::getGeminiToolDefinitions() {
+    json declarations = json::array();
+
+    // 1. Takeoff Tool
+    declarations.push_back({
+        {"name", "takeoff"},
+        {"description", "Commands a specific drone to take off from the ground to a standard hover altitude."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {
+                    {"type", "string"},
+                    {"description", " The ID of the drone to perform this action. Must be a valid ID from the fleet list, e.g., 'V_UAV_0'."}
+                }}
+            }},
+            {"required", json::array({"drone_id"})}
+        }}
+    });
+
+    // 2. Land Tool
+    declarations.push_back({
+        {"name", "land"},
+        {"description", "Commands a specific drone to land at its current position."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {
+                    {"type", "string"},
+                    {"description", "The drone ID to perform this action."}
+                }}
+            }},
+            {"required", json::array({"drone_id"})}
+        }}
+    });
+
+    // 3. Go To Waypoint Tool
+    declarations.push_back({
+        {"name", "go_to_waypoint"},
+        {"description", "Commands a specific drone to fly to a specific 3D world coordinate."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"x", {{"type", "number"}, {"description", "Target X coordinate in meters."}}},
+                {"y", {{"type", "number"}, {"description", "Target Y coordinate in meters."}}},
+                {"z", {{"type", "number"}, {"description", "Target Z coordinate in meters."}}}
+            }},
+            {"required", json::array({"drone_id", "x", "y", "z"})}
+        }}
+    });
+
+    // 4. Perform Visual Inspection Tool
+    declarations.push_back({
+        {"name", "perform_visual_inspection"},
+        {"description", "PREFERRED METHOD: Commands a drone to perform a full, reliable visual inspection sequence at its current location, oriented towards a target POI. This is a compound macro-task."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"target_name", {
+                    {"type", "string"},
+                    {"description", "The exact name of the POI to inspect. You MUST use the key name 'target_name', e.g., 'House1'."}
+                }}
+            }},
+            {"required", json::array({"drone_id", "target_name"})}
+        }}
+    });
+
+    // 5. Wait Tool
+    declarations.push_back({
+        {"name", "wait"},
+        {"description", "Commands a specific drone to hover at its current position for a specified number of seconds."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"duration_seconds", {
+                    {"type", "number"},
+                    {"description", "The duration to hover in seconds."}
+                }}
+            }},
+            {"required", json::array({"drone_id", "duration_seconds"})}
+        }}
+    });
+
+    // 6. Return to Launch Tool
+    declarations.push_back({
+        {"name", "return_to_launch"},
+        {"description", "Commands a specific drone to return to its original launch point and hover, preparing for landing."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {
+                    {"type", "string"},
+                    {"description", "The drone ID to perform this action."}
+                }}
+            }},
+            {"required", json::array({"drone_id"})}
+        }}
+    });
+
+    // 7. Cancel All Tasks Tool
+    declarations.push_back({
+        {"name", "cancel_all_tasks"},
+        {"description", "EMERGENCY: Immediately cancels the current and all queued tasks for a specific drone, causing it to hover."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {
+                    {"type", "string"},
+                    {"description", "The drone ID to cancel its action."}
+                }}
+            }},
+            {"required", json::array({"drone_id"})}
+        }}
+    });
+
+    // 8. Rotate Drone Yaw Relative Tool
+    declarations.push_back({
+        {"name", "rotate_drone_yaw_relative"},
+        {"description", "EXPERT MODE: Commands a drone to rotate its yaw by a specified number of degrees relative to its current heading."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"angle_degrees", {
+                    {"type", "number"},
+                    {"description", "The relative angle to rotate in degrees. Positive is clockwise, negative is counter-clockwise."}
+                }}
+            }},
+            {"required", json::array({"drone_id", "angle_degrees"})}
+        }}
+    });
+
+    // 9. Backup Tool
+    declarations.push_back({
+        {"name", "backup"},
+        {"description", "EXPERT MODE: Commands a drone to move backward from its current position by a specified distance."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"distance", {
+                    {"type", "number"},
+                    {"description", "The distance moved backwards (in meters)."}
+                }}
+            }},
+            {"required", json::array({"drone_id", "distance"})}
+        }}
+    });
+
+    // 10. Adjust Camera Pitch Tool
+    declarations.push_back({
+        {"name", "adjust_camera_pitch"},
+        {"description", "EXPERT MODE: Adjusts the drone's camera pitch angle."},
+        {"parameters", {
+            {"type", "object"},
+            {"properties", {
+                {"drone_id", {{"type", "string"}, {"description", "The drone ID to perform this action."}}},
+                {"pitch_angle", {
+                    {"type", "number"},
+                    {"description", "Target pitch angle in degrees. Negative values tilt up, positive values tilt down."}
+                }}
+            }},
+            {"required", json::array({"drone_id", "pitch_angle"})}
+        }}
+    });
+
+    return {{"function_declarations", declarations}};
+}
 std::string LLMProcessorNode::send_simple_command(const std::string& drone_id, const std::string& action_type, const std::string& params_json) {
 nlp_drone_control::ExecuteDroneAction srv;
 srv.request.action_type = action_type;
@@ -816,7 +1011,7 @@ std::lock_guard<std::mutex> context_lock(context.context_data_mutex);
 context.tool_call_queue.clear();
 }
 // CHANGED: Use the correct function
-send_simple_command(drone_id, "wait");
+send_simple_command(drone_id, "wait", json{{"duration_seconds", 1.0}}.dump());
 return "All tasks for " + drone_id + " cancelled. Drone is returning to hover state.";
 }
 std::string LLMProcessorNode::return_to_launch_action(const std::string& drone_id) {
@@ -937,10 +1132,12 @@ return "Goal sent to A* planner for " + drone_id;
 std::string LLMProcessorNode::executeTool(const json& tool_call, const std::string& drone_id){
 std::string tool_name;
 json tool_input;
-
 try {
     tool_name = tool_call.at("function").at("name").get<std::string>();
-    tool_input = json::parse(tool_call.at("function").at("arguments").get<std::string>());
+
+    const auto& arg_node = tool_call.at("function").at("arguments");
+    tool_input = arg_node.is_string() ? json::parse(arg_node.get<std::string>())
+                                      : arg_node; // 兼容两种形态
 } catch (const json::exception& e) {
     std::string error_msg = "Error: Failed to parse tool call JSON: " + std::string(e.what());
     ROS_ERROR_STREAM(error_msg);
@@ -1334,8 +1531,6 @@ reasoning_pub_.publish(msg); // ++ 这是正确的，它发布到了 reasoning t
 }
 bool LLMProcessorNode::capture_and_get_image(const std::string& dir, const std::string& filename, sensor_msgs::Image& out_image, const std::string& drone_id) {
 
-// 动态构建该无人机的摄像头话题全名
-// 这是最稳健的方式，确保我们请求的是正确的图像流
 std::string image_topic_to_capture = "/" + drone_id + "/camera/image_raw";
 
 vlm_service::CaptureImage srv;

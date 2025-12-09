@@ -37,6 +37,7 @@
 #include "nlp_drone_control/ExecuteDroneAction.h"
 #include "vlm_service/DescribeScene.h"
 #include "vlm_service/CaptureImage.h"
+#include <regex>
 
 // --- Convenience Alias ---
 using json = nlohmann::json;
@@ -100,6 +101,7 @@ struct NextMacroAction {
     std::string params_json;        // 动作参数
     std::string capture_filename;   // 如果是拍照动作，这是文件名
 };
+    enum class RequestMode { REASONING_ONLY, TOOL_CALLS };
 // --- Main Class Definition ---
 class LLMProcessorNode {
 public:
@@ -148,6 +150,9 @@ private:
     // --- LLM Stream Handling ---
     std::string accumulated_reasoning_response_;
     json accumulated_tool_calls_;
+    // 【关键】用于存放正在构建中的函数调用
+    // 用 output_index (在Gemini中通常是整数) 作为键
+    std::map<int, json> in_progress_tool_calls_;
 
     // --- Core Methods ---
     void processingLoop();
@@ -157,9 +162,15 @@ private:
     void droneStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
     void actionFeedbackCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
     void handle_task_completion(const std::string& drone_id);
+    void rereasoningCallback(const std_msgs::Empty::ConstPtr& msg);
+    void runCallback(const std_msgs::Empty::ConstPtr& msg);
     
     // --- Tool & Task Management ---
-    json getFleetToolDefinitions();
+    //json getFleetToolDefinitions();
+    json getGeminiToolDefinitions();
+    bool streamCallbackForGemini(const std::string& chunk);
+    
+    
     void dispatchToolCalls(const json& tool_calls, ReplanMode mode);
     std::string executeTool(const json& tool_call, const std::string& drone_id);
     std::string send_simple_command(const std::string& drone_id, const std::string& action_type, const std::string& params_json = "{}");
@@ -176,7 +187,7 @@ NextMacroAction advance_visual_inspection_macro(const std::string& drone_id);
     void trimConversationHistory(); 
     void publishFeedback(const std::string& text);
     void publishReasoning(const std::string& text);
-    bool streamCallback(const std::string& chunk);
+    //bool streamCallback(const std::string& chunk);
     bool capture_and_get_image(const std::string& dir, const std::string& filename, sensor_msgs::Image& out_image, const std::string& drone_id);
     double calculate_yaw_to_target(const std::string& target_name, const geometry_msgs::PoseStamped& drone_pose);
     void publishGoal(const geometry_msgs::PoseStamped& goal_pose, const std::string& drone_id);
@@ -189,8 +200,7 @@ NextMacroAction advance_visual_inspection_macro(const std::string& drone_id);
     // 添加一个新函数来处理停止命令
     void stopCommandCallback(const std_msgs::Empty::ConstPtr& msg);
 
-    // 将原来的网络请求逻辑封装成一个新函数
-    void executeLlmRequest(std::string command_to_process);
+void executeLlmRequest(std::string command_to_process, RequestMode mode);
 
     // ROS Subscriber for the stop command
     ros::Subscriber stop_command_sub_;    
@@ -198,8 +208,19 @@ NextMacroAction advance_visual_inspection_macro(const std::string& drone_id);
     
     std::string stream_buffer_; // 用于累积传入流数据的缓冲区
     std::mutex stream_buffer_mutex_; // 用于保护缓冲区的互斥锁
-    // 用 output_index 作为键，存放正在构建的函数调用
-    std::map<int, json> in_progress_tool_calls_;
+    
+RequestMode current_mode = RequestMode::REASONING_ONLY;
+std::string last_user_command_;
+
+ros::Subscriber rereasoning_sub_;
+ros::Subscriber run_sub_;
+
+// 缓存第一次推理的原始文本 + 只取“Full Action Sequence Plan”段
+std::string last_reasoning_text_;
+std::string last_plan_text_;
+std::atomic<bool> has_cached_plan_{false};
+std::string extractPlanFromReasoning(const std::string& md);
+
 };
 
 #endif // LLM_PROCESSOR_NODE_H

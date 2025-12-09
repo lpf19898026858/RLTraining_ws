@@ -134,6 +134,10 @@ void v_uav_local_network::init_ros()
 
     n.getParam("nlp_stop_pub_topic", tempString);
     _nlp_stop_pub_topic = tempString;     
+    n.getParam("nlp_rereasoning_pub_topic", tempString);
+    _nlp_rereasoning_pub_topic = tempString;     
+    n.getParam("nlp_run_pub_topic", tempString);
+    _nlp_run_pub_topic = tempString;     
     n.getParam("nlp_reason_sub_topic", tempString);
     _nlp_reason_sub_topic = tempString; 
 
@@ -148,6 +152,8 @@ void v_uav_local_network::init_ros()
      _target_movement_track_pub = n.advertise<nav_msgs::Path>(_target_movement_track_pub_topic,1);
      _nlp_stop_pub = n.advertise<std_msgs::Empty>(_nlp_stop_pub_topic, 1);
     _nlp_reasoning_sub=n.subscribe(_nlp_reason_sub_topic, 100, &v_uav_local_network::reasoningCallback, this);
+    _nlp_rereasoning_pub = n.advertise<std_msgs::Empty>(_nlp_rereasoning_pub_topic, 1);
+    _nlp_run_pub = n.advertise<std_msgs::Empty>(_nlp_run_pub_topic, 1);
     
      std::string label_uav = "V_UAV_"+std::to_string(_object_id);
      QString label_uav_qt = QString::fromLocal8Bit(label_uav.data());
@@ -233,6 +239,25 @@ void v_uav_local_network::on_v_uav_0_stop_command_button_clicked()
     
     // 发布消息到 /nlp_stop topic
     _nlp_stop_pub.publish(stop_msg);
+}
+void v_uav_local_network::on_v_uav_0_rereasoning_command_button_clicked()
+{
+    ROS_INFO("Rereasoning button clicked! Publishing rereasoning command.");
+    
+    std_msgs::Empty rereasoning_msg;
+    
+    // 发布消息到 /nlp_rereasoning_topic
+    _nlp_rereasoning_pub.publish(rereasoning_msg);
+}
+void v_uav_local_network::on_v_uav_0_run_command_button_clicked()
+{
+    ROS_INFO("Run button clicked! Publishing run command.");
+    
+    // 创建一个空的 std_msgs::Empty 消息
+    std_msgs::Empty run_msg;
+    
+    // 发布消息到 /nlp_stop topic
+    _nlp_run_pub.publish(run_msg);
 }
 
 void v_uav_local_network::updateFeedbackDisplay(const QString &text)
