@@ -676,7 +676,7 @@ gtest_main_LIB_DEPENDS:STATIC=general;gtest;
 image_transport_DIR:PATH=/opt/ros/noetic/share/image_transport/cmake
 
 //Path to a library.
-lib:FILEPATH=/usr/lib/liborocos-kdl.so
+lib:FILEPATH=/opt/ros/noetic/lib/libcv_bridge.so
 
 //Value Computed by CMake
 map_generator_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/map_generator
@@ -716,6 +716,15 @@ pkgcfg_lib__OPENSSL_ssl:FILEPATH=/usr/lib/x86_64-linux-gnu/libssl.so
 
 //The directory containing a CMake configuration file for pluginlib.
 pluginlib_DIR:PATH=/opt/ros/noetic/share/pluginlib/cmake
+
+//Value Computed by CMake
+poi_state_server_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/poi_state_server
+
+//The directory containing a CMake configuration file for poi_state_server.
+poi_state_server_DIR:PATH=/home/lpf/docker_shared/rltraining_ws/devel/share/poi_state_server/cmake
+
+//Value Computed by CMake
+poi_state_server_SOURCE_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/src/poi_state_server
 
 //Value Computed by CMake
 ros_tcp_endpoint_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/ros_tcp_endpoint
@@ -946,7 +955,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=16
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

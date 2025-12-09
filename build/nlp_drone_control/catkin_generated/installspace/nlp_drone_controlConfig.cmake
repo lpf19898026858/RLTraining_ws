@@ -185,7 +185,7 @@ foreach(t ${nlp_drone_control_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "roscpp;std_msgs;geometry_msgs;vlm_service;tf;message_runtime")
+set(depends "roscpp;std_msgs;geometry_msgs;vlm_service;tf;message_runtime;poi_state_server")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "/home/lpf/docker_shared/rltraining_ws/devel/include/nlp_drone_control/ExecuteDroneAction.h"
+  "/home/lpf/docker_shared/rltraining_ws/devel/include/nlp_drone_control/Plan.h"
+  "/home/lpf/docker_shared/rltraining_ws/devel/include/nlp_drone_control/ToolCall.h"
   "CMakeFiles/nlp_drone_control_generate_messages_cpp"
 )
 

@@ -100,6 +100,16 @@ QButtonGroup
 string
 -
 
+/home/lpf/docker_shared/rltraining_ws/src/ui_control/src/main.cpp
+QtGui
+-
+QApplication
+-
+ros/ros.h
+-
+../include/ui_control/main_window.hpp
+/home/lpf/docker_shared/rltraining_ws/src/ui_control/include/ui_control/main_window.hpp
+
 /home/lpf/docker_shared/rltraining_ws/src/ui_control/src/main_window.cpp
 QtGui
 -
@@ -111,6 +121,20 @@ iostream
 /home/lpf/docker_shared/rltraining_ws/src/ui_control/include/ui_control/main_window.hpp
 log_in.h
 /home/lpf/docker_shared/rltraining_ws/src/ui_control/src/log_in.h
+
+/home/lpf/docker_shared/rltraining_ws/src/ui_control/src/qnode.cpp
+ros/ros.h
+-
+ros/network.h
+-
+string
+-
+std_msgs/String.h
+-
+sstream
+-
+../include/ui_control/qnode.hpp
+/home/lpf/docker_shared/rltraining_ws/src/ui_control/include/ui_control/qnode.hpp
 
 /home/lpf/docker_shared/rltraining_ws/src/ui_control/src/v_uav_local_network.cpp
 v_uav_local_network.h
@@ -681,6 +705,12 @@ boost/type_traits/remove_reference.hpp
 -
 
 /opt/ros/noetic/include/ros/names.h
+forwards.h
+/opt/ros/noetic/include/ros/forwards.h
+common.h
+/opt/ros/noetic/include/ros/common.h
+
+/opt/ros/noetic/include/ros/network.h
 forwards.h
 /opt/ros/noetic/include/ros/forwards.h
 common.h

@@ -5,4 +5,4 @@ Description: Description of nlp_drone_control
 Version: 0.0.0
 Cflags: -I/home/lpf/docker_shared/rltraining_ws/devel/include
 Libs: -L${prefix}/lib 
-Requires: roscpp std_msgs geometry_msgs vlm_service tf message_runtime
+Requires: roscpp std_msgs geometry_msgs vlm_service tf message_runtime poi_state_server

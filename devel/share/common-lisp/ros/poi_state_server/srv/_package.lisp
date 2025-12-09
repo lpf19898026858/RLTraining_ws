@@ -1,0 +1,15 @@
+(cl:defpackage poi_state_server-srv
+  (:use )
+  (:export
+   "GETPOIINFO"
+   "<GETPOIINFO-REQUEST>"
+   "GETPOIINFO-REQUEST"
+   "<GETPOIINFO-RESPONSE>"
+   "GETPOIINFO-RESPONSE"
+   "LISTPOIS"
+   "<LISTPOIS-REQUEST>"
+   "LISTPOIS-REQUEST"
+   "<LISTPOIS-RESPONSE>"
+   "LISTPOIS-RESPONSE"
+  ))
+

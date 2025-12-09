@@ -1,0 +1,5 @@
+---
+bool success
+string message
+poi_state_server/POIInfo[] pois
+

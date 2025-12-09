@@ -714,6 +714,214 @@ yaml_to_map_publisher_node/fast:
 .PHONY : yaml_to_map_publisher_node/fast
 
 #=============================================================================
+# Target rules for targets named poi_state_server_node
+
+# Build rule for target.
+poi_state_server_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_node
+.PHONY : poi_state_server_node
+
+# fast build rule for target.
+poi_state_server_node/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_node.dir/build.make poi_state_server/CMakeFiles/poi_state_server_node.dir/build
+.PHONY : poi_state_server_node/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages
+
+# Build rule for target.
+poi_state_server_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages
+.PHONY : poi_state_server_generate_messages
+
+# fast build rule for target.
+poi_state_server_generate_messages/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages.dir/build
+.PHONY : poi_state_server_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_genpy
+
+# Build rule for target.
+poi_state_server_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_genpy
+.PHONY : poi_state_server_genpy
+
+# fast build rule for target.
+poi_state_server_genpy/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_genpy.dir/build.make poi_state_server/CMakeFiles/poi_state_server_genpy.dir/build
+.PHONY : poi_state_server_genpy/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages_cpp
+
+# Build rule for target.
+poi_state_server_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages_cpp
+.PHONY : poi_state_server_generate_messages_cpp
+
+# fast build rule for target.
+poi_state_server_generate_messages_cpp/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages_cpp.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages_cpp.dir/build
+.PHONY : poi_state_server_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages_py
+
+# Build rule for target.
+poi_state_server_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages_py
+.PHONY : poi_state_server_generate_messages_py
+
+# fast build rule for target.
+poi_state_server_generate_messages_py/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages_py.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages_py.dir/build
+.PHONY : poi_state_server_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_gencpp
+
+# Build rule for target.
+poi_state_server_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_gencpp
+.PHONY : poi_state_server_gencpp
+
+# fast build rule for target.
+poi_state_server_gencpp/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_gencpp.dir/build.make poi_state_server/CMakeFiles/poi_state_server_gencpp.dir/build
+.PHONY : poi_state_server_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named _poi_state_server_generate_messages_check_deps_POIInfo
+
+# Build rule for target.
+_poi_state_server_generate_messages_check_deps_POIInfo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _poi_state_server_generate_messages_check_deps_POIInfo
+.PHONY : _poi_state_server_generate_messages_check_deps_POIInfo
+
+# fast build rule for target.
+_poi_state_server_generate_messages_check_deps_POIInfo/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_POIInfo.dir/build.make poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_POIInfo.dir/build
+.PHONY : _poi_state_server_generate_messages_check_deps_POIInfo/fast
+
+#=============================================================================
+# Target rules for targets named _poi_state_server_generate_messages_check_deps_GetPOIInfo
+
+# Build rule for target.
+_poi_state_server_generate_messages_check_deps_GetPOIInfo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _poi_state_server_generate_messages_check_deps_GetPOIInfo
+.PHONY : _poi_state_server_generate_messages_check_deps_GetPOIInfo
+
+# fast build rule for target.
+_poi_state_server_generate_messages_check_deps_GetPOIInfo/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo.dir/build.make poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo.dir/build
+.PHONY : _poi_state_server_generate_messages_check_deps_GetPOIInfo/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages_eus
+
+# Build rule for target.
+poi_state_server_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages_eus
+.PHONY : poi_state_server_generate_messages_eus
+
+# fast build rule for target.
+poi_state_server_generate_messages_eus/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages_eus.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages_eus.dir/build
+.PHONY : poi_state_server_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named _poi_state_server_generate_messages_check_deps_NamedPoint
+
+# Build rule for target.
+_poi_state_server_generate_messages_check_deps_NamedPoint: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _poi_state_server_generate_messages_check_deps_NamedPoint
+.PHONY : _poi_state_server_generate_messages_check_deps_NamedPoint
+
+# fast build rule for target.
+_poi_state_server_generate_messages_check_deps_NamedPoint/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_NamedPoint.dir/build.make poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_NamedPoint.dir/build
+.PHONY : _poi_state_server_generate_messages_check_deps_NamedPoint/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_geneus
+
+# Build rule for target.
+poi_state_server_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_geneus
+.PHONY : poi_state_server_geneus
+
+# fast build rule for target.
+poi_state_server_geneus/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_geneus.dir/build.make poi_state_server/CMakeFiles/poi_state_server_geneus.dir/build
+.PHONY : poi_state_server_geneus/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages_nodejs
+
+# Build rule for target.
+poi_state_server_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages_nodejs
+.PHONY : poi_state_server_generate_messages_nodejs
+
+# fast build rule for target.
+poi_state_server_generate_messages_nodejs/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages_nodejs.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages_nodejs.dir/build
+.PHONY : poi_state_server_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_generate_messages_lisp
+
+# Build rule for target.
+poi_state_server_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_generate_messages_lisp
+.PHONY : poi_state_server_generate_messages_lisp
+
+# fast build rule for target.
+poi_state_server_generate_messages_lisp/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_generate_messages_lisp.dir/build.make poi_state_server/CMakeFiles/poi_state_server_generate_messages_lisp.dir/build
+.PHONY : poi_state_server_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_genlisp
+
+# Build rule for target.
+poi_state_server_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_genlisp
+.PHONY : poi_state_server_genlisp
+
+# fast build rule for target.
+poi_state_server_genlisp/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_genlisp.dir/build.make poi_state_server/CMakeFiles/poi_state_server_genlisp.dir/build
+.PHONY : poi_state_server_genlisp/fast
+
+#=============================================================================
+# Target rules for targets named _poi_state_server_generate_messages_check_deps_ListPOIs
+
+# Build rule for target.
+_poi_state_server_generate_messages_check_deps_ListPOIs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _poi_state_server_generate_messages_check_deps_ListPOIs
+.PHONY : _poi_state_server_generate_messages_check_deps_ListPOIs
+
+# fast build rule for target.
+_poi_state_server_generate_messages_check_deps_ListPOIs/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_ListPOIs.dir/build.make poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_ListPOIs.dir/build
+.PHONY : _poi_state_server_generate_messages_check_deps_ListPOIs/fast
+
+#=============================================================================
+# Target rules for targets named poi_state_server_gennodejs
+
+# Build rule for target.
+poi_state_server_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 poi_state_server_gennodejs
+.PHONY : poi_state_server_gennodejs
+
+# fast build rule for target.
+poi_state_server_gennodejs/fast:
+	$(MAKE) -f poi_state_server/CMakeFiles/poi_state_server_gennodejs.dir/build.make poi_state_server/CMakeFiles/poi_state_server_gennodejs.dir/build
+.PHONY : poi_state_server_gennodejs/fast
+
+#=============================================================================
 # Target rules for targets named custom_msgs_genpy
 
 # Build rule for target.
@@ -1364,6 +1572,84 @@ vlm_service_genpy/fast:
 .PHONY : vlm_service_genpy/fast
 
 #=============================================================================
+# Target rules for targets named tf2_msgs_generate_messages_py
+
+# Build rule for target.
+tf2_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_py
+.PHONY : tf2_msgs_generate_messages_py
+
+# fast build rule for target.
+tf2_msgs_generate_messages_py/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
+.PHONY : tf2_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_py
+
+# Build rule for target.
+actionlib_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
+.PHONY : actionlib_generate_messages_py
+
+# fast build rule for target.
+actionlib_generate_messages_py/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build
+.PHONY : actionlib_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named _nlp_drone_control_generate_messages_check_deps_Plan
+
+# Build rule for target.
+_nlp_drone_control_generate_messages_check_deps_Plan: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _nlp_drone_control_generate_messages_check_deps_Plan
+.PHONY : _nlp_drone_control_generate_messages_check_deps_Plan
+
+# fast build rule for target.
+_nlp_drone_control_generate_messages_check_deps_Plan/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/build
+.PHONY : _nlp_drone_control_generate_messages_check_deps_Plan/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_nodejs
+
+# Build rule for target.
+actionlib_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
+.PHONY : actionlib_generate_messages_nodejs
+
+# fast build rule for target.
+actionlib_generate_messages_nodejs/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+.PHONY : actionlib_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_lisp
+
+# Build rule for target.
+actionlib_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
+.PHONY : actionlib_generate_messages_lisp
+
+# fast build rule for target.
+actionlib_generate_messages_lisp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
+.PHONY : actionlib_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_eus
+
+# Build rule for target.
+actionlib_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_eus
+.PHONY : actionlib_generate_messages_eus
+
+# fast build rule for target.
+actionlib_generate_messages_eus/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
+.PHONY : actionlib_generate_messages_eus/fast
+
+#=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -1403,58 +1689,6 @@ nlp_drone_control_genlisp/fast:
 .PHONY : nlp_drone_control_genlisp/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_generate_messages_eus
-
-# Build rule for target.
-actionlib_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_eus
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_py
-
-# Build rule for target.
-actionlib_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
-.PHONY : actionlib_generate_messages_py
-
-# fast build rule for target.
-actionlib_generate_messages_py/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_nodejs
-
-# Build rule for target.
-actionlib_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_lisp
-
-# Build rule for target.
-actionlib_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-#=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -1466,19 +1700,6 @@ tf2_msgs_generate_messages_lisp: cmake_check_build_system
 tf2_msgs_generate_messages_lisp/fast:
 	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
 .PHONY : tf2_msgs_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_py
-
-# Build rule for target.
-tf2_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_py
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
 
 #=============================================================================
 # Target rules for targets named tf2_msgs_generate_messages_cpp
@@ -1520,6 +1741,19 @@ nlp_drone_control_generate_messages_nodejs/fast:
 .PHONY : nlp_drone_control_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named _nlp_drone_control_generate_messages_check_deps_ToolCall
+
+# Build rule for target.
+_nlp_drone_control_generate_messages_check_deps_ToolCall: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _nlp_drone_control_generate_messages_check_deps_ToolCall
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ToolCall
+
+# fast build rule for target.
+_nlp_drone_control_generate_messages_check_deps_ToolCall/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/build
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ToolCall/fast
+
+#=============================================================================
 # Target rules for targets named nlp_drone_control_gencpp
 
 # Build rule for target.
@@ -1557,6 +1791,19 @@ nlp_drone_control_geneus: cmake_check_build_system
 nlp_drone_control_geneus/fast:
 	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build
 .PHONY : nlp_drone_control_geneus/fast
+
+#=============================================================================
+# Target rules for targets named llm_planner_node
+
+# Build rule for target.
+llm_planner_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 llm_planner_node
+.PHONY : llm_planner_node
+
+# fast build rule for target.
+llm_planner_node/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/build
+.PHONY : llm_planner_node/fast
 
 #=============================================================================
 # Target rules for targets named nlp_drone_control_generate_messages
@@ -1624,6 +1871,19 @@ nlp_drone_control_genpy/fast:
 .PHONY : nlp_drone_control_genpy/fast
 
 #=============================================================================
+# Target rules for targets named task_executor_node
+
+# Build rule for target.
+task_executor_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 task_executor_node
+.PHONY : task_executor_node
+
+# fast build rule for target.
+task_executor_node/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/build
+.PHONY : task_executor_node/fast
+
+#=============================================================================
 # Target rules for targets named _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
 
 # Build rule for target.
@@ -1648,19 +1908,6 @@ tf2_msgs_generate_messages_eus: cmake_check_build_system
 tf2_msgs_generate_messages_eus/fast:
 	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
 .PHONY : tf2_msgs_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named llm_processor_node
-
-# Build rule for target.
-llm_processor_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 llm_processor_node
-.PHONY : llm_processor_node
-
-# fast build rule for target.
-llm_processor_node/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/llm_processor_node.dir/build.make nlp_drone_control/CMakeFiles/llm_processor_node.dir/build
-.PHONY : llm_processor_node/fast
 
 #=============================================================================
 # Target rules for targets named cpr
@@ -1730,6 +1977,22 @@ help:
 	@echo "... actionlib_msgs_generate_messages_py"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... yaml_to_map_publisher_node"
+	@echo "... poi_state_server_node"
+	@echo "... poi_state_server_generate_messages"
+	@echo "... poi_state_server_genpy"
+	@echo "... poi_state_server_generate_messages_cpp"
+	@echo "... poi_state_server_generate_messages_py"
+	@echo "... poi_state_server_gencpp"
+	@echo "... _poi_state_server_generate_messages_check_deps_POIInfo"
+	@echo "... _poi_state_server_generate_messages_check_deps_GetPOIInfo"
+	@echo "... poi_state_server_generate_messages_eus"
+	@echo "... _poi_state_server_generate_messages_check_deps_NamedPoint"
+	@echo "... poi_state_server_geneus"
+	@echo "... poi_state_server_generate_messages_nodejs"
+	@echo "... poi_state_server_generate_messages_lisp"
+	@echo "... poi_state_server_genlisp"
+	@echo "... _poi_state_server_generate_messages_check_deps_ListPOIs"
+	@echo "... poi_state_server_gennodejs"
 	@echo "... custom_msgs_genpy"
 	@echo "... custom_msgs_generate_messages_py"
 	@echo "... custom_msgs_gennodejs"
@@ -1780,29 +2043,32 @@ help:
 	@echo "... vlm_service_generate_messages_lisp"
 	@echo "... vlm_service_generate_messages_eus"
 	@echo "... vlm_service_genpy"
+	@echo "... tf2_msgs_generate_messages_py"
+	@echo "... actionlib_generate_messages_py"
+	@echo "... _nlp_drone_control_generate_messages_check_deps_Plan"
+	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... actionlib_generate_messages_lisp"
+	@echo "... actionlib_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_nodejs"
 	@echo "... nlp_drone_control_generate_messages_cpp"
 	@echo "... nlp_drone_control_genlisp"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_lisp"
 	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... tf2_msgs_generate_messages_py"
 	@echo "... tf2_msgs_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_cpp"
 	@echo "... nlp_drone_control_generate_messages_nodejs"
+	@echo "... _nlp_drone_control_generate_messages_check_deps_ToolCall"
 	@echo "... nlp_drone_control_gencpp"
 	@echo "... nlp_drone_control_generate_messages_eus"
 	@echo "... nlp_drone_control_geneus"
+	@echo "... llm_planner_node"
 	@echo "... nlp_drone_control_generate_messages"
 	@echo "... nlp_drone_control_generate_messages_lisp"
 	@echo "... nlp_drone_control_gennodejs"
 	@echo "... nlp_drone_control_generate_messages_py"
 	@echo "... nlp_drone_control_genpy"
+	@echo "... task_executor_node"
 	@echo "... _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction"
 	@echo "... tf2_msgs_generate_messages_eus"
-	@echo "... llm_processor_node"
 	@echo "... cpr"
 .PHONY : help
 

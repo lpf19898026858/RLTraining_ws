@@ -42,6 +42,13 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nlp_drone_control/msg" TYPE FILE FILES
+    "/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/ToolCall.msg"
+    "/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/Plan.msg"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nlp_drone_control/cmake" TYPE FILE FILES "/home/lpf/docker_shared/rltraining_ws/build/nlp_drone_control/catkin_generated/installspace/nlp_drone_control-msg-paths.cmake")
 endif()
 

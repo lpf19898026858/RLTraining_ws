@@ -68,6 +68,18 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -79,6 +91,16 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # Special rule for the target test
 test:
@@ -113,28 +135,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # The main all target
 all: cmake_check_build_system
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/lpf/docker_shared/rltraining_ws/build/CMakeFiles /home/lpf/docker_shared/rltraining_ws/build/nlp_drone_control/CMakeFiles/progress.marks
@@ -166,6 +166,96 @@ preinstall/fast:
 depend:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_py: nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_py
+
+# fast build rule for target.
+tf2_msgs_generate_messages_py/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
+.PHONY : tf2_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
+
+# Convenience name for target.
+actionlib_generate_messages_py: nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
+
+.PHONY : actionlib_generate_messages_py
+
+# fast build rule for target.
+actionlib_generate_messages_py/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build
+.PHONY : actionlib_generate_messages_py/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/rule
+
+# Convenience name for target.
+_nlp_drone_control_generate_messages_check_deps_Plan: nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/rule
+
+.PHONY : _nlp_drone_control_generate_messages_check_deps_Plan
+
+# fast build rule for target.
+_nlp_drone_control_generate_messages_check_deps_Plan/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Plan.dir/build
+.PHONY : _nlp_drone_control_generate_messages_check_deps_Plan/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+actionlib_generate_messages_nodejs: nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+
+.PHONY : actionlib_generate_messages_nodejs
+
+# fast build rule for target.
+actionlib_generate_messages_nodejs/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+.PHONY : actionlib_generate_messages_nodejs/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+actionlib_generate_messages_lisp: nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
+
+.PHONY : actionlib_generate_messages_lisp
+
+# fast build rule for target.
+actionlib_generate_messages_lisp/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
+.PHONY : actionlib_generate_messages_lisp/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+actionlib_generate_messages_eus: nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+
+.PHONY : actionlib_generate_messages_eus
+
+# fast build rule for target.
+actionlib_generate_messages_eus/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
+.PHONY : actionlib_generate_messages_eus/fast
 
 # Convenience name for target.
 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
@@ -213,66 +303,6 @@ nlp_drone_control_genlisp/fast:
 .PHONY : nlp_drone_control_genlisp/fast
 
 # Convenience name for target.
-nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_eus: nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-# Convenience name for target.
-nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_py: nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
-
-.PHONY : actionlib_generate_messages_py
-
-# fast build rule for target.
-actionlib_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-# Convenience name for target.
-nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_nodejs: nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-# Convenience name for target.
-nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_lisp: nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-# Convenience name for target.
 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
 .PHONY : nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
@@ -286,21 +316,6 @@ tf2_msgs_generate_messages_lisp: nlp_drone_control/CMakeFiles/tf2_msgs_generate_
 tf2_msgs_generate_messages_lisp/fast:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
 .PHONY : tf2_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_py: nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
@@ -348,6 +363,21 @@ nlp_drone_control_generate_messages_nodejs/fast:
 .PHONY : nlp_drone_control_generate_messages_nodejs/fast
 
 # Convenience name for target.
+nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/rule
+
+# Convenience name for target.
+_nlp_drone_control_generate_messages_check_deps_ToolCall: nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/rule
+
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ToolCall
+
+# fast build rule for target.
+_nlp_drone_control_generate_messages_check_deps_ToolCall/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ToolCall.dir/build
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ToolCall/fast
+
+# Convenience name for target.
 nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/rule
 .PHONY : nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/rule
@@ -391,6 +421,21 @@ nlp_drone_control_geneus: nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.
 nlp_drone_control_geneus/fast:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build
 .PHONY : nlp_drone_control_geneus/fast
+
+# Convenience name for target.
+nlp_drone_control/CMakeFiles/llm_planner_node.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/llm_planner_node.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/llm_planner_node.dir/rule
+
+# Convenience name for target.
+llm_planner_node: nlp_drone_control/CMakeFiles/llm_planner_node.dir/rule
+
+.PHONY : llm_planner_node
+
+# fast build rule for target.
+llm_planner_node/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/build
+.PHONY : llm_planner_node/fast
 
 # Convenience name for target.
 nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages.dir/rule:
@@ -468,6 +513,21 @@ nlp_drone_control_genpy/fast:
 .PHONY : nlp_drone_control_genpy/fast
 
 # Convenience name for target.
+nlp_drone_control/CMakeFiles/task_executor_node.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/task_executor_node.dir/rule
+.PHONY : nlp_drone_control/CMakeFiles/task_executor_node.dir/rule
+
+# Convenience name for target.
+task_executor_node: nlp_drone_control/CMakeFiles/task_executor_node.dir/rule
+
+.PHONY : task_executor_node
+
+# fast build rule for target.
+task_executor_node/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/build
+.PHONY : task_executor_node/fast
+
+# Convenience name for target.
 nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/rule
 .PHONY : nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/rule
@@ -497,47 +557,113 @@ tf2_msgs_generate_messages_eus/fast:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
 .PHONY : tf2_msgs_generate_messages_eus/fast
 
-# Convenience name for target.
-nlp_drone_control/CMakeFiles/llm_processor_node.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control/CMakeFiles/llm_processor_node.dir/rule
-.PHONY : nlp_drone_control/CMakeFiles/llm_processor_node.dir/rule
+src/llm_planner_main.o: src/llm_planner_main.cpp.o
 
-# Convenience name for target.
-llm_processor_node: nlp_drone_control/CMakeFiles/llm_processor_node.dir/rule
-
-.PHONY : llm_processor_node
-
-# fast build rule for target.
-llm_processor_node/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_processor_node.dir/build.make nlp_drone_control/CMakeFiles/llm_processor_node.dir/build
-.PHONY : llm_processor_node/fast
-
-src/llm_processor_node.o: src/llm_processor_node.cpp.o
-
-.PHONY : src/llm_processor_node.o
+.PHONY : src/llm_planner_main.o
 
 # target to build an object file
-src/llm_processor_node.cpp.o:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_processor_node.dir/build.make nlp_drone_control/CMakeFiles/llm_processor_node.dir/src/llm_processor_node.cpp.o
-.PHONY : src/llm_processor_node.cpp.o
+src/llm_planner_main.cpp.o:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_main.cpp.o
+.PHONY : src/llm_planner_main.cpp.o
 
-src/llm_processor_node.i: src/llm_processor_node.cpp.i
+src/llm_planner_main.i: src/llm_planner_main.cpp.i
 
-.PHONY : src/llm_processor_node.i
+.PHONY : src/llm_planner_main.i
 
 # target to preprocess a source file
-src/llm_processor_node.cpp.i:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_processor_node.dir/build.make nlp_drone_control/CMakeFiles/llm_processor_node.dir/src/llm_processor_node.cpp.i
-.PHONY : src/llm_processor_node.cpp.i
+src/llm_planner_main.cpp.i:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_main.cpp.i
+.PHONY : src/llm_planner_main.cpp.i
 
-src/llm_processor_node.s: src/llm_processor_node.cpp.s
+src/llm_planner_main.s: src/llm_planner_main.cpp.s
 
-.PHONY : src/llm_processor_node.s
+.PHONY : src/llm_planner_main.s
 
 # target to generate assembly for a file
-src/llm_processor_node.cpp.s:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_processor_node.dir/build.make nlp_drone_control/CMakeFiles/llm_processor_node.dir/src/llm_processor_node.cpp.s
-.PHONY : src/llm_processor_node.cpp.s
+src/llm_planner_main.cpp.s:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_main.cpp.s
+.PHONY : src/llm_planner_main.cpp.s
+
+src/llm_planner_node.o: src/llm_planner_node.cpp.o
+
+.PHONY : src/llm_planner_node.o
+
+# target to build an object file
+src/llm_planner_node.cpp.o:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_node.cpp.o
+.PHONY : src/llm_planner_node.cpp.o
+
+src/llm_planner_node.i: src/llm_planner_node.cpp.i
+
+.PHONY : src/llm_planner_node.i
+
+# target to preprocess a source file
+src/llm_planner_node.cpp.i:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_node.cpp.i
+.PHONY : src/llm_planner_node.cpp.i
+
+src/llm_planner_node.s: src/llm_planner_node.cpp.s
+
+.PHONY : src/llm_planner_node.s
+
+# target to generate assembly for a file
+src/llm_planner_node.cpp.s:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/src/llm_planner_node.cpp.s
+.PHONY : src/llm_planner_node.cpp.s
+
+src/task_executor_main.o: src/task_executor_main.cpp.o
+
+.PHONY : src/task_executor_main.o
+
+# target to build an object file
+src/task_executor_main.cpp.o:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_main.cpp.o
+.PHONY : src/task_executor_main.cpp.o
+
+src/task_executor_main.i: src/task_executor_main.cpp.i
+
+.PHONY : src/task_executor_main.i
+
+# target to preprocess a source file
+src/task_executor_main.cpp.i:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_main.cpp.i
+.PHONY : src/task_executor_main.cpp.i
+
+src/task_executor_main.s: src/task_executor_main.cpp.s
+
+.PHONY : src/task_executor_main.s
+
+# target to generate assembly for a file
+src/task_executor_main.cpp.s:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_main.cpp.s
+.PHONY : src/task_executor_main.cpp.s
+
+src/task_executor_node.o: src/task_executor_node.cpp.o
+
+.PHONY : src/task_executor_node.o
+
+# target to build an object file
+src/task_executor_node.cpp.o:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_node.cpp.o
+.PHONY : src/task_executor_node.cpp.o
+
+src/task_executor_node.i: src/task_executor_node.cpp.i
+
+.PHONY : src/task_executor_node.i
+
+# target to preprocess a source file
+src/task_executor_node.cpp.i:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_node.cpp.i
+.PHONY : src/task_executor_node.cpp.i
+
+src/task_executor_node.s: src/task_executor_node.cpp.s
+
+.PHONY : src/task_executor_node.s
+
+# target to generate assembly for a file
+src/task_executor_node.cpp.s:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/src/task_executor_node.cpp.s
+.PHONY : src/task_executor_node.cpp.s
 
 # Help Target
 help:
@@ -546,38 +672,50 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
+	@echo "... install/local"
+	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... tf2_msgs_generate_messages_py"
+	@echo "... actionlib_generate_messages_py"
+	@echo "... _nlp_drone_control_generate_messages_check_deps_Plan"
+	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... actionlib_generate_messages_lisp"
+	@echo "... actionlib_generate_messages_eus"
 	@echo "... tf2_msgs_generate_messages_nodejs"
 	@echo "... nlp_drone_control_generate_messages_cpp"
 	@echo "... nlp_drone_control_genlisp"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_lisp"
 	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... tf2_msgs_generate_messages_py"
 	@echo "... tf2_msgs_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_cpp"
 	@echo "... nlp_drone_control_generate_messages_nodejs"
+	@echo "... _nlp_drone_control_generate_messages_check_deps_ToolCall"
 	@echo "... nlp_drone_control_gencpp"
 	@echo "... nlp_drone_control_generate_messages_eus"
 	@echo "... nlp_drone_control_geneus"
+	@echo "... llm_planner_node"
 	@echo "... nlp_drone_control_generate_messages"
 	@echo "... nlp_drone_control_generate_messages_lisp"
-	@echo "... install"
 	@echo "... nlp_drone_control_gennodejs"
 	@echo "... nlp_drone_control_generate_messages_py"
 	@echo "... test"
 	@echo "... nlp_drone_control_genpy"
+	@echo "... task_executor_node"
 	@echo "... edit_cache"
 	@echo "... _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction"
 	@echo "... tf2_msgs_generate_messages_eus"
 	@echo "... rebuild_cache"
-	@echo "... llm_processor_node"
-	@echo "... list_install_components"
-	@echo "... install/local"
-	@echo "... src/llm_processor_node.o"
-	@echo "... src/llm_processor_node.i"
-	@echo "... src/llm_processor_node.s"
+	@echo "... src/llm_planner_main.o"
+	@echo "... src/llm_planner_main.i"
+	@echo "... src/llm_planner_main.s"
+	@echo "... src/llm_planner_node.o"
+	@echo "... src/llm_planner_node.i"
+	@echo "... src/llm_planner_node.s"
+	@echo "... src/task_executor_main.o"
+	@echo "... src/task_executor_main.i"
+	@echo "... src/task_executor_main.s"
+	@echo "... src/task_executor_node.o"
+	@echo "... src/task_executor_node.i"
+	@echo "... src/task_executor_node.s"
 .PHONY : help
 
 

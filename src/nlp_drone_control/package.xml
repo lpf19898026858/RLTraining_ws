@@ -61,6 +61,10 @@
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
   <depend>tf2_geometry_msgs</depend>
+  <depend>poi_state_server</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+  <depend>opencv3</depend>
   <!-- 在这里或其他地方添加下面的行 -->
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -101,7 +101,7 @@ bool loadAndPublishMap() {
     // --- d. "绘制"障碍物---
     for (const auto& poi : pois) {
         std::string type = poi["type"].as<std::string>();
-	ROS_INFO("Draw Obstacles");
+	//ROS_INFO("Draw Obstacles");
         // 跳过UAV和Ground
         if (type == "UAV" || type == "Ground" || !poi["simplified_boundary"]) {
             continue;
