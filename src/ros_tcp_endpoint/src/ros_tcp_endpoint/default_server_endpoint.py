@@ -7,6 +7,7 @@ from ros_tcp_endpoint import TcpServer
 
 def main(args=None):
     # Start the Server Endpoint
+    rospy.logwarn(f"✅ [DEBUG] ROS TCP Endpoint loaded from: {__file__}")
     rospy.init_node("unity_endpoint", anonymous=True)
     tcp_server = TcpServer(rospy.get_name())
     tcp_server.start()

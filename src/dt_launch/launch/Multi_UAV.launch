@@ -38,7 +38,12 @@
     <node name="scheduler_node" pkg="uav_scheduler" type="scheduler_node" output="screen"/>
 
     <!-- ★★★ Section 2: Per-Drone Support Nodes (Start one for each UAV) ★★★ -->
-    
+  
+    <!-- 顶部加参数 -->
+<arg name="model_path" default="$(find rl_bridge)/python/checkpoints/ppo_final.zip"/>
+<arg name="eval_mode"  default="3"/>   <!-- 2: 会reset; 3: 不reset -->
+<arg name="suppress_logs" default="true"/>
+
     <!-- A* Planner for V_UAV_0 -->
     <group ns="V_UAV_0">
         <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
@@ -47,6 +52,16 @@
             <param name="goal_topic" value="llm_goal" />
             <param name="waypoint_topic" value="drone_target" />
         </node>
+          <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
+    <param name="model_path" value="$(arg model_path)"/>
+    <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>       <!-- 2 或 3 -->
+    <param name="suppress_logs" value="$(arg suppress_logs)"/>  <!-- 等待目标时静默 -->
+    <!-- 用相对话题名，命名空间会自动加前缀 /V_UAV_0/ -->
+    <param name="obs_topic"   value="uav/observation"/>
+    <param name="act_topic"   value="uav/action"/>
+    <param name="event_topic" value="uav/event"/>
+    <param name="reset_topic" value="uav/reset"/>
+  </node>
     </group>
     
     <!-- A* Planner for V_UAV_1 -->
@@ -57,10 +72,20 @@
             <param name="goal_topic" value="llm_goal" />
             <param name="waypoint_topic" value="drone_target" />
         </node>
+          <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
+    <param name="model_path" value="$(arg model_path)"/>
+    <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>
+    <param name="suppress_logs" value="$(arg suppress_logs)"/>  <!-- 等待目标时静默 -->
+    <!-- 用相对话题名，命名空间会自动加前缀 /V_UAV_1/ -->
+    <param name="obs_topic"   value="uav/observation"/>
+    <param name="act_topic"   value="uav/action"/>
+    <param name="event_topic" value="uav/event"/>
+    <param name="reset_topic" value="uav/reset"/>
+  </node>
     </group>
     
     <!-- Add more A* planners for other UAVs as needed -->
-    <param name="/planning/inflation_radius" value="1.5" /> <!-- 无人机半径+安全距离，例如0.5m+1.0m -->
+    <param name="/planning/inflation_radius" value="1.0" /> <!-- 无人机半径+安全距离，例如0.5m+1.0m -->
     <!-- ★★★ Section 3: Global Parameters (Load only ONCE) ★★★ -->
     
     <!-- Load the shared POI file -->
@@ -92,8 +117,4 @@
     </node>
     <node name="llm_fleet_commander" pkg="nlp_drone_control" type="llm_planner_node" output="screen"/>
     
-
-
-
-
 </launch>

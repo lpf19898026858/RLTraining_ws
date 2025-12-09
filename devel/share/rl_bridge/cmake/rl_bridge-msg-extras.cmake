@@ -1,0 +1,2 @@
+set(rl_bridge_MESSAGE_FILES "/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLObservation.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLAction.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLDone.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLReward.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLReset.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/RLEvent.msg;/home/lpf/docker_shared/rltraining_ws/src/rl_bridge/msg/CurriculumStatus.msg")
+set(rl_bridge_SERVICE_FILES "")

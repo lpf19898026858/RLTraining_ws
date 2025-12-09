@@ -202,7 +202,7 @@ private:
             // 旧的、冲突的逻辑已被移除
 
             json request_body = {
-                {"model", "doubao-1.5-vision-pro"},
+                {"model", "doubao-1-5-vision-pro-250328"},
                 {"messages", {{
                     {"role", "user"},
                     {"content", content_array}

@@ -13,7 +13,7 @@
 
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
-
+#include <tf/transform_listener.h>
 #include "nlp_drone_control/common_types.h"
 #include "nlp_drone_control/Plan.h"
 #include "nlp_drone_control/Action.h"
@@ -28,8 +28,20 @@
 #include <boost/archive/iterators/transform_width.hpp>
 
 #include "poi_state_server/ListPOIs.h"
+#include <unordered_set>
+#include <unordered_map>
 
 using json = nlohmann::json;
+// === forward declarations for helper functions ===
+static std::map<std::string, std::vector<std::string>>
+parseManualAssignments(const std::string& text);
+
+static std::map<std::string, std::vector<std::string>>
+assignTasksByDistance(const std::vector<std::string>& drones,
+                      const std::vector<std::string>& pois);
+
+static std::string
+buildDirectPlanText(const std::map<std::string, std::vector<std::string>>& assignments);
 
 /**
  * @brief Planner node: Handles LLM reasoning and tool call translation,

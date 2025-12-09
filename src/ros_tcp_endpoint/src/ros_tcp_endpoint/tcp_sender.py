@@ -182,6 +182,7 @@ class UnityTcpSender:
                     self.queue = None
 
     def parse_message_name(self, name):
+        self.tcp_server.loginfo(f"[DEBUG] Enter parse_message_name with: {name}")
         try:
             # Example input string: <class 'std_msgs.msg._string.Metaclass_String'>
             names = (str(type(name))).split(".")
@@ -189,7 +190,9 @@ class UnityTcpSender:
             class_name = names[-1].split("_")[-1][:-2]
             return "{}/{}".format(module_name, class_name)
         except (IndexError, AttributeError, ImportError) as e:
-            self.tcp_server.logerr("Failed to resolve message name: {}".format(e))
+            rospy.logerr(f"❌ [DEBUG] Failed to resolve message name from object: {name!r}")
+            rospy.logerr(f"❌ [DEBUG] Raw type: {type(name)}")
+            rospy.logerr(f"❌ [DEBUG] Exception: {e}")
             return None
 
 

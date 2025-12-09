@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/lpf/docker_shared/rltraining_ws/build
 include poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo.dir/progress.make
 
 poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo:
-	cd /home/lpf/docker_shared/rltraining_ws/build/poi_state_server && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py poi_state_server /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv poi_state_server/POIInfo:geometry_msgs/Point:poi_state_server/NamedPoint
+	cd /home/lpf/docker_shared/rltraining_ws/build/poi_state_server && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py poi_state_server /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv geometry_msgs/Point:poi_state_server/POIInfo:poi_state_server/NamedPoint
 
 _poi_state_server_generate_messages_check_deps_GetPOIInfo: poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo
 _poi_state_server_generate_messages_check_deps_GetPOIInfo: poi_state_server/CMakeFiles/_poi_state_server_generate_messages_check_deps_GetPOIInfo.dir/build.make

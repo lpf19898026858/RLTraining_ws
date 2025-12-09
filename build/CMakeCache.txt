@@ -669,14 +669,11 @@ gtest_hide_internal_symbols:BOOL=OFF
 //Dependencies for the target
 gtest_main_LIB_DEPENDS:STATIC=general;gtest;
 
-//Dependencies for the target
-hungarian_solver_LIB_DEPENDS:STATIC=general;/opt/ros/noetic/lib/libroscpp.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0;general;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0;general;/opt/ros/noetic/lib/librosconsole.so;general;/opt/ros/noetic/lib/librosconsole_log4cxx.so;general;/opt/ros/noetic/lib/librosconsole_backend_interface.so;general;/usr/lib/x86_64-linux-gnu/liblog4cxx.so;general;/usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0;general;/opt/ros/noetic/lib/libxmlrpcpp.so;general;/opt/ros/noetic/lib/libroscpp_serialization.so;general;/opt/ros/noetic/lib/librostime.so;general;/usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0;general;/opt/ros/noetic/lib/libcpp_common.so;general;/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0;general;/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0;general;/usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4;
-
 //The directory containing a CMake configuration file for image_transport.
 image_transport_DIR:PATH=/opt/ros/noetic/share/image_transport/cmake
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/noetic/lib/libcv_bridge.so
+lib:FILEPATH=/opt/ros/noetic/lib/libtf.so
 
 //Value Computed by CMake
 map_generator_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/map_generator
@@ -725,6 +722,12 @@ poi_state_server_DIR:PATH=/home/lpf/docker_shared/rltraining_ws/devel/share/poi_
 
 //Value Computed by CMake
 poi_state_server_SOURCE_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/src/poi_state_server
+
+//Value Computed by CMake
+rl_bridge_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/rl_bridge
+
+//Value Computed by CMake
+rl_bridge_SOURCE_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/src/rl_bridge
 
 //Value Computed by CMake
 ros_tcp_endpoint_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/ros_tcp_endpoint
@@ -785,6 +788,9 @@ tf2_py_DIR:PATH=/opt/ros/noetic/share/tf2_py/cmake
 
 //The directory containing a CMake configuration file for tf2_ros.
 tf2_ros_DIR:PATH=/opt/ros/noetic/share/tf2_ros/cmake
+
+//The directory containing a CMake configuration file for tf.
+tf_DIR:PATH=/opt/ros/noetic/share/tf/cmake
 
 //Value Computed by CMake
 uav_scheduler_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/uav_scheduler
@@ -964,7 +970,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=17
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=18
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -73,6 +73,7 @@ cv::Mat overview_image_;
     std::vector<ros::Subscriber> drone_pose_subs_;
     std::vector<ros::Subscriber> drone_status_subs_;
     std::vector<ros::Subscriber> action_feedback_subs_;
+    std::vector<ros::Subscriber> planning_status_subs_;
 
     ros::Publisher fleet_context_pub_;
     ros::Publisher central_nlp_feedback_pub_;
@@ -93,7 +94,8 @@ cv::Mat overview_image_;
     void droneStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
     void actionFeedbackCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
     void onContextTimer(const ros::TimerEvent&);
-
+    void planningStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
+    
     // === Core Logic ===
     void executionLoop(const std::string& drone_id);
     void dispatchToolCalls(const json& tool_calls, ReplanMode mode);

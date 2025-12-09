@@ -75,6 +75,10 @@ struct DroneContext {
     std::vector<sensor_msgs::Image> collected_images_for_vlm;
 
     json current_executing_tool_call; ///< Currently running tool call
+    
+    int navigation_retry_count = 0; // 导航重试计数器
+    json current_nav_task;          // 保存当前正在尝试的导航任务
+    std::string current_tool_name; // <--- 新增
 };
 
 /**

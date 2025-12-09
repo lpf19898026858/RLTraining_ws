@@ -1,0 +1,21 @@
+
+(cl:in-package :asdf)
+
+(defsystem "rl_bridge-msg"
+  :depends-on (:roslisp-msg-protocol :roslisp-utils )
+  :components ((:file "_package")
+    (:file "CurriculumStatus" :depends-on ("_package_CurriculumStatus"))
+    (:file "_package_CurriculumStatus" :depends-on ("_package"))
+    (:file "RLAction" :depends-on ("_package_RLAction"))
+    (:file "_package_RLAction" :depends-on ("_package"))
+    (:file "RLDone" :depends-on ("_package_RLDone"))
+    (:file "_package_RLDone" :depends-on ("_package"))
+    (:file "RLEvent" :depends-on ("_package_RLEvent"))
+    (:file "_package_RLEvent" :depends-on ("_package"))
+    (:file "RLObservation" :depends-on ("_package_RLObservation"))
+    (:file "_package_RLObservation" :depends-on ("_package"))
+    (:file "RLReset" :depends-on ("_package_RLReset"))
+    (:file "_package_RLReset" :depends-on ("_package"))
+    (:file "RLReward" :depends-on ("_package_RLReward"))
+    (:file "_package_RLReward" :depends-on ("_package"))
+  ))

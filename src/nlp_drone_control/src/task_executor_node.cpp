@@ -34,7 +34,8 @@ TaskExecutorNode::TaskExecutorNode(ros::NodeHandle& nh) : nh_(nh) {
     drone_pose_subs_.push_back(nh_.subscribe<geometry_msgs::PoseStamped>("/" + drone_id + "/drone_pose", 1, boost::bind(&TaskExecutorNode::dronePoseCallback, this, _1, drone_id)));
     drone_status_subs_.push_back(nh_.subscribe<std_msgs::String>("/" + drone_id + "/drone_status", 1, boost::bind(&TaskExecutorNode::droneStatusCallback, this, _1, drone_id)));
     action_feedback_subs_.push_back(nh_.subscribe<std_msgs::String>("/" + drone_id + "/action_feedback", 1, boost::bind(&TaskExecutorNode::actionFeedbackCallback, this, _1, drone_id)));
-
+    planning_status_subs_.push_back(nh_.subscribe<std_msgs::String>("/" + drone_id + "/planning_status", 1,boost::bind(&TaskExecutorNode::planningStatusCallback, this, _1, drone_id)));
+    
     execute_action_clients_[drone_id] = nh_.serviceClient<nlp_drone_control::ExecuteDroneAction>("/" + drone_id + "/execute_drone_action");
     llm_goal_pubs_[drone_id] = nh_.advertise<geometry_msgs::PoseStamped>("/" + drone_id + "/llm_goal", 1);
   }
@@ -122,40 +123,106 @@ void TaskExecutorNode::dronePoseCallback(const geometry_msgs::PoseStamped::Const
   if (drone_contexts_.count(drone_id)) drone_contexts_.at(drone_id).pose = *msg;
 }
 
+// 在 TaskExecutorNode::droneStatusCallback 中
+
 void TaskExecutorNode::droneStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id) {
-  bool should_handle_completion = false;
-  {
-    std::lock_guard<std::mutex> lock(contexts_map_mutex_);
-    if (!drone_contexts_.count(drone_id)) {
-      ROS_WARN_STREAM("Received status from unknown drone_id: " << drone_id);
-      return;
+    bool should_handle_nav_completion = false;
+    bool should_handle_action_completion = false; // <-- 新增标志
+    {
+        std::lock_guard<std::mutex> lock(contexts_map_mutex_);
+        if (!drone_contexts_.count(drone_id)) {
+            ROS_WARN_STREAM("Received status from unknown drone_id: " << drone_id);
+            return;
+        }
+        auto& context = drone_contexts_.at(drone_id);
+        DroneState old_state = context.state_enum;
+
+        // 更新状态
+        context.status_str = msg->data;
+        if      (context.status_str == "IDLE_ON_GROUND") context.state_enum = GROUNDED;
+        else if (context.status_str == "NAVIGATING")     context.state_enum = FLYING;
+        else if (context.status_str == "HOVERING" || context.status_str == "IDLE_IN_AIR") context.state_enum = HOVERING;
+        else if (context.status_str == "PERFORMING_ACTION") context.state_enum = PERFORMING_ACTION;
+        else if (context.status_str == "TAKING_OFF")     context.state_enum = TAKING_OFF;
+        else if (context.status_str == "LANDING")        context.state_enum = LANDING;
+        else                                             context.state_enum = UNKNOWN;
+
+        DroneState new_state = context.state_enum;
+
+        const std::string& current_tool = context.current_tool_name;
+
+        // Case 1: 导航任务完成 (FLYING -> HOVERING)
+        if ((current_tool == "go_to_waypoint" || current_tool == "return_to_launch") &&
+            (old_state == FLYING && new_state == HOVERING)) 
+        {
+            ROS_INFO(">>> [%s] Navigation Task '%s' completed based on state change (FLYING -> HOVERING).", 
+                     drone_id.c_str(), current_tool.c_str());
+            should_handle_nav_completion = true;
+        }
+        
+        // Case 2: 简单动作或宏任务子动作完成 (PERFORMING_ACTION -> HOVERING)
+        // 注意：我们不关心是什么工具，只要是从执行变为悬停，就认为一个动作结束了。
+        if (old_state == PERFORMING_ACTION && new_state == HOVERING)
+        {
+            ROS_INFO(">>> [%s] Action Task '%s' completed based on state change (PERFORMING_ACTION -> HOVERING).",
+                     drone_id.c_str(), current_tool.c_str());
+            should_handle_action_completion = true;
+        }
     }
-    auto& context = drone_contexts_.at(drone_id);
-    DroneState old_state = context.state_enum;
 
-    context.status_str = msg->data;
-    if      (context.status_str == "IDLE_ON_GROUND") context.state_enum = GROUNDED;
-    else if (context.status_str == "NAVIGATING")     context.state_enum = FLYING;
-    else if (context.status_str == "HOVERING" || context.status_str == "IDLE_IN_AIR") context.state_enum = HOVERING;
-    else if (context.status_str == "PERFORMING_ACTION") context.state_enum = PERFORMING_ACTION;
-    else if (context.status_str == "TAKING_OFF")     context.state_enum = TAKING_OFF;
-    else if (context.status_str == "LANDING")        context.state_enum = LANDING;
-    else                                             context.state_enum = UNKNOWN;
-
-    DroneState new_state = context.state_enum;
-    if ((old_state == FLYING && new_state == HOVERING) ||
-        (old_state == TAKING_OFF && new_state == HOVERING) ||
-        (old_state == LANDING && new_state == GROUNDED) ||
-        (old_state == PERFORMING_ACTION && new_state == HOVERING)) {
-      should_handle_completion = true;
+    // 在锁外调用 handle_task_completion
+    if (should_handle_nav_completion || should_handle_action_completion) {
+        handle_task_completion(drone_id);
     }
-  }
-
-  if (should_handle_completion) {
-    handle_task_completion(drone_id);
-  }
 }
 
+void TaskExecutorNode::planningStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id) {
+    // 收到A* Planner的状态更新
+    if (msg->data == "failed") {
+        ROS_WARN("[%s] Received 'failed' planning status from A* Planner.", drone_id.c_str());
+        
+        std::lock_guard<std::mutex> lock(contexts_map_mutex_);
+        if (!drone_contexts_.count(drone_id)) return;
+        auto& context = drone_contexts_.at(drone_id);
+
+        // 必须是正在执行导航任务时收到的失败才有效
+        if (!context.is_task_executing || context.current_nav_task.is_null()) {
+            return;
+        }
+
+        if (context.navigation_retry_count < 1) {
+            // --- 第一次失败：重试 ---
+            context.navigation_retry_count++;
+            ROS_INFO("[%s] Retrying navigation task. Attempt %d.", drone_id.c_str(), context.navigation_retry_count + 1);
+            publishFeedback("Warning: Navigation planning for " + drone_id + " failed. Retrying once.");
+            
+            // 重新执行同一个任务
+            // 为了避免死锁，我们在一个新线程中执行
+            std::thread([this, drone_id, task = context.current_nav_task]() {
+                ros::Duration(1.0).sleep(); // 等待1秒再重试
+                executeTool(task, drone_id);
+            }).detach();
+
+        } else {
+            // --- 第二次失败：跳过 ---
+            ROS_ERROR("[%s] Navigation task failed after 1 retry. Skipping this task.", drone_id.c_str());
+            publishFeedback("Error: Navigation for " + drone_id + " failed repeatedly. Skipping current POI.");
+
+            // 重置状态，以允许 executionLoop 继续执行下一个任务
+            context.is_task_executing = false; 
+            context.navigation_retry_count = 0;
+            context.current_nav_task = nullptr; // 清空当前任务
+            
+            // 额外：如果这个失败的导航是某个宏任务的一部分，
+            // 那么可能需要将整个宏任务标记为失败。
+            if (context.is_in_macro_task) {
+                ROS_WARN("[%s] Skipping a macro sub-task. The next step of the macro will be executed.", drone_id.c_str());
+                // 这里我们选择让宏继续，但也可以选择中止宏
+                // context.is_in_macro_task = false;
+            }
+        }
+    }
+}
 void TaskExecutorNode::actionFeedbackCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id) {
   if (msg->data == "ACTION_COMPLETE") {
     handle_task_completion(drone_id);
@@ -163,7 +230,6 @@ void TaskExecutorNode::actionFeedbackCallback(const std_msgs::String::ConstPtr& 
 }
 
 // ================== Context text timer (ADDED) ==================
-
 void TaskExecutorNode::onContextTimer(const ros::TimerEvent&) {
   //std_msgs::String msg;
   //msg.data = getSwarmStateAsText();
@@ -277,7 +343,15 @@ void TaskExecutorNode::dispatchToolCalls(const json& tool_calls, ReplanMode mode
         for (const auto& task : new_tasks) {
           context.tool_call_queue.push_back(task);
         }
-        ROS_INFO("Enqueued %zu new tasks for drone %s.", context.tool_call_queue.size(), drone_id.c_str());
+                ROS_INFO("===== [%s] Task Queue Status =====", drone_id.c_str());
+        ROS_INFO("Enqueued %zu new tasks.", new_tasks.size());
+        int i = 0;
+        for (const auto& task_in_queue : context.tool_call_queue) {
+            std::string tool_name = task_in_queue.at("function").at("name").get<std::string>();
+            ROS_INFO("  [%d] %s", i++, tool_name.c_str());
+        }
+        ROS_INFO("======================================");
+        //ROS_INFO("Enqueued %zu new tasks for drone %s.", context.tool_call_queue.size(), drone_id.c_str());
       }
     }
   }
@@ -325,9 +399,24 @@ void TaskExecutorNode::executionLoop(const std::string& drone_id) {
         std::lock_guard<std::mutex> lock(contexts_map_mutex_);
         auto& context = drone_contexts_.at(drone_id);
         std::lock_guard<std::mutex> context_lock(context.context_data_mutex);
+        
         next_tool = context.tool_call_queue.front();
         context.tool_call_queue.pop_front();
         context.is_task_executing = true;
+        // 如果是导航任务，就保存它以便重试
+                // ==================【添加日志 2】==================
+                context.current_tool_name = next_tool.at("function").at("name").get<std::string>();
+                ROS_INFO_STREAM(">>> [" << drone_id << "] DEQUEUED task: '" << context.current_tool_name 
+                                << "'. Setting is_task_executing=TRUE. " 
+                                << context.tool_call_queue.size() << " tasks remaining in queue.");
+                // ==================【日志结束】==================        
+        std::string tool_name = next_tool.at("function").at("name").get<std::string>();
+        if (tool_name == "go_to_waypoint" || tool_name == "return_to_launch") {
+            context.current_nav_task = next_tool;
+            context.navigation_retry_count = 0; // 每次新任务都重置计数器
+        } else {
+            context.current_nav_task = nullptr; // 其他任务清空
+        }
       }
 
       std::string result = executeTool(next_tool, drone_id);
@@ -558,13 +647,20 @@ void TaskExecutorNode::handle_task_completion(const std::string& drone_id) {
     if (!drone_contexts_.count(drone_id)) return;
 
     auto& context = drone_contexts_.at(drone_id);
+
     if (context.is_in_macro_task) {
       ROS_INFO("[%s] Macro sub-step complete. Advancing macro...", drone_id.c_str());
       next_action = advance_visual_inspection_macro(drone_id);
     } else {
-      std::lock_guard<std::mutex> context_lock(context.context_data_mutex);
+    ROS_INFO_STREAM(">>> [" << drone_id << "] Simple task '" << context.current_tool_name
+                            << "' is complete. Setting is_task_executing=FALSE.");
+            
+      //std::lock_guard<std::mutex> context_lock(context.context_data_mutex);
       context.is_task_executing = false;
-      ROS_INFO("[%s] Simple task complete.", drone_id.c_str());
+              // 任务成功完成，重置导航相关状态
+        context.navigation_retry_count = 0;
+        context.current_nav_task = nullptr;
+      //ROS_INFO("[%s] Simple task complete.", drone_id.c_str());
     }
   }
 

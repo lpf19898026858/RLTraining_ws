@@ -1,0 +1,8 @@
+prefix=/home/lpf/docker_shared/rltraining_ws/devel
+
+Name: rl_bridge
+Description: Description of rl_bridge
+Version: 0.0.0
+Cflags: -I/home/lpf/docker_shared/rltraining_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 
