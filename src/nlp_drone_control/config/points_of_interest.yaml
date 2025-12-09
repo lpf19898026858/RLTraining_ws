@@ -15,22 +15,6 @@ points_of_interest:
       x: 38.33032
       y: 27.89018
       z: 0.662
-- name: V_UAV_0
-  description: V_UAV_0
-  type: UAV
-  position:
-    x: -42.77
-    y: 29.6
-    z: 0.162
-  simplified_boundary:
-    min:
-      x: -43.77
-      y: 30.475
-      z: -0.338
-    max:
-      x: -41.77
-      y: 28.725
-      z: 0.662
 - name: MachineC
   description: A point of interest.
   type: Machine
@@ -199,9 +183,18 @@ points_of_interest:
   description: A point of interest.
   type: Machine
   position:
-    x: -41.9
-    y: 21.91
-    z: 0.55
+    x: -10.34
+    y: 18.77
+    z: 2.54
+  simplified_boundary:
+    min:
+      x: -10.84
+      y: 19.27
+      z: -0.4600005
+    max:
+      x: -9.84
+      y: 18.27
+      z: 5.54
 - name: House8
   description: A point of interest.
   type: Buildings
@@ -231,6 +224,12 @@ points_of_interest:
     x: -30.7
     y: 39.1
     z: 0
+  candidate_interaction_points:
+  - name: best_approach_pos_x
+    point:
+      x: -23.78124
+      y: 29.29953
+      z: 2.5
   simplified_boundary:
     min:
       x: -32.85402
@@ -452,6 +451,22 @@ points_of_interest:
       x: -45.2
       y: 29.90075
       z: 8.583162
+- name: V_UAV_0
+  description: V_UAV_0
+  type: UAV
+  position:
+    x: -42.77
+    y: 29.6
+    z: 0.162
+  simplified_boundary:
+    min:
+      x: -43.77
+      y: 30.475
+      z: -0.338
+    max:
+      x: -41.77
+      y: 28.725
+      z: 0.662
 - name: Ground
   description: This is the floor. During flight, be careful not to collide with the bottom surface. When landing, be careful to determine the distance from the ground
   type: Ground

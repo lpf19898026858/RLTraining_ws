@@ -194,7 +194,12 @@ NextMacroAction advance_visual_inspection_macro(const std::string& drone_id);
 
     // ROS Subscriber for the stop command
     ros::Subscriber stop_command_sub_;    
-    std::atomic<bool> tool_call_started_; // ++ 添加这一行
+    std::atomic<bool> tool_call_started_; 
+    
+    std::string stream_buffer_; // 用于累积传入流数据的缓冲区
+    std::mutex stream_buffer_mutex_; // 用于保护缓冲区的互斥锁
+    // 用 output_index 作为键，存放正在构建的函数调用
+    std::map<int, json> in_progress_tool_calls_;
 };
 
 #endif // LLM_PROCESSOR_NODE_H

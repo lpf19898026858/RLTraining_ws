@@ -309,166 +309,176 @@ if (!_pois.empty()) {
 }
 return dynamic_info_str;
 }
+// 在 llm_processor_node.cpp 文件中
+
+// 【最终版本】替换你整个的 streamCallback 函数
 bool LLMProcessorNode::streamCallback(const std::string& chunk) {
-std::stringstream ss(chunk);
-std::string line;
+    std::lock_guard<std::mutex> buffer_lock(stream_buffer_mutex_);
+    stream_buffer_ += chunk;
 
-while (std::getline(ss, line)) {
-    if (line.rfind("data: ", 0) == 0) {
-        std::string data_str = line.substr(6);
+    while (true) {
+        size_t end_pos = stream_buffer_.find("\n\n");
+        if (end_pos == std::string::npos) break;
 
-        if (data_str == "[DONE]") {
-            // 流结束时，确保缓冲区里最后一部分内容也被发布出去
-            if (!accumulated_reasoning_response_.empty()) {
-                publishReasoning(accumulated_reasoning_response_);
-                accumulated_reasoning_response_.clear();
-            }
-            return true;
-        }
+        std::string message_block = stream_buffer_.substr(0, end_pos);
+        stream_buffer_.erase(0, end_pos + 2);
 
-        try {
-            json delta_json = json::parse(data_str);
-            if (delta_json["choices"][0].contains("delta")) {
+        std::stringstream ss(message_block);
+        std::string line;
+        while (std::getline(ss, line)) {
+            if (line.rfind("data: ", 0) != 0) continue;
+            
+            std::string data_str = line.substr(6);
+            if (data_str == "[DONE]") continue;
+
+            try {
+                json delta_json = json::parse(data_str);
+                // --- 【【【 最核心的调试日志 】】】 ---
+                // 打印出整个 delta_json 的内容，这样我们能看到所有字段
+                ROS_INFO_STREAM("--- RECEIVED DELTA JSON ---\n" << delta_json.dump(2));
+                // --- 【【【 END OF DEBUG LOG 】】】 ---
+                
+                if (!delta_json.contains("choices") || delta_json["choices"].empty()) continue;
+
                 const auto& delta = delta_json["choices"][0]["delta"];
 
-                // --- 修正后的核心逻辑 ---
-
-                // 1. 优先检查并更新状态：如果tool_calls字段出现，说明思考过程结束
-                if (delta.contains("tool_calls")) {
-                    tool_call_started_.store(true);
-                }
-
-                // 2. 处理文本内容：根据当前状态决定它是“思考”还是“反馈”
+                // 1. 处理思考过程的文本流 (content)
                 if (delta.contains("content") && delta["content"].is_string()) {
-                    // 在这里定义 text_part，确保它在下面的 if/else 块中都可用
-                    std::string text_part = delta["content"];
-                    
-                    // 如果工具调用还没有开始，那么收到的所有文本都是“思考过程”
-                    if (!tool_call_started_.load()) {
-                        accumulated_reasoning_response_ += text_part; // 使用刚刚定义的 text_part
-
-                        // 按行发布，以获得更好的流式体验
-                        size_t newline_pos;
-                        while ((newline_pos = accumulated_reasoning_response_.find('\n')) != std::string::npos) {
-                            std::string line_to_publish = accumulated_reasoning_response_.substr(0, newline_pos);
-                            if (!line_to_publish.empty()) {
-                                publishReasoning(line_to_publish);
-                            }
-                            accumulated_reasoning_response_.erase(0, newline_pos + 1);
+                    accumulated_reasoning_response_ += delta["content"].get<std::string>();
+                    // 实时发布思考过程
+                    size_t newline_pos;
+                    while ((newline_pos = accumulated_reasoning_response_.find('\n')) != std::string::npos) {
+                        std::string line_to_publish = accumulated_reasoning_response_.substr(0, newline_pos);
+                        if (!line_to_publish.empty()) {
+                            publishReasoning(line_to_publish);
                         }
-                    } else {
-                        // 如果工具调用已经开始，那么文本就是“最终反馈”（虽然很少见）
-                        publishFeedback("LLM: " + text_part); // 使用刚刚定义的 text_part
-                        accumulated_text_response_ += text_part;
+                        accumulated_reasoning_response_.erase(0, newline_pos + 1);
                     }
                 }
 
-                // 3. 累积工具调用信息（这部分逻辑不变）
+                // 2. 处理工具调用的结构化流 (tool_calls)
                 if (delta.contains("tool_calls")) {
-                    for (const auto& tool_call_part : delta["tool_calls"]) {
-                        int index = tool_call_part["index"];
+                    for (const auto& tool_call_chunk : delta["tool_calls"]) {
+                        int index = tool_call_chunk["index"];
+
+                        // 如果是新的工具调用，创建基本结构
                         if (accumulated_tool_calls_.size() <= index) {
-                            accumulated_tool_calls_.push_back(json::object());
+                            accumulated_tool_calls_.push_back(json::object({{"index", index}}));
                         }
-                    
-                        if (!accumulated_tool_calls_[index].contains("function")) {
-                            accumulated_tool_calls_[index]["function"] = json::object();
+
+                        // 累积 id, type, function name
+                        if (tool_call_chunk.contains("id")) {
+                            accumulated_tool_calls_[index]["id"] = tool_call_chunk["id"];
                         }
-                        if (tool_call_part["function"].contains("name")) {
-                            accumulated_tool_calls_[index]["function"]["name"] = tool_call_part["function"]["name"];
+                        if (tool_call_chunk.contains("type")) {
+                            accumulated_tool_calls_[index]["type"] = tool_call_chunk["type"];
                         }
-                        if (tool_call_part["function"].contains("arguments")) {
-                            if (!accumulated_tool_calls_[index]["function"].contains("arguments")) {
-                                accumulated_tool_calls_[index]["function"]["arguments"] = "";
+                        if (tool_call_chunk.contains("function")) {
+                            if (tool_call_chunk["function"].contains("name")) {
+                                if (!accumulated_tool_calls_[index].contains("function")) {
+                                    accumulated_tool_calls_[index]["function"] = json::object();
+                                }
+                                accumulated_tool_calls_[index]["function"]["name"] = tool_call_chunk["function"]["name"];
                             }
-                            accumulated_tool_calls_[index]["function"]["arguments"] = accumulated_tool_calls_[index]["function"]["arguments"].get<std::string>() + tool_call_part["function"]["arguments"].get<std::string>();
+                            // 累积 arguments 片段
+                            if (tool_call_chunk["function"].contains("arguments")) {
+                                if (!accumulated_tool_calls_[index]["function"].contains("arguments")) {
+                                    accumulated_tool_calls_[index]["function"]["arguments"] = "";
+                                }
+                                accumulated_tool_calls_[index]["function"]["arguments"] = accumulated_tool_calls_[index]["function"]["arguments"].get<std::string>() + tool_call_chunk["function"]["arguments"].get<std::string>();
+                            }
                         }
                     }
                 }
+
+            } catch (const json::exception& e) {
+                ROS_WARN_STREAM("Stream parsing error: " << e.what() << " | Data: " << data_str);
             }
-        } catch (const json::exception& e) {
-            ROS_WARN_STREAM("JSON parsing error in stream chunk: " << e.what() << " | Chunk: " << data_str);
         }
     }
-}
-return true;
+    return true;
 }
 
-// 在 llm_processor_node.cpp 中添加新函数
+
+// 【最终版本】替换你整个的 executeLlmRequest 函数
 void LLMProcessorNode::executeLlmRequest(std::string command_to_process) {
-// 在线程开始时，重置中断标志为 false
-interrupt_llm_request_.store(false);
-tool_call_started_.store(false); // ++ 添加这一行
+    interrupt_llm_request_.store(false);
+    publishFeedback("LLM is thinking...");
 
-publishFeedback("LLM_STREAM_START");
-accumulated_tool_calls_ = json::array();
-accumulated_reasoning_response_.clear();
-accumulated_text_response_.clear();
+    // 重置状态
+    accumulated_tool_calls_ = json::array();
+    accumulated_reasoning_response_.clear();
+    
+    // 构建标准的OpenAI请求体
+    std::string dynamic_info_str = getSwarmStateAsText();
+    std::string final_system_prompt = system_prompt_content_ + "\n" + dynamic_info_str;
+    
+    json conversation_for_api = json::array();
+    conversation_for_api.push_back({{"role", "system"}, {"content", final_system_prompt}});
+    // 注意：这里可以添加更多历史记录，但为了简化，我们只用最新的
+    conversation_for_api.push_back({{"role", "user"}, {"content", command_to_process}});
 
-std::string dynamic_info_str = getSwarmStateAsText();
-std::string final_system_prompt = system_prompt_content_ + "\n" + dynamic_info_str;
+    json request_body = {
+        {"model", "gpt-4o"},
+        {"messages", conversation_for_api},
+        {"tools", getFleetToolDefinitions()},
+        {"tool_choice", "auto"},
+        {"stream", true}
+    };
 
-conversation_history_[0]["content"] = final_system_prompt;
-conversation_history_.push_back({{"role", "user"}, {"content", command_to_process}});
+    ROS_INFO_STREAM("--- Sending LLM Request ---");
 
-trimConversationHistory();
+    cpr::WriteCallback write_callback{[this](const std::string_view& data, intptr_t userdata) -> bool {
+        if (interrupt_llm_request_.load()) return false;
+        return this->streamCallback(std::string(data));
+    }};
 
-json request_body = {
-    {"model", "deepseek-chat"},
-    {"messages", conversation_history_},
-    {"tools", getFleetToolDefinitions()},
-    {"tool_choice", "auto"},
-    {"stream", true}
-};
+    cpr::Response r = cpr::Post(
+        cpr::Url{"https://api.zhizengzeng.com/v1/chat/completions"},
+        cpr::Header{{"Authorization", "Bearer " + api_key_}, {"Content-Type", "application/json"}},
+        cpr::Body{request_body.dump()},
+        write_callback,
+        cpr::Proxies{{"https", "http://127.0.0.1:7897"}}
+    );
 
-// 使用 lambda 包装流式回调，这是实现中断的关键
-cpr::WriteCallback write_callback{[this](const std::string_view& data, intptr_t userdata) -> bool {
-    // 在每次收到数据块时，检查是否需要中断
+    // --- 请求结束后的处理 ---
     if (interrupt_llm_request_.load()) {
-        ROS_INFO("LLM stream callback interrupted.");
-        return false; // 返回 false 会立即终止 cpr 请求
+        ROS_INFO("LLM request interrupted by user.");
+        publishFeedback("LLM thought process stopped.");
+        return;
     }
-    return this->streamCallback(std::string(data));
-}};
 
-// --- 发送网络请求 ---
-cpr::Response r = cpr::Post(
-    cpr::Url{"https://api.deepseek.com/chat/completions"},
-    cpr::Header{{"Authorization", "Bearer " + api_key_},
-                {"Content-Type", "application/json"}},
-    cpr::Body{request_body.dump()},
-    write_callback, // 传入我们包装好的回调
-    cpr::Proxies{{"https", "http://127.0.0.1:7897"}}
-);
-
-// --- 请求结束后的处理 ---
-
-// 检查请求结束的原因：是正常完成还是被中断？
-if (interrupt_llm_request_.load()) {
-    ROS_INFO("LLM request was successfully interrupted by user command.");
-    publishFeedback("LLM thought process stopped.");
-    // 因为思考被中断，所以应该从历史记录中移除刚才那次失败的 "user" 输入
-    if (!conversation_history_.empty()) {
-        conversation_history_.erase(conversation_history_.end() - 1);
-    }
-    return; // 线程结束
-}
-
-if (r.status_code == 200) {
-    if (!accumulated_tool_calls_.empty()) {
-        publishFeedback("New plan received. Updating tasks for drones...");
-        dispatchToolCalls(accumulated_tool_calls_, ReplanMode::REPLACE);
+    if (r.status_code == 200) {
+        // 发布最后剩余的思考过程文本
+        if (!accumulated_reasoning_response_.empty()) {
+            publishReasoning(accumulated_reasoning_response_);
+        }
+        // --- 【【【 最关键的调试日志 】】】 ---
+        // 在做任何其他事情之前，打印出 streamCallback 组装的最终结果
+        ROS_INFO_STREAM("--- Accumulated Tool Calls at End of Stream ---\n" 
+                        << accumulated_tool_calls_.dump(2));
+        // --- 【【【 END OF DEBUG LOG 】】】 ---
+        // 现在检查累积的工具调用
+        if (!accumulated_tool_calls_.empty()) {
+            publishFeedback("New plan received. Updating tasks for drones...");
+            
+            // 在调度之前，将我们自己构建的 tool_calls 转换为 dispatchToolCalls 期望的格式
+            // 我们的 dispatch 函数期望一个简单的函数对象数组
+            json functions_to_dispatch = json::array();
+            for(const auto& tool_call : accumulated_tool_calls_){
+                if(tool_call.contains("function")){
+                    functions_to_dispatch.push_back({{"function", tool_call["function"]}});
+                }
+            }
+            
+            dispatchToolCalls(functions_to_dispatch, ReplanMode::REPLACE);
+        } else {
+            publishFeedback("LLM finished without a clear action.");
+        }
     } else {
-        publishFeedback("LLM finished without a clear action."); 
+        ROS_ERROR_STREAM("LLM API request failed with status " << r.status_code << ": " << r.text);
+        publishFeedback("Error: LLM API request failed. Status: " + std::to_string(r.status_code));
     }
-} else {
-    // 如果API请求失败，同样移除这次失败的 "user" 输入
-    if (!conversation_history_.empty()) {
-        conversation_history_.erase(conversation_history_.end() - 1);
-    }
-    ROS_ERROR_STREAM("LLM API request failed with status " << r.status_code << ": " << r.text);
-    publishFeedback("Error: LLM API request failed. Status: " + std::to_string(r.status_code));
-}
 }
 
 void LLMProcessorNode::processingLoop() {
@@ -674,7 +684,10 @@ return json::parse(R"END([
 "type": "object",
 "properties": {
 "drone_id": { "type": "string", "description": "要执行此动作的无人机ID。" },
-"target_name": { "type": "string", "description": "无人机在开始扫描前需要朝向的POI的精确名称。" }
+"target_name": { 
+    "type": "string", 
+    "description": "要检查的兴趣点（POI）的**精确名称**。**必须使用 'target_name' 这个键名**，例如：'House1'。(The **exact name** of the POI to inspect. **You MUST use the key name 'target_name'**, e.g., 'House1')." 
+}
 },
 "required": ["drone_id", "target_name"]
 }

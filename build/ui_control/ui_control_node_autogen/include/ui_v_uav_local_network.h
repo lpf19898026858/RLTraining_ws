@@ -101,7 +101,7 @@ public:
         v_uav_0_send_command_button->setGeometry(QRect(590, 60, 80, 22));
         feedback_text_edit = new QPlainTextEdit(centralwidget);
         feedback_text_edit->setObjectName(QString::fromUtf8("feedback_text_edit"));
-        feedback_text_edit->setGeometry(QRect(290, 110, 391, 271));
+        feedback_text_edit->setGeometry(QRect(470, 110, 211, 271));
         v_uav_0_mission_id_label_2 = new QLabel(centralwidget);
         v_uav_0_mission_id_label_2->setObjectName(QString::fromUtf8("v_uav_0_mission_id_label_2"));
         v_uav_0_mission_id_label_2->setGeometry(QRect(710, 190, 71, 20));
@@ -125,13 +125,13 @@ public:
         v_uav_0_stop_command_button->setGeometry(QRect(690, 60, 80, 22));
         reasoning_text_edit = new QPlainTextEdit(centralwidget);
         reasoning_text_edit->setObjectName(QString::fromUtf8("reasoning_text_edit"));
-        reasoning_text_edit->setGeometry(QRect(40, 110, 231, 271));
+        reasoning_text_edit->setGeometry(QRect(40, 110, 411, 271));
         clear_reasoning_button = new QPushButton(centralwidget);
         clear_reasoning_button->setObjectName(QString::fromUtf8("clear_reasoning_button"));
         clear_reasoning_button->setGeometry(QRect(110, 390, 80, 22));
         clear_feedback_button = new QPushButton(centralwidget);
         clear_feedback_button->setObjectName(QString::fromUtf8("clear_feedback_button"));
-        clear_feedback_button->setGeometry(QRect(420, 390, 80, 22));
+        clear_feedback_button->setGeometry(QRect(510, 390, 80, 22));
         v_uav_local_network->setCentralWidget(centralwidget);
         menubar = new QMenuBar(v_uav_local_network);
         menubar->setObjectName(QString::fromUtf8("menubar"));

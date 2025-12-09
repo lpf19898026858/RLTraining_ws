@@ -18,7 +18,7 @@
 
 using json = nlohmann::json;
 
-const std::string VLM_API_ENDPOINT = "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
+const std::string VLM_API_ENDPOINT = "https://api.zhizengzeng.com/v1/chat/completions";
 
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -202,7 +202,7 @@ private:
             // 旧的、冲突的逻辑已被移除
 
             json request_body = {
-                {"model", "ep-20250704170325-qb2ls"},
+                {"model", "doubao-1.5-vision-pro"},
                 {"messages", {{
                     {"role", "user"},
                     {"content", content_array}

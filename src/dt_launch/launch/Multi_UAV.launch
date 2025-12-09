@@ -60,9 +60,9 @@
     <rosparam command="load" file="$(find nlp_drone_control)/config/points_of_interest.yaml" />
 
     <!-- Set API keys and other shared configurations -->
-    <param name="/deepseek_api_key" value="sk-037f7a9c11394735a93918fad11eb962" />
+    <param name="/deepseek_api_key" value="sk-zk2c3a12508a3f9897f863156c027eadcee68ca63f4ad778" />
     <param name="/system_prompt_file" value="$(find nlp_drone_control)/config/system_prompt.txt" />
-    <param name="/doubao_api_key" value="7ce853e0-e7b3-4760-9517-c84232e222ce" />
+    <param name="/doubao_api_key" value="sk-zk2c3a12508a3f9897f863156c027eadcee68ca63f4ad778" />
     <param name="/describe_scene_service" value="/vision_service/describe_scene" />
 
     <!-- ★★★ Section 4: Launch the Central Commander Node (Start only ONCE) ★★★ -->
