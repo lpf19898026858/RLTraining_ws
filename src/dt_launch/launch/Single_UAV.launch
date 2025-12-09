@@ -1,0 +1,38 @@
+<launch>
+    <arg name="uav_name"/>
+    <group ns="$(arg uav_name)">
+        <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
+            <param name="waypoint_distance" value="7.0" />
+            <param name="pose_topic" value="drone_pose" />
+            <param name="goal_topic" value="llm_goal" />
+            <param name="waypoint_topic" value="drone_target" />
+        </node>
+        
+        <node name="llm_processor" pkg="nlp_drone_control" type="llm_processor_node" output="screen">
+        
+            <!-- === Private Parameters for this specific UAV === -->
+            <!-- The node will use its own name as the key to find its start position in the global POI list -->
+            <param name="initial_poi_name" value="$(arg uav_name)" /> 
+            <param name="image_save_base_path" value="/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/images" />
+
+            <!-- === Private ROS Interfaces for this specific UAV === -->
+            <!-- These are relative topic/service names. ROS will automatically prefix them -->
+            <!-- with the namespace, e.g., /V_UAV_0/nlp_feedback -->
+            
+            <!-- Topic Names -->
+            <param name="nlp_feedback_topic"    value="nlp_feedback" />
+            <param name="nlp_command_topic"     value="nlp_command" />
+            <param name="drone_pose_topic"      value="drone_pose" />
+            <param name="drone_status_topic"    value="drone_status" />
+            <param name="llm_goal_topic"        value="llm_goal" />
+            <param name="drone_target_topic"    value="drone_target" />
+            <param name="action_feedback_topic" value="action_feedback" />
+            <param name="action_timeout_seconds" value="15.0" />
+            <param name="camera_topic" value="camera/image_raw" />
+
+            <!-- Service Names -->
+            <param name="execute_action_service" value="execute_drone_action" />
+            <param name="capture_image_service"  value="capture_image" />
+        </node>
+    </group>
+</launch>

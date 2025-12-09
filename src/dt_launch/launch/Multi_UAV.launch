@@ -1,0 +1,81 @@
+<launch>
+    <!-- ================================================================ -->
+    <!-- ===        Multi-UAV System Launcher (Central Commander)       === -->
+    <!-- ================================================================ -->
+
+    <!-- ★★★ Section 1: Global Nodes and Services (Start only ONCE) ★★★ -->
+
+    <!-- Map Generation and Publishing -->
+    <node pkg="map_generator" type="yaml_to_map_publisher_node" name="yaml_to_map_publisher" output="screen">
+        <param name="yaml_file_path" value="$(find nlp_drone_control)/config/points_of_interest.yaml"/>
+        <param name="resolution" value="0.1"/>
+        <param name="frame_id" value="map"/>
+        <param name="map_topic" value="/map"/>
+    </node>
+
+    <!-- VLM Service Node -->
+    <node name="vlm_service_node" pkg="vlm_service" type="vlm_service_node" output="screen">
+        <!-- Tell the VLM service which camera topics to subscribe to -->
+        <rosparam param="camera_topics" subst_value="True">
+            - /V_UAV_0/camera/image_raw
+            - /V_UAV_1/camera/image_raw
+            <!-- Add more UAVs here as needed -->
+            <!-- - /V_UAV_2/camera/image_raw -->
+        </rosparam>
+    </node>
+
+    <!-- Unity TCP Endpoint -->
+    <node name="unity_endpoint" pkg="ros_tcp_endpoint" type="default_server_endpoint.py" output="screen">
+        <param name="tcp_ip" type="string" value="0.0.0.0"/>
+        <param name="tcp_port" type="int" value="10000"/>
+    </node>
+
+    <!-- ★★★ Section 2: Per-Drone Support Nodes (Start one for each UAV) ★★★ -->
+    
+    <!-- A* Planner for V_UAV_0 -->
+    <group ns="V_UAV_0">
+        <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
+            <param name="waypoint_distance" value="5.0" />
+            <param name="pose_topic" value="drone_pose" />
+            <param name="goal_topic" value="llm_goal" />
+            <param name="waypoint_topic" value="drone_target" />
+        </node>
+    </group>
+    
+    <!-- A* Planner for V_UAV_1 -->
+    <group ns="V_UAV_1">
+        <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
+            <param name="waypoint_distance" value="7.0" />
+            <param name="pose_topic" value="drone_pose" />
+            <param name="goal_topic" value="llm_goal" />
+            <param name="waypoint_topic" value="drone_target" />
+        </node>
+    </group>
+    
+    <!-- Add more A* planners for other UAVs as needed -->
+    <param name="/planning/inflation_radius" value="1.5" /> <!-- 无人机半径+安全距离，例如0.5m+1.0m -->
+    <!-- ★★★ Section 3: Global Parameters (Load only ONCE) ★★★ -->
+    
+    <!-- Load the shared POI file -->
+    <rosparam command="load" file="$(find nlp_drone_control)/config/points_of_interest.yaml" />
+
+    <!-- Set API keys and other shared configurations -->
+    <param name="/deepseek_api_key" value="sk-037f7a9c11394735a93918fad11eb962" />
+    <param name="/system_prompt_file" value="$(find nlp_drone_control)/config/system_prompt.txt" />
+    <param name="/doubao_api_key" value="7ce853e0-e7b3-4760-9517-c84232e222ce" />
+    <param name="/describe_scene_service" value="/vision_service/describe_scene" />
+
+    <!-- ★★★ Section 4: Launch the Central Commander Node (Start only ONCE) ★★★ -->
+    
+    <node name="llm_fleet_commander" pkg="nlp_drone_control" type="llm_processor_node" output="screen">
+        <!-- CRITICAL: Tell the commander which drones it is responsible for -->
+        <rosparam param="drone_ids" subst_value="True">
+            - V_UAV_0
+            - V_UAV_1
+            <!-- Add more UAV IDs here as needed -->
+            <!-- - V_UAV_2 -->
+        </rosparam>
+        <param name="image_save_base_path" value="/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/images" />
+    </node>
+
+</launch>

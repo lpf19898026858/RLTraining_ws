@@ -1,9 +1,0 @@
-# Request: 指定保存图像的位置和文件名
-string directory_path
-string file_name
----
-# Response: 返回操作结果和保存的完整路径
-bool success
-string message
-string file_path # 新增：返回完整路径，方便客户端（如Unity）确认
-sensor_msgs/Image captured_image  

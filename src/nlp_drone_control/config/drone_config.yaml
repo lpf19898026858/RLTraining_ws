@@ -1,0 +1,343 @@
+behaviors:
+  DroneNavigation:
+    trainer_type: custom_ppo
+    hyperparameters:
+      batch_size: 2048       
+      buffer_size: 20480     
+      learning_rate: 0.0003
+      beta: 0.0001           
+      epsilon: 0.1          
+      lambd: 0.98            
+      num_epoch: 3           
+      learning_rate_schedule: constant
+      beta_schedule: constant
+      epsilon_schedule: constant
+    network_settings:
+      hidden_units: 512      
+      num_layers: 4          
+      normalize: true      
+      memory:
+        memory_size: 256
+        sequence_length: 64
+    reward_signals:
+      extrinsic:
+        gamma: 0.995          
+        strength: 1.0
+      curiosity: 
+        gamma: 0.99
+        strength: 0.02
+    custom_decay_settings:
+        min_learning_rate: 1.0e-5
+        min_beta: 1.0e-4
+        min_epsilon: 0.1
+        min_curiosity_strength: 0.001
+    keep_checkpoints: 5      
+    checkpoint_interval: 50000 
+    max_steps: 8000000       
+    time_horizon: 2048       
+    summary_freq: 50000      
+    threaded: true         
+    
+environment_parameters:
+  target_spawn_range_x:
+    curriculum:
+      # --- STAGE 0: GLOBAL 5.0m ---
+      - name: Stage0_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.00 }
+        value: 5.0
+      - name: Stage0_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.30 }
+        value: 5.0
+      - name: Stage0_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.70 }
+        value: 5.0
+      - name: Stage0_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 7.00 }
+        value: 5.0
+
+      # --- STAGE 1: GLOBAL 15.0m ---
+      - name: Stage1_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.20 }
+        value: 15.0
+      - name: Stage1_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.40 }
+        value: 15.0
+      - name: Stage1_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.60 }
+        value: 15.0
+      - name: Stage1_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.80 }
+        value: 15.0
+
+      # --- STAGE 2: GLOBAL 25.0m ---
+      - name: Stage2_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.00 }
+        value: 25.0
+      - name: Stage2_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.50 }
+        value: 25.0
+      - name: Stage2_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.00 }
+        value: 25.0
+      - name: Stage2_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.50 }
+        value: 25.0
+        
+      # --- STAGE 3: GLOBAL 35.0m ---
+      - name: Stage3_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.00 }
+        value: 35.0
+      - name: Stage3_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.50 }
+        value: 35.0
+      - name: Stage3_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.00 }
+        value: 35.0
+      - name: Stage3_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.50 }
+        value: 35.0
+        
+      # --- STAGE 4: GLOBAL 40.0m ---
+      - name: Stage4_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.00 }
+        value: 40.0
+      - name: Stage4_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.50 }
+        value: 40.0
+      - name: Stage4_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.00 }
+        value: 40.0
+      - name: Stage4_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.50 }
+        value: 40.0
+        
+      # --- STAGE 5: GLOBAL 45.0m ---
+      - name: Stage5_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.00 }
+        value: 45.0
+      - name: Stage5_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.50 }
+        value: 45.0
+      - name: Stage5_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.00 }
+        value: 45.0
+      - name: Stage5_Final_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.50 }
+        value: 45.0
+        
+      # --- STAGE 6: GLOBAL 55.0m ---
+      - name: Stage6_Local1_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 16.00 }
+        value: 55.0
+      - name: Stage6_Local2_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 17.00}
+        value: 55.0
+      - name: Stage6_Local3_x
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 18.00 }
+        value: 55.0
+      - name: Stage6_Final_x
+        completion_criteria: null
+        value: 55.0
+
+  target_spawn_range_z:
+    curriculum:
+      # --- STAGE 0: GLOBAL 5.0m ---
+      - name: Stage0_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.00 }
+        value: 5.0
+      - name: Stage0_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.30 }
+        value: 5.0
+      - name: Stage0_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.70 }
+        value: 5.0
+      - name: Stage0_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 7.00 }
+        value: 5.0
+
+      # --- STAGE 1: GLOBAL 20.0m ---
+      - name: Stage1_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.20 }
+        value: 20.0
+      - name: Stage1_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.40 }
+        value: 20.0
+      - name: Stage1_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.60 }
+        value: 20.0
+      - name: Stage1_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.80 }
+        value: 20.0
+
+      # --- STAGE 2: GLOBAL 35.0m ---
+      - name: Stage2_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.00 }
+        value: 35.0
+      - name: Stage2_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.50 }
+        value: 35.0
+      - name: Stage2_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.00 }
+        value: 35.0
+      - name: Stage2_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.50 }
+        value: 35.0
+
+      # --- STAGE 3: GLOBAL 50.0m ---
+      - name: Stage3_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.00 }
+        value: 50.0
+      - name: Stage3_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.50 }
+        value: 50.0
+      - name: Stage3_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.00 }
+        value: 50.0
+      - name: Stage3_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.50 }
+        value: 50.0
+
+      # --- STAGE 4: GLOBAL 60.0m ---
+      - name: Stage4_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.00 }
+        value: 60.0
+      - name: Stage4_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.50 }
+        value: 60.0
+      - name: Stage4_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.00 }
+        value: 60.0
+      - name: Stage4_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.50 }
+        value: 60.0
+
+      # --- STAGE 5: GLOBAL 65.0m ---
+      - name: Stage5_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.00 }
+        value: 65.0
+      - name: Stage5_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.50 }
+        value: 65.0
+      - name: Stage5_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.00 }
+        value: 65.0
+      - name: Stage5_Final_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.50 }
+        value: 65.0
+
+      # --- STAGE 6: GLOBAL 80.0m ---
+      - name: Stage6_Local1_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 16.00 }
+        value: 80.0
+      - name: Stage6_Local2_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 17.00 }
+        value: 80.0
+      - name: Stage6_Local3_z
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 18.00 }
+        value: 80.0
+      - name: Stage6_Final_z
+        completion_criteria: null
+        value: 80.0
+
+  # =========================================================
+  #                LOCAL CURRICULUM PARAMETER (COMMANDER)
+  # =========================================================
+  local_target_range:
+    curriculum:
+      # --- STAGE 0: Global Range 5x5 ---
+      - name: Stage0_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.00 }
+        value: 5.0
+      - name: Stage0_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.30 }
+        value: 10.0
+      - name: Stage0_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 6.70 }
+        value: 15.0
+      - name: Stage0_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 1500, threshold: 7.00 }
+        value: 20.0
+
+      # --- STAGE 1: Global Range 15x20 ---
+      - name: Stage1_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.20 }
+        value: 5.0
+      - name: Stage1_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.40 }
+        value: 10.0
+      - name: Stage1_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.60 }
+        value: 15.0
+      - name: Stage1_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2000, threshold: 7.80 }
+        value: 20.0
+
+      # --- STAGE 2: Global Range 25x35 ---
+      - name: Stage2_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.00 }
+        value: 5.0
+      - name: Stage2_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 8.50 }
+        value: 10.0
+      - name: Stage2_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.00 }
+        value: 15.0
+      - name: Stage2_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 2500, threshold: 9.50 }
+        value: 20.0
+
+      # --- STAGE 3: Global Range 35x50 ---
+      - name: Stage3_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.00 }
+        value: 5.0
+      - name: Stage3_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 10.50 }
+        value: 10.0
+      - name: Stage3_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.00 }
+        value: 15.0
+      - name: Stage3_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3000, threshold: 11.50 }
+        value: 20.0
+
+      # --- STAGE 4: Global Range 40x60 ---
+      - name: Stage4_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.00 }
+        value: 5.0
+      - name: Stage4_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 12.50 }
+        value: 10.0
+      - name: Stage4_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.00 }
+        value: 15.0
+      - name: Stage4_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 3500, threshold: 13.50 }
+        value: 20.0
+
+      # --- STAGE 5: Global Range 45x65 ---
+      - name: Stage5_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.00 }
+        value: 5.0
+      - name: Stage5_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 14.50 }
+        value: 10.0
+      - name: Stage5_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.00 }
+        value: 15.0
+      - name: Stage5_Final
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4000, threshold: 15.50 }
+        value: 20.0
+
+      # --- STAGE 6: Global Range 55x80 ---
+      - name: Stage6_Local1
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 16.00 }
+        value: 5.0
+      - name: Stage6_Local2
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 16.50 }
+        value: 10.0
+      - name: Stage6_Local3
+        completion_criteria: { measure: reward, behavior: DroneNavigation, signal_smoothing: true, min_lesson_length: 4500, threshold: 17.00 }
+        value: 15.0
+      - name: Stage6_Final
+        completion_criteria: null
+        value: 20.0
