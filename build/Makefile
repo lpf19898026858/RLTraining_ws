@@ -1169,199 +1169,30 @@ custom_msgs_gencpp/fast:
 .PHONY : custom_msgs_gencpp/fast
 
 #=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_eus
+# Target rules for targets named scheduler_node
 
 # Build rule for target.
-tf2_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_eus
-.PHONY : tf2_msgs_generate_messages_eus
+scheduler_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 scheduler_node
+.PHONY : scheduler_node
 
 # fast build rule for target.
-tf2_msgs_generate_messages_eus/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
-.PHONY : tf2_msgs_generate_messages_eus/fast
+scheduler_node/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/scheduler_node.dir/build.make uav_scheduler/CMakeFiles/scheduler_node.dir/build
+.PHONY : scheduler_node/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_generate_messages_py
+# Target rules for targets named uav_scheduler_generate_messages_cpp
 
 # Build rule for target.
-actionlib_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
-.PHONY : actionlib_generate_messages_py
+uav_scheduler_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_cpp
+.PHONY : uav_scheduler_generate_messages_cpp
 
 # fast build rule for target.
-actionlib_generate_messages_py/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named tf_generate_messages_py
-
-# Build rule for target.
-tf_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf_generate_messages_py
-.PHONY : tf_generate_messages_py
-
-# fast build rule for target.
-tf_generate_messages_py/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/build
-.PHONY : tf_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_nodejs
-
-# Build rule for target.
-actionlib_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_eus
-
-# Build rule for target.
-actionlib_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_eus
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_lisp
-
-# Build rule for target.
-tf2_msgs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_lisp
-.PHONY : tf2_msgs_generate_messages_lisp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-.PHONY : tf2_msgs_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named tf_generate_messages_lisp
-
-# Build rule for target.
-tf_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf_generate_messages_lisp
-.PHONY : tf_generate_messages_lisp
-
-# fast build rule for target.
-tf_generate_messages_lisp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/build
-.PHONY : tf_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named actionlib_generate_messages_lisp
-
-# Build rule for target.
-actionlib_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named tf_generate_messages_nodejs
-
-# Build rule for target.
-tf_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf_generate_messages_nodejs
-.PHONY : tf_generate_messages_nodejs
-
-# fast build rule for target.
-tf_generate_messages_nodejs/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/build
-.PHONY : tf_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_nodejs
-
-# Build rule for target.
-tf2_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_nodejs
-.PHONY : tf2_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-tf2_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
-.PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named uav_scheduler_generate_messages
-
-# Build rule for target.
-uav_scheduler_generate_messages: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages
-.PHONY : uav_scheduler_generate_messages
-
-# fast build rule for target.
-uav_scheduler_generate_messages/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build
-.PHONY : uav_scheduler_generate_messages/fast
-
-#=============================================================================
-# Target rules for targets named uav_scheduler_gencpp
-
-# Build rule for target.
-uav_scheduler_gencpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_gencpp
-.PHONY : uav_scheduler_gencpp
-
-# fast build rule for target.
-uav_scheduler_gencpp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build
-.PHONY : uav_scheduler_gencpp/fast
-
-#=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_py
-
-# Build rule for target.
-tf2_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_py
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named uav_scheduler_generate_messages_lisp
-
-# Build rule for target.
-uav_scheduler_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_lisp
-.PHONY : uav_scheduler_generate_messages_lisp
-
-# fast build rule for target.
-uav_scheduler_generate_messages_lisp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build
-.PHONY : uav_scheduler_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named uav_scheduler_genlisp
-
-# Build rule for target.
-uav_scheduler_genlisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_genlisp
-.PHONY : uav_scheduler_genlisp
-
-# fast build rule for target.
-uav_scheduler_genlisp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build
-.PHONY : uav_scheduler_genlisp/fast
+uav_scheduler_generate_messages_cpp/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build
+.PHONY : uav_scheduler_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named _uav_scheduler_generate_messages_check_deps_ComputeAssignment
@@ -1390,32 +1221,6 @@ uav_scheduler_generate_messages_eus/fast:
 .PHONY : uav_scheduler_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named tf2_msgs_generate_messages_cpp
-
-# Build rule for target.
-tf2_msgs_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_cpp
-.PHONY : tf2_msgs_generate_messages_cpp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
-.PHONY : tf2_msgs_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named tf_generate_messages_eus
-
-# Build rule for target.
-tf_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf_generate_messages_eus
-.PHONY : tf_generate_messages_eus
-
-# fast build rule for target.
-tf_generate_messages_eus/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/build
-.PHONY : tf_generate_messages_eus/fast
-
-#=============================================================================
 # Target rules for targets named uav_scheduler_geneus
 
 # Build rule for target.
@@ -1429,56 +1234,69 @@ uav_scheduler_geneus/fast:
 .PHONY : uav_scheduler_geneus/fast
 
 #=============================================================================
-# Target rules for targets named uav_scheduler_gennodejs
+# Target rules for targets named hungarian_solver
 
 # Build rule for target.
-uav_scheduler_gennodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_gennodejs
-.PHONY : uav_scheduler_gennodejs
+hungarian_solver: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hungarian_solver
+.PHONY : hungarian_solver
 
 # fast build rule for target.
-uav_scheduler_gennodejs/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build
-.PHONY : uav_scheduler_gennodejs/fast
+hungarian_solver/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/hungarian_solver.dir/build.make uav_scheduler/CMakeFiles/hungarian_solver.dir/build
+.PHONY : hungarian_solver/fast
 
 #=============================================================================
-# Target rules for targets named actionlib_generate_messages_cpp
+# Target rules for targets named uav_scheduler_generate_messages
 
 # Build rule for target.
-actionlib_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_cpp
-.PHONY : actionlib_generate_messages_cpp
+uav_scheduler_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages
+.PHONY : uav_scheduler_generate_messages
 
 # fast build rule for target.
-actionlib_generate_messages_cpp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/build
-.PHONY : actionlib_generate_messages_cpp/fast
+uav_scheduler_generate_messages/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build
+.PHONY : uav_scheduler_generate_messages/fast
 
 #=============================================================================
-# Target rules for targets named uav_scheduler_generate_messages_cpp
+# Target rules for targets named uav_scheduler_gencpp
 
 # Build rule for target.
-uav_scheduler_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_cpp
-.PHONY : uav_scheduler_generate_messages_cpp
+uav_scheduler_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_gencpp
+.PHONY : uav_scheduler_gencpp
 
 # fast build rule for target.
-uav_scheduler_generate_messages_cpp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build
-.PHONY : uav_scheduler_generate_messages_cpp/fast
+uav_scheduler_gencpp/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build
+.PHONY : uav_scheduler_gencpp/fast
 
 #=============================================================================
-# Target rules for targets named uav_scheduler_generate_messages_py
+# Target rules for targets named uav_scheduler_genlisp
 
 # Build rule for target.
-uav_scheduler_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_py
-.PHONY : uav_scheduler_generate_messages_py
+uav_scheduler_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_genlisp
+.PHONY : uav_scheduler_genlisp
 
 # fast build rule for target.
-uav_scheduler_generate_messages_py/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build
-.PHONY : uav_scheduler_generate_messages_py/fast
+uav_scheduler_genlisp/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build
+.PHONY : uav_scheduler_genlisp/fast
+
+#=============================================================================
+# Target rules for targets named uav_scheduler_generate_messages_lisp
+
+# Build rule for target.
+uav_scheduler_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_lisp
+.PHONY : uav_scheduler_generate_messages_lisp
+
+# fast build rule for target.
+uav_scheduler_generate_messages_lisp/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build
+.PHONY : uav_scheduler_generate_messages_lisp/fast
 
 #=============================================================================
 # Target rules for targets named uav_scheduler_generate_messages_nodejs
@@ -1494,6 +1312,32 @@ uav_scheduler_generate_messages_nodejs/fast:
 .PHONY : uav_scheduler_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named uav_scheduler_gennodejs
+
+# Build rule for target.
+uav_scheduler_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_gennodejs
+.PHONY : uav_scheduler_gennodejs
+
+# fast build rule for target.
+uav_scheduler_gennodejs/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build
+.PHONY : uav_scheduler_gennodejs/fast
+
+#=============================================================================
+# Target rules for targets named uav_scheduler_generate_messages_py
+
+# Build rule for target.
+uav_scheduler_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uav_scheduler_generate_messages_py
+.PHONY : uav_scheduler_generate_messages_py
+
+# fast build rule for target.
+uav_scheduler_generate_messages_py/fast:
+	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build
+.PHONY : uav_scheduler_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named uav_scheduler_genpy
 
 # Build rule for target.
@@ -1505,32 +1349,6 @@ uav_scheduler_genpy: cmake_check_build_system
 uav_scheduler_genpy/fast:
 	$(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/build
 .PHONY : uav_scheduler_genpy/fast
-
-#=============================================================================
-# Target rules for targets named tf_generate_messages_cpp
-
-# Build rule for target.
-tf_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tf_generate_messages_cpp
-.PHONY : tf_generate_messages_cpp
-
-# fast build rule for target.
-tf_generate_messages_cpp/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/build
-.PHONY : tf_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named scheduler_node
-
-# Build rule for target.
-scheduler_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 scheduler_node
-.PHONY : scheduler_node
-
-# fast build rule for target.
-scheduler_node/fast:
-	$(MAKE) -f uav_scheduler/CMakeFiles/scheduler_node.dir/build.make uav_scheduler/CMakeFiles/scheduler_node.dir/build
-.PHONY : scheduler_node/fast
 
 #=============================================================================
 # Target rules for targets named nodelet_generate_messages_cpp
@@ -1871,58 +1689,6 @@ vlm_service_genpy/fast:
 .PHONY : vlm_service_genpy/fast
 
 #=============================================================================
-# Target rules for targets named task_executor_node
-
-# Build rule for target.
-task_executor_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 task_executor_node
-.PHONY : task_executor_node
-
-# fast build rule for target.
-task_executor_node/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/build
-.PHONY : task_executor_node/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_genpy
-
-# Build rule for target.
-nlp_drone_control_genpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_genpy
-.PHONY : nlp_drone_control_genpy
-
-# fast build rule for target.
-nlp_drone_control_genpy/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_genpy.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_genpy.dir/build
-.PHONY : nlp_drone_control_genpy/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_generate_messages
-
-# Build rule for target.
-nlp_drone_control_generate_messages: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages
-.PHONY : nlp_drone_control_generate_messages
-
-# fast build rule for target.
-nlp_drone_control_generate_messages/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages.dir/build
-.PHONY : nlp_drone_control_generate_messages/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_generate_messages_py
-
-# Build rule for target.
-nlp_drone_control_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_py
-.PHONY : nlp_drone_control_generate_messages_py
-
-# fast build rule for target.
-nlp_drone_control_generate_messages_py/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_py.dir/build
-.PHONY : nlp_drone_control_generate_messages_py/fast
-
-#=============================================================================
 # Target rules for targets named _nlp_drone_control_generate_messages_check_deps_Action
 
 # Build rule for target.
@@ -1934,6 +1700,19 @@ _nlp_drone_control_generate_messages_check_deps_Action: cmake_check_build_system
 _nlp_drone_control_generate_messages_check_deps_Action/fast:
 	$(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Action.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_Action.dir/build
 .PHONY : _nlp_drone_control_generate_messages_check_deps_Action/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_py
+
+# Build rule for target.
+actionlib_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_py
+.PHONY : actionlib_generate_messages_py
+
+# fast build rule for target.
+actionlib_generate_messages_py/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_py.dir/build
+.PHONY : actionlib_generate_messages_py/fast
 
 #=============================================================================
 # Target rules for targets named _nlp_drone_control_generate_messages_check_deps_Plan
@@ -1949,95 +1728,56 @@ _nlp_drone_control_generate_messages_check_deps_Plan/fast:
 .PHONY : _nlp_drone_control_generate_messages_check_deps_Plan/fast
 
 #=============================================================================
-# Target rules for targets named _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
+# Target rules for targets named actionlib_generate_messages_nodejs
 
 # Build rule for target.
-_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
-.PHONY : _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
+actionlib_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_nodejs
+.PHONY : actionlib_generate_messages_nodejs
 
 # fast build rule for target.
-_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/build
-.PHONY : _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction/fast
+actionlib_generate_messages_nodejs/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+.PHONY : actionlib_generate_messages_nodejs/fast
 
 #=============================================================================
-# Target rules for targets named llm_planner_node
+# Target rules for targets named actionlib_generate_messages_lisp
 
 # Build rule for target.
-llm_planner_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 llm_planner_node
-.PHONY : llm_planner_node
+actionlib_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_lisp
+.PHONY : actionlib_generate_messages_lisp
 
 # fast build rule for target.
-llm_planner_node/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/build
-.PHONY : llm_planner_node/fast
+actionlib_generate_messages_lisp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
+.PHONY : actionlib_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named nlp_drone_control_geneus
+# Target rules for targets named actionlib_generate_messages_eus
 
 # Build rule for target.
-nlp_drone_control_geneus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_geneus
-.PHONY : nlp_drone_control_geneus
+actionlib_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_eus
+.PHONY : actionlib_generate_messages_eus
 
 # fast build rule for target.
-nlp_drone_control_geneus/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build
-.PHONY : nlp_drone_control_geneus/fast
+actionlib_generate_messages_eus/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
+.PHONY : actionlib_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named nlp_drone_control_gencpp
+# Target rules for targets named tf2_msgs_generate_messages_nodejs
 
 # Build rule for target.
-nlp_drone_control_gencpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_gencpp
-.PHONY : nlp_drone_control_gencpp
+tf2_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_nodejs
+.PHONY : tf2_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-nlp_drone_control_gencpp/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/build
-.PHONY : nlp_drone_control_gencpp/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_generate_messages_eus
-
-# Build rule for target.
-nlp_drone_control_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_eus
-.PHONY : nlp_drone_control_generate_messages_eus
-
-# fast build rule for target.
-nlp_drone_control_generate_messages_eus/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_eus.dir/build
-.PHONY : nlp_drone_control_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_gennodejs
-
-# Build rule for target.
-nlp_drone_control_gennodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_gennodejs
-.PHONY : nlp_drone_control_gennodejs
-
-# fast build rule for target.
-nlp_drone_control_gennodejs/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_gennodejs.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_gennodejs.dir/build
-.PHONY : nlp_drone_control_gennodejs/fast
-
-#=============================================================================
-# Target rules for targets named nlp_drone_control_generate_messages_lisp
-
-# Build rule for target.
-nlp_drone_control_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_lisp
-.PHONY : nlp_drone_control_generate_messages_lisp
-
-# fast build rule for target.
-nlp_drone_control_generate_messages_lisp/fast:
-	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_lisp.dir/build
-.PHONY : nlp_drone_control_generate_messages_lisp/fast
+tf2_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
+.PHONY : tf2_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
 # Target rules for targets named nlp_drone_control_generate_messages_cpp
@@ -2066,6 +1806,58 @@ nlp_drone_control_genlisp/fast:
 .PHONY : nlp_drone_control_genlisp/fast
 
 #=============================================================================
+# Target rules for targets named tf2_msgs_generate_messages_lisp
+
+# Build rule for target.
+tf2_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_lisp
+.PHONY : tf2_msgs_generate_messages_lisp
+
+# fast build rule for target.
+tf2_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
+.PHONY : tf2_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named tf2_msgs_generate_messages_py
+
+# Build rule for target.
+tf2_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_py
+.PHONY : tf2_msgs_generate_messages_py
+
+# fast build rule for target.
+tf2_msgs_generate_messages_py/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
+.PHONY : tf2_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named tf2_msgs_generate_messages_cpp
+
+# Build rule for target.
+tf2_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_cpp
+.PHONY : tf2_msgs_generate_messages_cpp
+
+# fast build rule for target.
+tf2_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
+.PHONY : tf2_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named actionlib_generate_messages_cpp
+
+# Build rule for target.
+actionlib_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 actionlib_generate_messages_cpp
+.PHONY : actionlib_generate_messages_cpp
+
+# fast build rule for target.
+actionlib_generate_messages_cpp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make nlp_drone_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build
+.PHONY : actionlib_generate_messages_cpp/fast
+
+#=============================================================================
 # Target rules for targets named nlp_drone_control_generate_messages_nodejs
 
 # Build rule for target.
@@ -2077,6 +1869,162 @@ nlp_drone_control_generate_messages_nodejs: cmake_check_build_system
 nlp_drone_control_generate_messages_nodejs/fast:
 	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_nodejs.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_nodejs.dir/build
 .PHONY : nlp_drone_control_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_gencpp
+
+# Build rule for target.
+nlp_drone_control_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_gencpp
+.PHONY : nlp_drone_control_gencpp
+
+# fast build rule for target.
+nlp_drone_control_gencpp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_gencpp.dir/build
+.PHONY : nlp_drone_control_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_generate_messages_eus
+
+# Build rule for target.
+nlp_drone_control_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_eus
+.PHONY : nlp_drone_control_generate_messages_eus
+
+# fast build rule for target.
+nlp_drone_control_generate_messages_eus/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_eus.dir/build
+.PHONY : nlp_drone_control_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_geneus
+
+# Build rule for target.
+nlp_drone_control_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_geneus
+.PHONY : nlp_drone_control_geneus
+
+# fast build rule for target.
+nlp_drone_control_geneus/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_geneus.dir/build
+.PHONY : nlp_drone_control_geneus/fast
+
+#=============================================================================
+# Target rules for targets named llm_planner_node
+
+# Build rule for target.
+llm_planner_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 llm_planner_node
+.PHONY : llm_planner_node
+
+# fast build rule for target.
+llm_planner_node/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/llm_planner_node.dir/build.make nlp_drone_control/CMakeFiles/llm_planner_node.dir/build
+.PHONY : llm_planner_node/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_generate_messages
+
+# Build rule for target.
+nlp_drone_control_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages
+.PHONY : nlp_drone_control_generate_messages
+
+# fast build rule for target.
+nlp_drone_control_generate_messages/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages.dir/build
+.PHONY : nlp_drone_control_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_generate_messages_lisp
+
+# Build rule for target.
+nlp_drone_control_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_lisp
+.PHONY : nlp_drone_control_generate_messages_lisp
+
+# fast build rule for target.
+nlp_drone_control_generate_messages_lisp/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_lisp.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_lisp.dir/build
+.PHONY : nlp_drone_control_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_gennodejs
+
+# Build rule for target.
+nlp_drone_control_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_gennodejs
+.PHONY : nlp_drone_control_gennodejs
+
+# fast build rule for target.
+nlp_drone_control_gennodejs/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_gennodejs.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_gennodejs.dir/build
+.PHONY : nlp_drone_control_gennodejs/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_generate_messages_py
+
+# Build rule for target.
+nlp_drone_control_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_generate_messages_py
+.PHONY : nlp_drone_control_generate_messages_py
+
+# fast build rule for target.
+nlp_drone_control_generate_messages_py/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_py.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_generate_messages_py.dir/build
+.PHONY : nlp_drone_control_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named nlp_drone_control_genpy
+
+# Build rule for target.
+nlp_drone_control_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nlp_drone_control_genpy
+.PHONY : nlp_drone_control_genpy
+
+# fast build rule for target.
+nlp_drone_control_genpy/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/nlp_drone_control_genpy.dir/build.make nlp_drone_control/CMakeFiles/nlp_drone_control_genpy.dir/build
+.PHONY : nlp_drone_control_genpy/fast
+
+#=============================================================================
+# Target rules for targets named task_executor_node
+
+# Build rule for target.
+task_executor_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 task_executor_node
+.PHONY : task_executor_node
+
+# fast build rule for target.
+task_executor_node/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/task_executor_node.dir/build.make nlp_drone_control/CMakeFiles/task_executor_node.dir/build
+.PHONY : task_executor_node/fast
+
+#=============================================================================
+# Target rules for targets named tf2_msgs_generate_messages_eus
+
+# Build rule for target.
+tf2_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tf2_msgs_generate_messages_eus
+.PHONY : tf2_msgs_generate_messages_eus
+
+# fast build rule for target.
+tf2_msgs_generate_messages_eus/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make nlp_drone_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
+.PHONY : tf2_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
+
+# Build rule for target.
+_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction
+
+# fast build rule for target.
+_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction/fast:
+	$(MAKE) -f nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/build.make nlp_drone_control/CMakeFiles/_nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction.dir/build
+.PHONY : _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction/fast
 
 #=============================================================================
 # Target rules for targets named cpr
@@ -2181,34 +2129,20 @@ help:
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_nodejs"
 	@echo "... custom_msgs_gencpp"
-	@echo "... tf2_msgs_generate_messages_eus"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... tf_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... tf_generate_messages_lisp"
-	@echo "... actionlib_generate_messages_lisp"
-	@echo "... tf_generate_messages_nodejs"
-	@echo "... tf2_msgs_generate_messages_nodejs"
-	@echo "... uav_scheduler_generate_messages"
-	@echo "... uav_scheduler_gencpp"
-	@echo "... tf2_msgs_generate_messages_py"
-	@echo "... uav_scheduler_generate_messages_lisp"
-	@echo "... uav_scheduler_genlisp"
+	@echo "... scheduler_node"
+	@echo "... uav_scheduler_generate_messages_cpp"
 	@echo "... _uav_scheduler_generate_messages_check_deps_ComputeAssignment"
 	@echo "... uav_scheduler_generate_messages_eus"
-	@echo "... tf2_msgs_generate_messages_cpp"
-	@echo "... tf_generate_messages_eus"
 	@echo "... uav_scheduler_geneus"
-	@echo "... uav_scheduler_gennodejs"
-	@echo "... actionlib_generate_messages_cpp"
-	@echo "... uav_scheduler_generate_messages_cpp"
-	@echo "... uav_scheduler_generate_messages_py"
+	@echo "... hungarian_solver"
+	@echo "... uav_scheduler_generate_messages"
+	@echo "... uav_scheduler_gencpp"
+	@echo "... uav_scheduler_genlisp"
+	@echo "... uav_scheduler_generate_messages_lisp"
 	@echo "... uav_scheduler_generate_messages_nodejs"
+	@echo "... uav_scheduler_gennodejs"
+	@echo "... uav_scheduler_generate_messages_py"
 	@echo "... uav_scheduler_genpy"
-	@echo "... tf_generate_messages_cpp"
-	@echo "... scheduler_node"
 	@echo "... nodelet_generate_messages_cpp"
 	@echo "... bond_generate_messages_py"
 	@echo "... nodelet_generate_messages_eus"
@@ -2235,22 +2169,32 @@ help:
 	@echo "... vlm_service_generate_messages_lisp"
 	@echo "... vlm_service_generate_messages_eus"
 	@echo "... vlm_service_genpy"
-	@echo "... task_executor_node"
-	@echo "... nlp_drone_control_genpy"
-	@echo "... nlp_drone_control_generate_messages"
-	@echo "... nlp_drone_control_generate_messages_py"
 	@echo "... _nlp_drone_control_generate_messages_check_deps_Action"
+	@echo "... actionlib_generate_messages_py"
 	@echo "... _nlp_drone_control_generate_messages_check_deps_Plan"
-	@echo "... _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction"
-	@echo "... llm_planner_node"
-	@echo "... nlp_drone_control_geneus"
-	@echo "... nlp_drone_control_gencpp"
-	@echo "... nlp_drone_control_generate_messages_eus"
-	@echo "... nlp_drone_control_gennodejs"
-	@echo "... nlp_drone_control_generate_messages_lisp"
+	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... actionlib_generate_messages_lisp"
+	@echo "... actionlib_generate_messages_eus"
+	@echo "... tf2_msgs_generate_messages_nodejs"
 	@echo "... nlp_drone_control_generate_messages_cpp"
 	@echo "... nlp_drone_control_genlisp"
+	@echo "... tf2_msgs_generate_messages_lisp"
+	@echo "... tf2_msgs_generate_messages_py"
+	@echo "... tf2_msgs_generate_messages_cpp"
+	@echo "... actionlib_generate_messages_cpp"
 	@echo "... nlp_drone_control_generate_messages_nodejs"
+	@echo "... nlp_drone_control_gencpp"
+	@echo "... nlp_drone_control_generate_messages_eus"
+	@echo "... nlp_drone_control_geneus"
+	@echo "... llm_planner_node"
+	@echo "... nlp_drone_control_generate_messages"
+	@echo "... nlp_drone_control_generate_messages_lisp"
+	@echo "... nlp_drone_control_gennodejs"
+	@echo "... nlp_drone_control_generate_messages_py"
+	@echo "... nlp_drone_control_genpy"
+	@echo "... task_executor_node"
+	@echo "... tf2_msgs_generate_messages_eus"
+	@echo "... _nlp_drone_control_generate_messages_check_deps_ExecuteDroneAction"
 	@echo "... cpr"
 .PHONY : help
 

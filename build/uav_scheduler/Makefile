@@ -80,28 +80,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -134,6 +112,28 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,229 +168,34 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
+uav_scheduler/CMakeFiles/scheduler_node.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/scheduler_node.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/scheduler_node.dir/rule
 
 # Convenience name for target.
-tf2_msgs_generate_messages_eus: uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
+scheduler_node: uav_scheduler/CMakeFiles/scheduler_node.dir/rule
 
-.PHONY : tf2_msgs_generate_messages_eus
+.PHONY : scheduler_node
 
 # fast build rule for target.
-tf2_msgs_generate_messages_eus/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
-.PHONY : tf2_msgs_generate_messages_eus/fast
+scheduler_node/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/scheduler_node.dir/build.make uav_scheduler/CMakeFiles/scheduler_node.dir/build
+.PHONY : scheduler_node/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/rule
+uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-actionlib_generate_messages_py: uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/rule
+uav_scheduler_generate_messages_cpp: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
 
-.PHONY : actionlib_generate_messages_py
+.PHONY : uav_scheduler_generate_messages_cpp
 
 # fast build rule for target.
-actionlib_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_py: uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/rule
-
-.PHONY : tf_generate_messages_py
-
-# fast build rule for target.
-tf_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_py.dir/build
-.PHONY : tf_generate_messages_py/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_nodejs: uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_eus: uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_lisp: uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_lisp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-.PHONY : tf2_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_lisp: uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-.PHONY : tf_generate_messages_lisp
-
-# fast build rule for target.
-tf_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_lisp.dir/build
-.PHONY : tf_generate_messages_lisp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_lisp: uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_nodejs: uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-.PHONY : tf_generate_messages_nodejs
-
-# fast build rule for target.
-tf_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_nodejs.dir/build
-.PHONY : tf_generate_messages_nodejs/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_nodejs: uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-tf2_msgs_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
-.PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
-
-# Convenience name for target.
-uav_scheduler_generate_messages: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
-
-.PHONY : uav_scheduler_generate_messages
-
-# fast build rule for target.
-uav_scheduler_generate_messages/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build
-.PHONY : uav_scheduler_generate_messages/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
-
-# Convenience name for target.
-uav_scheduler_gencpp: uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
-
-.PHONY : uav_scheduler_gencpp
-
-# fast build rule for target.
-uav_scheduler_gencpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build
-.PHONY : uav_scheduler_gencpp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_py: uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-uav_scheduler_generate_messages_lisp: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
-
-.PHONY : uav_scheduler_generate_messages_lisp
-
-# fast build rule for target.
-uav_scheduler_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build
-.PHONY : uav_scheduler_generate_messages_lisp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
-
-# Convenience name for target.
-uav_scheduler_genlisp: uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
-
-.PHONY : uav_scheduler_genlisp
-
-# fast build rule for target.
-uav_scheduler_genlisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build
-.PHONY : uav_scheduler_genlisp/fast
+uav_scheduler_generate_messages_cpp/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build
+.PHONY : uav_scheduler_generate_messages_cpp/fast
 
 # Convenience name for target.
 uav_scheduler/CMakeFiles/_uav_scheduler_generate_messages_check_deps_ComputeAssignment.dir/rule:
@@ -423,36 +228,6 @@ uav_scheduler_generate_messages_eus/fast:
 .PHONY : uav_scheduler_generate_messages_eus/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_cpp: uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_cpp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_cpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
-.PHONY : tf2_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_eus: uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-.PHONY : tf_generate_messages_eus
-
-# fast build rule for target.
-tf_generate_messages_eus/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_eus.dir/build
-.PHONY : tf_generate_messages_eus/fast
-
-# Convenience name for target.
 uav_scheduler/CMakeFiles/uav_scheduler_geneus.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_geneus.dir/rule
 .PHONY : uav_scheduler/CMakeFiles/uav_scheduler_geneus.dir/rule
@@ -468,64 +243,79 @@ uav_scheduler_geneus/fast:
 .PHONY : uav_scheduler_geneus/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
+uav_scheduler/CMakeFiles/hungarian_solver.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/hungarian_solver.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/hungarian_solver.dir/rule
 
 # Convenience name for target.
-uav_scheduler_gennodejs: uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
+hungarian_solver: uav_scheduler/CMakeFiles/hungarian_solver.dir/rule
 
-.PHONY : uav_scheduler_gennodejs
+.PHONY : hungarian_solver
 
 # fast build rule for target.
-uav_scheduler_gennodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build
-.PHONY : uav_scheduler_gennodejs/fast
+hungarian_solver/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/hungarian_solver.dir/build.make uav_scheduler/CMakeFiles/hungarian_solver.dir/build
+.PHONY : hungarian_solver/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
+uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
 
 # Convenience name for target.
-actionlib_generate_messages_cpp: uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
+uav_scheduler_generate_messages: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/rule
 
-.PHONY : actionlib_generate_messages_cpp
+.PHONY : uav_scheduler_generate_messages
 
 # fast build rule for target.
-actionlib_generate_messages_cpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/actionlib_generate_messages_cpp.dir/build
-.PHONY : actionlib_generate_messages_cpp/fast
+uav_scheduler_generate_messages/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages.dir/build
+.PHONY : uav_scheduler_generate_messages/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
+uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
 
 # Convenience name for target.
-uav_scheduler_generate_messages_cpp: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/rule
+uav_scheduler_gencpp: uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/rule
 
-.PHONY : uav_scheduler_generate_messages_cpp
+.PHONY : uav_scheduler_gencpp
 
 # fast build rule for target.
-uav_scheduler_generate_messages_cpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_cpp.dir/build
-.PHONY : uav_scheduler_generate_messages_cpp/fast
+uav_scheduler_gencpp/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gencpp.dir/build
+.PHONY : uav_scheduler_gencpp/fast
 
 # Convenience name for target.
-uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
+uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
 
 # Convenience name for target.
-uav_scheduler_generate_messages_py: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
+uav_scheduler_genlisp: uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/rule
 
-.PHONY : uav_scheduler_generate_messages_py
+.PHONY : uav_scheduler_genlisp
 
 # fast build rule for target.
-uav_scheduler_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build
-.PHONY : uav_scheduler_generate_messages_py/fast
+uav_scheduler_genlisp/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genlisp.dir/build
+.PHONY : uav_scheduler_genlisp/fast
+
+# Convenience name for target.
+uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+uav_scheduler_generate_messages_lisp: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/rule
+
+.PHONY : uav_scheduler_generate_messages_lisp
+
+# fast build rule for target.
+uav_scheduler_generate_messages_lisp/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_lisp.dir/build
+.PHONY : uav_scheduler_generate_messages_lisp/fast
 
 # Convenience name for target.
 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_nodejs.dir/rule:
@@ -543,6 +333,36 @@ uav_scheduler_generate_messages_nodejs/fast:
 .PHONY : uav_scheduler_generate_messages_nodejs/fast
 
 # Convenience name for target.
+uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
+
+# Convenience name for target.
+uav_scheduler_gennodejs: uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/rule
+
+.PHONY : uav_scheduler_gennodejs
+
+# fast build rule for target.
+uav_scheduler_gennodejs/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_gennodejs.dir/build
+.PHONY : uav_scheduler_gennodejs/fast
+
+# Convenience name for target.
+uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
+.PHONY : uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
+
+# Convenience name for target.
+uav_scheduler_generate_messages_py: uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/rule
+
+.PHONY : uav_scheduler_generate_messages_py
+
+# fast build rule for target.
+uav_scheduler_generate_messages_py/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_generate_messages_py.dir/build
+.PHONY : uav_scheduler_generate_messages_py/fast
+
+# Convenience name for target.
 uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/rule
 .PHONY : uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/rule
@@ -557,35 +377,32 @@ uav_scheduler_genpy/fast:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/build.make uav_scheduler/CMakeFiles/uav_scheduler_genpy.dir/build
 .PHONY : uav_scheduler_genpy/fast
 
-# Convenience name for target.
-uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/rule
+src/hungarian_solver.o: src/hungarian_solver.cpp.o
 
-# Convenience name for target.
-tf_generate_messages_cpp: uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/rule
+.PHONY : src/hungarian_solver.o
 
-.PHONY : tf_generate_messages_cpp
+# target to build an object file
+src/hungarian_solver.cpp.o:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/hungarian_solver.dir/build.make uav_scheduler/CMakeFiles/hungarian_solver.dir/src/hungarian_solver.cpp.o
+.PHONY : src/hungarian_solver.cpp.o
 
-# fast build rule for target.
-tf_generate_messages_cpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/build.make uav_scheduler/CMakeFiles/tf_generate_messages_cpp.dir/build
-.PHONY : tf_generate_messages_cpp/fast
+src/hungarian_solver.i: src/hungarian_solver.cpp.i
 
-# Convenience name for target.
-uav_scheduler/CMakeFiles/scheduler_node.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 uav_scheduler/CMakeFiles/scheduler_node.dir/rule
-.PHONY : uav_scheduler/CMakeFiles/scheduler_node.dir/rule
+.PHONY : src/hungarian_solver.i
 
-# Convenience name for target.
-scheduler_node: uav_scheduler/CMakeFiles/scheduler_node.dir/rule
+# target to preprocess a source file
+src/hungarian_solver.cpp.i:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/hungarian_solver.dir/build.make uav_scheduler/CMakeFiles/hungarian_solver.dir/src/hungarian_solver.cpp.i
+.PHONY : src/hungarian_solver.cpp.i
 
-.PHONY : scheduler_node
+src/hungarian_solver.s: src/hungarian_solver.cpp.s
 
-# fast build rule for target.
-scheduler_node/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/scheduler_node.dir/build.make uav_scheduler/CMakeFiles/scheduler_node.dir/build
-.PHONY : scheduler_node/fast
+.PHONY : src/hungarian_solver.s
+
+# target to generate assembly for a file
+src/hungarian_solver.cpp.s:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f uav_scheduler/CMakeFiles/hungarian_solver.dir/build.make uav_scheduler/CMakeFiles/hungarian_solver.dir/src/hungarian_solver.cpp.s
+.PHONY : src/hungarian_solver.cpp.s
 
 src/scheduler_node.o: src/scheduler_node.cpp.o
 
@@ -622,39 +439,28 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... install"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... tf2_msgs_generate_messages_eus"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... tf_generate_messages_py"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... edit_cache"
-	@echo "... tf_generate_messages_lisp"
-	@echo "... actionlib_generate_messages_lisp"
-	@echo "... tf_generate_messages_nodejs"
-	@echo "... tf2_msgs_generate_messages_nodejs"
+	@echo "... scheduler_node"
+	@echo "... uav_scheduler_generate_messages_cpp"
+	@echo "... _uav_scheduler_generate_messages_check_deps_ComputeAssignment"
+	@echo "... test"
+	@echo "... uav_scheduler_generate_messages_eus"
+	@echo "... uav_scheduler_geneus"
+	@echo "... hungarian_solver"
+	@echo "... list_install_components"
 	@echo "... uav_scheduler_generate_messages"
 	@echo "... uav_scheduler_gencpp"
-	@echo "... tf2_msgs_generate_messages_py"
-	@echo "... uav_scheduler_generate_messages_lisp"
 	@echo "... uav_scheduler_genlisp"
-	@echo "... _uav_scheduler_generate_messages_check_deps_ComputeAssignment"
-	@echo "... uav_scheduler_generate_messages_eus"
-	@echo "... test"
-	@echo "... tf2_msgs_generate_messages_cpp"
-	@echo "... tf_generate_messages_eus"
-	@echo "... uav_scheduler_geneus"
-	@echo "... uav_scheduler_gennodejs"
-	@echo "... actionlib_generate_messages_cpp"
-	@echo "... uav_scheduler_generate_messages_cpp"
-	@echo "... uav_scheduler_generate_messages_py"
+	@echo "... uav_scheduler_generate_messages_lisp"
+	@echo "... install"
 	@echo "... uav_scheduler_generate_messages_nodejs"
+	@echo "... uav_scheduler_gennodejs"
+	@echo "... uav_scheduler_generate_messages_py"
 	@echo "... uav_scheduler_genpy"
-	@echo "... tf_generate_messages_cpp"
-	@echo "... scheduler_node"
+	@echo "... src/hungarian_solver.o"
+	@echo "... src/hungarian_solver.i"
+	@echo "... src/hungarian_solver.s"
 	@echo "... src/scheduler_node.o"
 	@echo "... src/scheduler_node.i"
 	@echo "... src/scheduler_node.s"

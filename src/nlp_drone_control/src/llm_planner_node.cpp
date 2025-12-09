@@ -43,7 +43,7 @@ LLMPlannerNode::LLMPlannerNode(ros::NodeHandle& nh) : nh_(nh) {
   run_sub_                 = nh_.subscribe("/nlp_run", 1, &LLMPlannerNode::runCallback, this);
   stop_command_sub_        = nh_.subscribe("/nlp_stop", 1, &LLMPlannerNode::stopCommandCallback, this);
 
-  // Context from executor
+  // [ADDED] Context from executor
   context_text_sub_        = nh_.subscribe("/fleet/context_text", 1, &LLMPlannerNode::contextTextCallback, this);
 context_image_sub_ = nh_.subscribe("/fleet/context_image", 1, &LLMPlannerNode::contextImageCallback, this);
 
@@ -51,7 +51,7 @@ scheduler_client_ = nh_.serviceClient<uav_scheduler::ComputeAssignment>("compute
 list_pois_client_ = nh_.serviceClient<poi_state_server::ListPOIs>("/poi_state_server/list_pois");
 
   // Publishers (same topic names as original for feedback/reasoning)
-  plan_pub_                = nh_.advertise<nlp_drone_control::Plan>("/planner/tool_calls", 10);  
+  plan_pub_                = nh_.advertise<nlp_drone_control::Plan>("/planner/tool_calls", 10);  // [ADDED]
   central_nlp_feedback_pub_= nh_.advertise<std_msgs::String>("/nlp_feedback", 10);
   reasoning_pub_           = nh_.advertise<std_msgs::String>("/nlp_reasoning", 10);
 
@@ -66,6 +66,7 @@ if (!nh_.getParam("/drone_ids", configured_drones_)) {
         ROS_INFO_STREAM(" - " << id);
     }
 }
+
   ROS_INFO("LLM Planner Node is ready.");
 }
 
@@ -152,6 +153,7 @@ void LLMPlannerNode::rereasoningCallback(const std_msgs::Empty::ConstPtr& /*msg*
 }
 
 void LLMPlannerNode::runCallback(const std_msgs::Empty::ConstPtr& /*msg*/) {
+  //ROS_INFO("Run command received from UI.");
   publishFeedback("User confirmed execution. Running tool calls...");
 
   interrupt_llm_request_.store(true);
@@ -208,6 +210,8 @@ bool LLMPlannerNode::streamCallbackForGemini(const std::string& chunk) {
 
     std::string json_str = line.substr(5);
     if (!json_str.empty() && json_str.back() == '\r') json_str.pop_back();
+   // ROS_INFO_STREAM("[SSE raw line] " << json_str);
+    //ROS_INFO_STREAM("[BUFFER SIZE after append] " << stream_buffer_.size());
 
     if (json_str.empty() || json_str == "[DONE]") {
       ROS_INFO_STREAM("[SKIP] Empty or [DONE] marker");
@@ -219,7 +223,10 @@ bool LLMPlannerNode::streamCallbackForGemini(const std::string& chunk) {
         ROS_WARN_STREAM("[WAIT] Incomplete JSON, keep in buffer (len=" << json_str.size() << "): " << json_str.substr(0,200) << "...");
         return true;
       }
+      //ROS_INFO_STREAM("[BUFFER before parse] size=" << stream_buffer_.size());
+
       json response_part = json::parse(json_str);
+      //ROS_INFO_STREAM("[DEBUG response_part] " << response_part.dump(2));
 
       if (!response_part.contains("candidates")) {
         ROS_WARN_STREAM("[SKIP] No candidates field");
@@ -236,6 +243,7 @@ bool LLMPlannerNode::streamCallbackForGemini(const std::string& chunk) {
           continue;
         }
         const auto& content = cand["content"];
+        //ROS_INFO_STREAM("[DEBUG CANDIDATE CONTENT] " << content.dump(2));
 
         if (!content.contains("parts")) {
           ROS_WARN_STREAM("[SKIP] content without parts: " << content.dump(2));
@@ -243,8 +251,11 @@ bool LLMPlannerNode::streamCallbackForGemini(const std::string& chunk) {
         }
 
         const auto& parts = content["parts"];
+        //ROS_INFO_STREAM("[DEBUG parts count] " << parts.size());
 
         for (const auto& part : parts) {
+          //ROS_INFO_STREAM("[DEBUG PART RAW] " << part.dump(2));
+
           if (current_mode == RequestMode::REASONING_ONLY) {
             if (part.contains("text")) {
               std::string text_chunk = part["text"];
@@ -274,6 +285,7 @@ bool LLMPlannerNode::streamCallbackForGemini(const std::string& chunk) {
                 }
 
                 accumulated_tool_calls_.push_back(formatted_tool_call);
+                //ROS_INFO_STREAM("[PUSHED tool call] " << formatted_tool_call.dump(2));
               } catch (const std::exception& e) {
                 ROS_ERROR_STREAM("[ERROR parsing functionCall] " << e.what()
                     << " | Raw part: " << part.dump(2));
@@ -368,148 +380,48 @@ void LLMPlannerNode::executeLlmRequest(std::string command_to_process, RequestMo
   } 
   json request_body;
   request_body["contents"] = gemini_contents;
-if (mode == RequestMode::TOOL_CALLS) {
-  if (chosen_algo_.empty() || chosen_algo_ == "None") {
-    ROS_WARN("[ACTIONS] No scheduler chosen. Attempting to execute direct plan...");
+if (mode == RequestMode::TOOL_CALLS && chosen_algo_.empty()) {
+  ROS_ERROR("[ACTIONS] No chosen algorithm found! Please run reasoning first.");
+  publishFeedback("Error: No chosen algorithm. Please run reasoning first.");
+  return;
+}
 
-    // 1) 拿一下环境里真实存在的 POI 名集合，方便过滤显式分配中的无效条目
-    std::unordered_set<std::string> env_pois;
-    {
-      poi_state_server::ListPOIs poi_srv;
-      if (list_pois_client_.call(poi_srv) && poi_srv.response.success) {
-        for (const auto& p : poi_srv.response.pois) env_pois.insert(p.name);
-      } else {
-        ROS_WARN("[ACTIONS] Failed to query /poi_state_server/list_pois, "
-                 "will not filter user assignments by existence.");
-      }
-    }
-
-    // 2) 优先解析“用户显式分配”
-    auto manual = parseManualAssignments(last_user_command_);
-
-    // 2.1 过滤掉不存在的 POI（只告警，不报错；全部无效再报错）
-    if (!env_pois.empty() && !manual.empty()) {
-      std::vector<std::string> missing;
-      for (auto& kv : manual) {
-        auto& plist = kv.second;
-        plist.erase(std::remove_if(plist.begin(), plist.end(),
-                      [&](const std::string& p){
-                        if (env_pois.count(p)) return false;
-                        missing.push_back(p);
-                        return true;
-                      }), plist.end());
-      }
-      if (!missing.empty()) {
-        std::stringstream ss;
-        ss << "Warning: The following POIs do not exist in the environment: ";
-        for (size_t i = 0; i < missing.size(); ++i) {
-          ss << missing[i] << (i + 1 < missing.size() ? ", " : "");
-        }
-        ROS_WARN_STREAM("[ACTIONS] " << ss.str());
-        publishFeedback(ss.str());
-      }
-      // 如果手动分配里所有 POI 都被过滤没了，manual 可能为空或都是空列表
-      bool has_any = false;
-      for (const auto& kv : manual) if (!kv.second.empty()) { has_any = true; break; }
-      if (!has_any) manual.clear();
-    }
-
-    // 3) 如果有“有效的显式分配”，就直接按它构建 plan
-    if (!manual.empty()) {
-      ROS_INFO("[ACTIONS] User-specified assignments detected. Executing them directly.");
-      std::string plan_text = buildDirectPlanText(manual);
-      last_plan_text_ = plan_text;            // 记下来，便于 UI 查看/缓存
-      auto actions     = convertTextPlanToActions(plan_text);
-      if (actions.empty()) {
-        ROS_ERROR("[ACTIONS] Failed to generate actions from manual plan text.");
-        publishFeedback("Error: Failed to generate actions from user-specified assignments.");
-        return;
-      }
-      nlp_drone_control::Plan plan_msg;
-      plan_msg.replan_mode = 1;
-      plan_msg.actions     = actions;
-      plan_pub_.publish(plan_msg);
-      publishFeedback("Executed user-specified direct assignments.");
-      return;
-    }
-
-    // 4) 否则，使用“简单直连”映射（用 REASONING 阶段保留下来的有效 requested_pois_）
-    if (!requested_pois_.empty()) {
-      auto simple_map = assignTasksByDistance(configured_drones_, requested_pois_);
-      std::string plan_text = buildDirectPlanText(simple_map);
-      last_plan_text_ = plan_text;
-      auto actions     = convertTextPlanToActions(plan_text);
-      if (actions.empty()) {
-        ROS_ERROR("[ACTIONS] Failed to generate actions from simple direct plan.");
-        publishFeedback("Error: No valid direct plan or assignment found.");
-        return;
-      }
-      nlp_drone_control::Plan plan_msg;
-      plan_msg.replan_mode = 1;
-      plan_msg.actions     = actions;
-      plan_pub_.publish(plan_msg);
-      publishFeedback("Direct plan generated (Decision=None). Executing now.");
-      return;
-    }
-
-    // 5) 再不行就看看有没有缓存的计划文本（理论上不会走到）
-    if (!last_plan_text_.empty()) {
-      auto actions = convertTextPlanToActions(last_plan_text_);
-      if (!actions.empty()) {
-        nlp_drone_control::Plan plan_msg;
-        plan_msg.replan_mode = 1;
-        plan_msg.actions     = actions;
-        plan_pub_.publish(plan_msg);
-        publishFeedback("Executing cached plan directly.");
-        return;
-      }
-    }
-
-    // 6) 三无：显式分配没有、有效 POI 没有、缓存计划也没有 -> 中断
-    ROS_ERROR("[ACTIONS] No valid plan found for Decision=None. Aborting.");
-    publishFeedback("Error: No valid direct plan or assignment found.");
-    return;
-  }
-      request_body["toolConfig"] = { {"functionCallingConfig", {{"mode", "ANY"}}} };
+  if (mode == RequestMode::TOOL_CALLS) {
+    request_body["toolConfig"] = { {"functionCallingConfig", {{"mode", "ANY"}}} };
     request_body["tools"] = { getGeminiToolDefinitions() };
     ROS_INFO("[DEBUG EXEC] Added toolConfig + tools to request_body");
-}
+  }
 
   // System instruction
   std::string final_system_prompt;
   if (mode == RequestMode::REASONING_ONLY) {
 final_system_prompt = system_prompt_content_ + "\n" + latest_context_text_ + R"(
-You are a drone fleet scheduling expert with multi-modal reasoning ability.
-You will receive a user instruction and a top-down map image of the environment.
+You are a drone fleet scheduling expert.
 
-Your tasks are:
-1. Analyze the user instruction carefully.
-2. From the map image, identify all visible POIs (buildings, houses, machines, churches, walls, etc.) and their names.
-3. Compare the POIs mentioned in the instruction with those visible in the map.
-   ✅ If any requested POI does not exist in the map, explicitly state that it does not exist.
-   ✅ If some requested POIs exist and others do not, continue the plan ONLY with those that exist, and clearly explain this decision in the reasoning.
-   ✅ If none exist, say that the instruction cannot be executed.
-   Use the visual map to justify your reasoning — describe what you see in the image that supports your conclusion (e.g., "House2 is labeled in the lower-left corner, but House100 is not present anywhere").
-
-4. Based on the valid POIs, decide which scheduling algorithm is most suitable from:
+When given a user instruction:
+1. Always analyze which scheduling algorithm is needed.
+2. Explicitly choose ONE scheduling algorithm from the following list:
    - Hungarian Algorithm
    - Auction Algorithm
    - Genetic Algorithm
    - Distributed Auction Algorithm
-   - None (if no scheduling is required)
-5. Your output MUST strictly follow this format:
+   - None (if tasks are fully pre-assigned, explain why)
+3. Your output MUST strictly follow this format:
 
 Reasoning:
-<step-by-step reasoning here, mentioning which POIs exist or not, and why you chose the algorithm>
+<step-by-step reasoning here>
 
 Decision:
 <Hungarian / Auction / Genetic / Distributed Auction / None>
+
 )";
   } else {
     final_system_prompt = "Translator mode: convert plan into tool calls only.";
   }
   request_body["systemInstruction"] = {{"parts", {{{"text", final_system_prompt}}}}};
   request_body["generationConfig"] = { {"temperature", 0.0} };
+
+  //ROS_INFO_STREAM("[DEBUG EXEC] Final request JSON size=" << request_body.dump().size());
 
 // 模型名改成 gemini-2.0-flash （最新、可用）
 std::string model_name = "gemini-2.0-flash";
@@ -519,12 +431,15 @@ std::string api_endpoint =
     "https://api.zhizengzeng.com/google/v1beta/models/"
     + model_name + ":streamGenerateContent";
 
+//ROS_INFO_STREAM("[DEBUG EXEC] API endpoint: " << api_endpoint);
+
 // === 发送请求 ===
 ROS_INFO("[DEBUG EXEC] Sending request via CPR...");
 cpr::WriteCallback write_callback(
     std::function<bool(const std::string_view&, intptr_t)>(
         [this](const std::string_view& data, intptr_t) -> bool {
             if (interrupt_llm_request_.load()) return false;
+            //ROS_INFO_STREAM("[DEBUG SSE CHUNK] " << data);
             return this->streamCallbackForGemini(std::string(data));
         }
     )
@@ -558,27 +473,7 @@ if (current_mode == RequestMode::REASONING_ONLY) {
 
   // 1) 提取算法决策
 chosen_algo_ = extractDecisionFromReasoning(last_reasoning_text_);
-
-  // === 检查 Reasoning 是否包含“未找到POI”等错误信息 ===
-  std::string lower_reason = last_reasoning_text_;
-  std::transform(lower_reason.begin(), lower_reason.end(), lower_reason.begin(), ::tolower);
-// === [MODIFY] 更智能地处理 "None" 决策 ===
-bool has_missing_poi =
-    (lower_reason.find("does not exist") != std::string::npos ||
-     lower_reason.find("not found") != std::string::npos);
-
-if (has_missing_poi) {
-    ROS_WARN("[LLMPlanner] Some POIs are missing, but will continue with valid ones.");
-    publishFeedback("Warning: Some POIs mentioned do not exist. Continuing with valid ones only.");
-}
-
-if (chosen_algo_ == "None") {
-    // 如果推理明确表示不需要算法（例如任务太简单或用户已指定）
-    ROS_INFO("[LLMPlanner] No scheduling algorithm needed (Decision=None). Proceeding directly.");
-    publishFeedback("Reasoning complete. No scheduling algorithm needed. Proceeding with direct plan.");
-}
-
-// === 从用户命令中提取 POIs，并缓存 ===
+// === [ADD] 从用户命令中提取 POIs，并缓存 ===
 requested_pois_.clear();
 std::regex poi_regex(R"(House\d+|Church|Factory|Tower|Building\d+)",
                      std::regex::icase);  // 使用 C++ 原生大小写不敏感 flag
@@ -590,54 +485,6 @@ auto end = std::sregex_iterator();
 for (auto it = begin; it != end; ++it) {
   std::string poi_name = it->str();
   requested_pois_.push_back(poi_name);
-}
-// === [ADD] 验证提取出的 POI 是否真实存在于环境中 ===
-if (!requested_pois_.empty()) {
-  poi_state_server::ListPOIs poi_srv;
-  std::vector<std::string> valid_pois;
-  std::vector<std::string> missing_pois;
-
-  if (list_pois_client_.call(poi_srv) && poi_srv.response.success) {
-    std::unordered_set<std::string> env_pois;
-    for (const auto& poi : poi_srv.response.pois) {
-      env_pois.insert(poi.name);
-    }
-
-    for (const auto& p : requested_pois_) {
-      if (env_pois.count(p)) {
-        valid_pois.push_back(p);
-      } else {
-        missing_pois.push_back(p);
-      }
-    }
-
-    if (!missing_pois.empty()) {
-      std::stringstream ss;
-      ss << "Warning: The following POIs do not exist in the environment: ";
-      for (size_t i = 0; i < missing_pois.size(); ++i) {
-        ss << missing_pois[i];
-        if (i + 1 < missing_pois.size()) ss << ", ";
-      }
-      ROS_WARN_STREAM("[LLMPlanner] " << ss.str());
-      publishFeedback(ss.str());
-      //chosen_algo_.clear();
-      //return;  // ❌ 中断执行，不进入下一阶段
-    
-        // ✅ 更新有效 POI 列表
-    requested_pois_ = valid_pois;
-      if (requested_pois_.empty()) {
-    ROS_ERROR("[LLMPlanner] All requested POIs are invalid. Aborting reasoning.");
-    publishFeedback("Error: All requested POIs are invalid. Task aborted.");
-    return;  // 只有全部无效才中断
-  } else {
-    ROS_INFO_STREAM("[LLMPlanner] Continuing with valid POIs: " << requested_pois_.size());
-  }
-    }
-
-
-  } else {
-    ROS_WARN("[LLMPlanner] Failed to query /poi_state_server/list_pois, skipping POI validation.");
-  }
 }
 
 publishFeedback("Reasoning complete. Selected algorithm: " + chosen_algo_ +
@@ -671,7 +518,7 @@ publishFeedback("Reasoning complete. Selected algorithm: " + chosen_algo_ +
 
         srv.request.algorithm = chosen_algo_;
 
-        if (scheduler_client_.call(srv)&& srv.response.assignments.empty()) {
+        if (scheduler_client_.call(srv)) {
           ROS_INFO("[ACTIONS] Scheduler assignment done.");
           for (const auto& a : srv.response.assignments) {
             ROS_INFO_STREAM("[ASSIGNMENT] " << a);
@@ -693,19 +540,12 @@ publishFeedback("Reasoning complete. Selected algorithm: " + chosen_algo_ +
     }
     else
     {
-  ROS_WARN("[ACTIONS] Scheduler service failed or returned invalid result. Fallback to local assignment.");
-  auto local_map = assignTasksByDistance(configured_drones_, requested_pois_);
-  std::string plan_text = buildDirectPlanText(local_map);
-  last_plan_text_ = plan_text;
-  auto actions = convertTextPlanToActions(plan_text);
-  nlp_drone_control::Plan plan_msg;
-  plan_msg.replan_mode = 1;
-  plan_msg.actions = actions;
-  plan_pub_.publish(plan_msg);
-  publishFeedback("Fallback plan executed (local assignment).");
+      ROS_ERROR("[ACTIONS] Scheduler service call failed.");
+  publishFeedback("Scheduler service failed. Cannot generate plan.");
   return;
     }
 }
+
  else if (chosen_algo_ == "Auction Algorithm") {
     ROS_INFO("[ACTIONS] Using Auction scheduler...");
     // 调用 auction_scheduler tool
@@ -869,8 +709,6 @@ void LLMPlannerNode::publishReasoning(const std::string& text) {
   std_msgs::String msg; msg.data = text;
   reasoning_pub_.publish(msg);
 }
-
-
 std::vector<nlp_drone_control::Action>
 LLMPlannerNode::convertTextPlanToActions(const std::string& plan_text) {
   std::vector<nlp_drone_control::Action> actions;
@@ -1009,142 +847,4 @@ std::vector<std::string> LLMPlannerNode::extractPOIsFromPlan(const std::string& 
 
   return pois;
 }
-// ---- 解析用户显式分配： V_UAV_<id> inspect <poi> ----
-static std::map<std::string, std::vector<std::string>>
-parseManualAssignments(const std::string& text) {
-  std::map<std::string, std::vector<std::string>> out;
-  std::regex r(R"((V_UAV_\d+)\s+.*?\binspect\b\s+([A-Za-z0-9_]+))",
-               std::regex::icase);
-  auto it  = std::sregex_iterator(text.begin(), text.end(), r);
-  auto end = std::sregex_iterator();
-  for (; it != end; ++it) {
-    std::string drone = it->str(1);
-    std::string poi   = it->str(2);
-    out[drone].push_back(poi);
-  }
-  return out;
-}
-
-// ---- 没有显式分配时的最简单直连规划（轮转分配） ----
-
-static double computeDistance(const geometry_msgs::Pose& a,
-                              const geometry_msgs::Pose& b) {
-  return std::sqrt(std::pow(a.position.x - b.position.x, 2) +
-                   std::pow(a.position.y - b.position.y, 2) +
-                   std::pow(a.position.z - b.position.z, 2));
-}
-
-static std::map<std::string, std::vector<std::string>>
-assignTasksByDistance(const std::vector<std::string>& drones,
-                      const std::vector<std::string>& pois) {
-  std::map<std::string, std::vector<std::string>> assignments;
-  if (drones.empty() || pois.empty()) return assignments;
-
-  ros::NodeHandle nh;
-  tf::TransformListener tf_listener;
-  std::map<std::string, geometry_msgs::Pose> drone_positions;
-  std::map<std::string, geometry_msgs::Pose> poi_positions;
-
-  // --- 获取无人机位置 ---
-  for (const auto& d : drones) {
-    geometry_msgs::PoseStamped pose;
-    try {
-      tf::StampedTransform transform;
-      tf_listener.waitForTransform("world", d + "/base_link",
-                                   ros::Time(0), ros::Duration(1.0));
-      tf_listener.lookupTransform("world", d + "/base_link", ros::Time(0), transform);
-      pose.pose.position.x = transform.getOrigin().x();
-      pose.pose.position.y = transform.getOrigin().y();
-      pose.pose.position.z = transform.getOrigin().z();
-      drone_positions[d] = pose.pose;
-    } catch (tf::TransformException& ex) {
-      ROS_WARN_STREAM("[assignTasks] TF lookup failed for " << d << ": " << ex.what());
-      geometry_msgs::Pose p;
-      p.position.x = p.position.y = p.position.z = 0.0;
-      drone_positions[d] = p;
-    }
-  }
-
-  // --- 获取 POI 位置 ---
-  poi_state_server::ListPOIs poi_srv;
-  if (ros::service::call("/poi_state_server/list_pois", poi_srv) && poi_srv.response.success) {
-    for (const auto& p : poi_srv.response.pois) {
-      geometry_msgs::Pose poi_pose;
-      poi_pose.position.x = p.position.x;
-      poi_pose.position.y = p.position.y;
-      poi_pose.position.z = p.position.z;
-      poi_positions[p.name] = poi_pose;
-    }
-  } else {
-    ROS_WARN("[assignTasks] Failed to get POI positions. Using default 0,0,0.");
-    for (const auto& p : pois) {
-      geometry_msgs::Pose dummy;
-      dummy.position.x = dummy.position.y = dummy.position.z = 0.0;
-      poi_positions[p] = dummy;
-    }
-  }
-
-  // --- 距离矩阵 (drone -> poi) ---
-  struct Candidate {
-    std::string drone;
-    std::string poi;
-    double dist;
-  };
-  std::vector<Candidate> candidates;
-
-  for (const auto& d : drones) {
-    for (const auto& p : pois) {
-      if (poi_positions.count(p))
-        candidates.push_back({d, p, computeDistance(drone_positions[d], poi_positions[p])});
-    }
-  }
-
-  // 按距离升序排序
-  std::sort(candidates.begin(), candidates.end(),
-            [](const Candidate& a, const Candidate& b) { return a.dist < b.dist; });
-
-  std::unordered_set<std::string> assigned_drones;
-  std::unordered_set<std::string> assigned_pois;
-
-  // --- 最近匹配 ---
-  for (const auto& c : candidates) {
-    if (assigned_drones.count(c.drone) || assigned_pois.count(c.poi))
-      continue;  // 已被分配，跳过
-
-    assignments[c.drone].push_back(c.poi);
-    assigned_drones.insert(c.drone);
-    assigned_pois.insert(c.poi);
-
-    ROS_INFO_STREAM("[assignTasks] " << c.drone << " -> " << c.poi << " (dist=" << c.dist << ")");
-  }
-
-  // ✅ 不再给空任务 UAV 生成 plan
-  return assignments;
-}
-
-// ---- 按你执行器认识的格式，生成“可执行步骤文本” ----
-static std::string buildDirectPlanText(
-    const std::map<std::string, std::vector<std::string>>& assignments) {
-  std::stringstream plan_ss;
-  for (const auto& kv : assignments) {
-    const auto& drone = kv.first;
-    const auto& plist = kv.second;
-
-    plan_ss << drone << ":\n";
-    int step = 1;
-    plan_ss << "  " << step++ << ". Take off from the current location.\n";
-    if (plist.empty()) {
-      continue;  // 没任务的不生成任何步骤
-    } else {
-      for (const auto& poi : plist) {
-        plan_ss << "  " << step++ << ". Go to the best approach point for " << poi << ".\n";
-        plan_ss << "  " << step++ << ". Inspect " << poi << ".\n";
-      }
-    }
-    plan_ss << "  " << step++ << ". Return to the launch location.\n";
-    plan_ss << "  " << step++ << ". Land.\n";
-  }
-  return plan_ss.str();
-}
-
 

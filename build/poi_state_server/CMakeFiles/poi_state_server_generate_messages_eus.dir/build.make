@@ -68,24 +68,24 @@ poi_state_server/CMakeFiles/poi_state_server_generate_messages_eus: /home/lpf/do
 
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg/POIInfo.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg/POIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg
-/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg/POIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg/POIInfo.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg/POIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lpf/docker_shared/rltraining_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from poi_state_server/POIInfo.msg"
 	cd /home/lpf/docker_shared/rltraining_ws/build/poi_state_server && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg -Ipoi_state_server:/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p poi_state_server -o /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/msg
 
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg
-/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/GetPOIInfo.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lpf/docker_shared/rltraining_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from poi_state_server/GetPOIInfo.srv"
 	cd /home/lpf/docker_shared/rltraining_ws/build/poi_state_server && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv -Ipoi_state_server:/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p poi_state_server -o /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv
 
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg
-/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv/ListPOIs.l: /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/lpf/docker_shared/rltraining_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from poi_state_server/ListPOIs.srv"
 	cd /home/lpf/docker_shared/rltraining_ws/build/poi_state_server && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv -Ipoi_state_server:/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p poi_state_server -o /home/lpf/docker_shared/rltraining_ws/devel/share/roseus/ros/poi_state_server/srv
 
