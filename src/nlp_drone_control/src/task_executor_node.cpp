@@ -90,7 +90,7 @@ TaskExecutorNode::~TaskExecutorNode() {
 void TaskExecutorNode::plannerPlanCallback(const nlp_drone_control::Plan::ConstPtr& msg) {
   // Convert Plan.msg back to JSON array (compatible with your old dispatchToolCalls)
   json tool_calls = json::array();
-  for (const auto& call : msg->tool_calls) {
+  for (const auto& call : msg->actions) {
     json tc;
     tc["function"]["name"] = call.function_name;
     // arguments_json is a string; keep as string to match old code path

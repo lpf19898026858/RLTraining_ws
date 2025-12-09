@@ -1,10 +1,10 @@
 
 "use strict";
 
+let Action = require('./Action.js');
 let Plan = require('./Plan.js');
-let ToolCall = require('./ToolCall.js');
 
 module.exports = {
+  Action: Action,
   Plan: Plan,
-  ToolCall: ToolCall,
 };

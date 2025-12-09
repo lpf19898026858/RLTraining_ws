@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   poi_state_server   # 加上这一行
    cv_bridge
+   uav_scheduler
 )
 
 add_service_files(
@@ -26,7 +27,7 @@ add_service_files(
 )
 add_message_files(
   FILES
-    ToolCall.msg
+    Action.msg
     Plan.msg
 )
 # 生成消息和服务的依赖

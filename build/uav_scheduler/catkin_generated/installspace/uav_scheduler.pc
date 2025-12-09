@@ -1,0 +1,8 @@
+prefix=/home/lpf/docker_shared/rltraining_ws/install
+
+Name: uav_scheduler
+Description: Description of uav_scheduler
+Version: 0.0.1
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs geometry_msgs message_runtime tf

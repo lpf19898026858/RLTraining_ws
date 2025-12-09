@@ -105,8 +105,8 @@ void v_uav_local_network::init_ros()
     ros::NodeHandle n("~");
     std::string tempString;
 
-    n.getParam("mission_start_pub_topic",tempString);
-    _mission_start_pub_topic = "/"+_object_name+tempString;
+    //n.getParam("mission_start_pub_topic",tempString);
+    //_mission_start_pub_topic = "/"+_object_name+tempString;
 
     n.getParam("current_pose_sub_topic",tempString);
     _current_pose_sub_topic = "/"+_object_name+"/"+_network_name+tempString;
@@ -142,7 +142,7 @@ void v_uav_local_network::init_ros()
     _nlp_reason_sub_topic = tempString; 
 
      _nlp_command_pub=n.advertise<std_msgs::String>(_nlp_command_pub_topic,10);
-     _mission_start_pub = n.advertise<dt_message_package::mission_msg>(_mission_start_pub_topic,1);
+     //_mission_start_pub = n.advertise<dt_message_package::mission_msg>(_mission_start_pub_topic,1);
      _nlp_feedback_sub=n.subscribe(_nlp_feedback_sub_topic,100,&v_uav_local_network::feedbackCallback,this);
      _current_pose_sub = n.subscribe(_current_pose_sub_topic,1,&v_uav_local_network::current_position_sub_cb,this);
      _request_camera_data_sub = n.subscribe(_request_camera_data_sub_topic,1,&v_uav_local_network::camera_request_sub_cb,this);
@@ -194,7 +194,7 @@ v_uav_local_network::~v_uav_local_network()
   delete ui;
 }
 
-void v_uav_local_network::on_v_uav_0_mission_start_button_clicked()
+/*void v_uav_local_network::on_v_uav_0_mission_start_button_clicked()
 {
     bool is_mission = true;
     uint32_t mission_id = ui->v_uav_0_mission_id_edit->text().toInt();
@@ -202,7 +202,7 @@ void v_uav_local_network::on_v_uav_0_mission_start_button_clicked()
     mission_msg.mission_id = mission_id;
     mission_msg.mission_state = is_mission;
    _mission_start_pub.publish(mission_msg);
-}
+}*/
 
 void v_uav_local_network::on_v_uav_0_camera_open_button_clicked()
 {

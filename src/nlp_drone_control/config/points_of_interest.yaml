@@ -467,22 +467,6 @@ points_of_interest:
       x: -41.77
       y: 28.725
       z: 0.662
-- name: Ground
-  description: This is the floor. During flight, be careful not to collide with the bottom surface. When landing, be careful to determine the distance from the ground
-  type: Ground
-  position:
-    x: 2.9989
-    y: -1
-    z: -0.5
-  simplified_boundary:
-    min:
-      x: -47.0011
-      y: 49
-      z: -0.5
-    max:
-      x: 52.9989
-      y: -51
-      z: -0.5
 - name: House1
   description: There is a house.
   type: Buildings

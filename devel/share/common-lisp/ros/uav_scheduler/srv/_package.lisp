@@ -1,0 +1,10 @@
+(cl:defpackage uav_scheduler-srv
+  (:use )
+  (:export
+   "COMPUTEASSIGNMENT"
+   "<COMPUTEASSIGNMENT-REQUEST>"
+   "COMPUTEASSIGNMENT-REQUEST"
+   "<COMPUTEASSIGNMENT-RESPONSE>"
+   "COMPUTEASSIGNMENT-RESPONSE"
+  ))
+

@@ -14,33 +14,33 @@
 
 (defclass nlp_drone_control::Plan
   :super ros::object
-  :slots (_tool_calls _replan_mode ))
+  :slots (_actions _replan_mode ))
 
 (defmethod nlp_drone_control::Plan
   (:init
    (&key
-    ((:tool_calls __tool_calls) ())
+    ((:actions __actions) ())
     ((:replan_mode __replan_mode) 0)
     )
    (send-super :init)
-   (setq _tool_calls __tool_calls)
+   (setq _actions __actions)
    (setq _replan_mode (round __replan_mode))
    self)
-  (:tool_calls
-   (&rest __tool_calls)
-   (if (keywordp (car __tool_calls))
-       (send* _tool_calls __tool_calls)
+  (:actions
+   (&rest __actions)
+   (if (keywordp (car __actions))
+       (send* _actions __actions)
      (progn
-       (if __tool_calls (setq _tool_calls (car __tool_calls)))
-       _tool_calls)))
+       (if __actions (setq _actions (car __actions)))
+       _actions)))
   (:replan_mode
    (&optional __replan_mode)
    (if __replan_mode (setq _replan_mode __replan_mode)) _replan_mode)
   (:serialization-length
    ()
    (+
-    ;; nlp_drone_control/ToolCall[] _tool_calls
-    (apply #'+ (send-all _tool_calls :serialization-length)) 4
+    ;; nlp_drone_control/Action[] _actions
+    (apply #'+ (send-all _actions :serialization-length)) 4
     ;; uint8 _replan_mode
     1
     ))
@@ -48,9 +48,9 @@
    (&optional strm)
    (let ((s (if strm strm
               (make-string-output-stream (send self :serialization-length)))))
-     ;; nlp_drone_control/ToolCall[] _tool_calls
-     (write-long (length _tool_calls) s)
-     (dolist (elem _tool_calls)
+     ;; nlp_drone_control/Action[] _actions
+     (write-long (length _actions) s)
+     (dolist (elem _actions)
        (send elem :serialize s)
        )
      ;; uint8 _replan_mode
@@ -59,11 +59,11 @@
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
    (buf &optional (ptr- 0))
-   ;; nlp_drone_control/ToolCall[] _tool_calls
+   ;; nlp_drone_control/Action[] _actions
    (let (n)
      (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
-     (setq _tool_calls (let (r) (dotimes (i n) (push (instance nlp_drone_control::ToolCall :init) r)) r))
-     (dolist (elem- _tool_calls)
+     (setq _actions (let (r) (dotimes (i n) (push (instance nlp_drone_control::Action :init) r)) r))
+     (dolist (elem- _actions)
      (send elem- :deserialize buf ptr-) (incf ptr- (send elem- :serialization-length))
      ))
    ;; uint8 _replan_mode
@@ -72,16 +72,16 @@
    self)
   )
 
-(setf (get nlp_drone_control::Plan :md5sum-) "6b2a4346febb21fc1800dd9e94fdf8ca")
+(setf (get nlp_drone_control::Plan :md5sum-) "13f0666e18573937822408eb65c6a4cd")
 (setf (get nlp_drone_control::Plan :datatype-) "nlp_drone_control/Plan")
 (setf (get nlp_drone_control::Plan :definition-)
       "# Represents a list of tool calls (a full execution plan)
-nlp_drone_control/ToolCall[] tool_calls
+nlp_drone_control/Action[] actions
 uint8 replan_mode          # 0 = APPEND, 1 = REPLACE
 
 
 ================================================================================
-MSG: nlp_drone_control/ToolCall
+MSG: nlp_drone_control/Action
 # Represents a single tool call produced by the LLM
 string function_name       # e.g. \"takeoff\"
 string arguments_json      # raw JSON string of arguments
@@ -91,6 +91,6 @@ string arguments_json      # raw JSON string of arguments
 
 
 
-(provide :nlp_drone_control/Plan "6b2a4346febb21fc1800dd9e94fdf8ca")
+(provide :nlp_drone_control/Plan "13f0666e18573937822408eb65c6a4cd")
 
 

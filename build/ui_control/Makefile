@@ -68,6 +68,40 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -100,40 +134,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,51 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-ui_control/CMakeFiles/ui_control_node.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/ui_control_node.dir/rule
-.PHONY : ui_control/CMakeFiles/ui_control_node.dir/rule
-
-# Convenience name for target.
-ui_control_node: ui_control/CMakeFiles/ui_control_node.dir/rule
-
-.PHONY : ui_control_node
-
-# fast build rule for target.
-ui_control_node/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/ui_control_node.dir/build.make ui_control/CMakeFiles/ui_control_node.dir/build
-.PHONY : ui_control_node/fast
-
-# Convenience name for target.
-ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/rule
-.PHONY : ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-cloud_common_generate_messages_nodejs: ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/rule
-
-.PHONY : cloud_common_generate_messages_nodejs
-
-# fast build rule for target.
-cloud_common_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/build.make ui_control/CMakeFiles/cloud_common_generate_messages_nodejs.dir/build
-.PHONY : cloud_common_generate_messages_nodejs/fast
-
-# Convenience name for target.
-ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/rule
-.PHONY : ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/rule
-
-# Convenience name for target.
-cloud_common_generate_messages_py: ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/rule
-
-.PHONY : cloud_common_generate_messages_py
-
-# fast build rule for target.
-cloud_common_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/build.make ui_control/CMakeFiles/cloud_common_generate_messages_py.dir/build
-.PHONY : cloud_common_generate_messages_py/fast
-
-# Convenience name for target.
 ui_control/CMakeFiles/nodelet_generate_messages_cpp.dir/rule:
 	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/nodelet_generate_messages_cpp.dir/rule
 .PHONY : ui_control/CMakeFiles/nodelet_generate_messages_cpp.dir/rule
@@ -228,19 +183,19 @@ nodelet_generate_messages_cpp/fast:
 .PHONY : nodelet_generate_messages_cpp/fast
 
 # Convenience name for target.
-ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
-.PHONY : ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
+ui_control/CMakeFiles/bond_generate_messages_py.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
+.PHONY : ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
 
 # Convenience name for target.
-nodelet_generate_messages_nodejs: ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
+bond_generate_messages_py: ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
 
-.PHONY : nodelet_generate_messages_nodejs
+.PHONY : bond_generate_messages_py
 
 # fast build rule for target.
-nodelet_generate_messages_nodejs/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/build.make ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/build
-.PHONY : nodelet_generate_messages_nodejs/fast
+bond_generate_messages_py/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/bond_generate_messages_py.dir/build.make ui_control/CMakeFiles/bond_generate_messages_py.dir/build
+.PHONY : bond_generate_messages_py/fast
 
 # Convenience name for target.
 ui_control/CMakeFiles/nodelet_generate_messages_eus.dir/rule:
@@ -348,64 +303,34 @@ bond_generate_messages_lisp/fast:
 .PHONY : bond_generate_messages_lisp/fast
 
 # Convenience name for target.
-ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/rule
-.PHONY : ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/rule
+ui_control/CMakeFiles/ui_control_node.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/ui_control_node.dir/rule
+.PHONY : ui_control/CMakeFiles/ui_control_node.dir/rule
 
 # Convenience name for target.
-cloud_common_generate_messages_cpp: ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/rule
+ui_control_node: ui_control/CMakeFiles/ui_control_node.dir/rule
 
-.PHONY : cloud_common_generate_messages_cpp
+.PHONY : ui_control_node
 
 # fast build rule for target.
-cloud_common_generate_messages_cpp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/build.make ui_control/CMakeFiles/cloud_common_generate_messages_cpp.dir/build
-.PHONY : cloud_common_generate_messages_cpp/fast
+ui_control_node/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/ui_control_node.dir/build.make ui_control/CMakeFiles/ui_control_node.dir/build
+.PHONY : ui_control_node/fast
 
 # Convenience name for target.
-ui_control/CMakeFiles/bond_generate_messages_py.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
-.PHONY : ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
+ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
+.PHONY : ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-bond_generate_messages_py: ui_control/CMakeFiles/bond_generate_messages_py.dir/rule
+nodelet_generate_messages_nodejs: ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/rule
 
-.PHONY : bond_generate_messages_py
+.PHONY : nodelet_generate_messages_nodejs
 
 # fast build rule for target.
-bond_generate_messages_py/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/bond_generate_messages_py.dir/build.make ui_control/CMakeFiles/bond_generate_messages_py.dir/build
-.PHONY : bond_generate_messages_py/fast
-
-# Convenience name for target.
-ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/rule
-.PHONY : ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-cloud_common_generate_messages_eus: ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/rule
-
-.PHONY : cloud_common_generate_messages_eus
-
-# fast build rule for target.
-cloud_common_generate_messages_eus/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/build.make ui_control/CMakeFiles/cloud_common_generate_messages_eus.dir/build
-.PHONY : cloud_common_generate_messages_eus/fast
-
-# Convenience name for target.
-ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/rule:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/rule
-.PHONY : ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-cloud_common_generate_messages_lisp: ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/rule
-
-.PHONY : cloud_common_generate_messages_lisp
-
-# fast build rule for target.
-cloud_common_generate_messages_lisp/fast:
-	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/build.make ui_control/CMakeFiles/cloud_common_generate_messages_lisp.dir/build
-.PHONY : cloud_common_generate_messages_lisp/fast
+nodelet_generate_messages_nodejs/fast:
+	cd /home/lpf/docker_shared/rltraining_ws/build && $(MAKE) -f ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/build.make ui_control/CMakeFiles/nodelet_generate_messages_nodejs.dir/build
+.PHONY : nodelet_generate_messages_nodejs/fast
 
 # Convenience name for target.
 ui_control/CMakeFiles/ui_control_node_autogen.dir/rule:
@@ -591,14 +516,9 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... test"
-	@echo "... ui_control_node"
-	@echo "... cloud_common_generate_messages_nodejs"
-	@echo "... cloud_common_generate_messages_py"
+	@echo "... install/local"
 	@echo "... nodelet_generate_messages_cpp"
-	@echo "... rebuild_cache"
-	@echo "... edit_cache"
-	@echo "... nodelet_generate_messages_nodejs"
+	@echo "... bond_generate_messages_py"
 	@echo "... nodelet_generate_messages_eus"
 	@echo "... list_install_components"
 	@echo "... bond_generate_messages_nodejs"
@@ -608,11 +528,11 @@ help:
 	@echo "... bond_generate_messages_cpp"
 	@echo "... nodelet_generate_messages_py"
 	@echo "... bond_generate_messages_lisp"
-	@echo "... cloud_common_generate_messages_cpp"
-	@echo "... bond_generate_messages_py"
-	@echo "... cloud_common_generate_messages_eus"
-	@echo "... install/local"
-	@echo "... cloud_common_generate_messages_lisp"
+	@echo "... ui_control_node"
+	@echo "... test"
+	@echo "... rebuild_cache"
+	@echo "... nodelet_generate_messages_nodejs"
+	@echo "... edit_cache"
 	@echo "... ui_control_node_autogen"
 	@echo "... src/log_in.o"
 	@echo "... src/log_in.i"

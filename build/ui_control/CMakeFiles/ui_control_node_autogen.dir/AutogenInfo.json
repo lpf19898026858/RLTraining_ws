@@ -51,8 +51,6 @@
 	"MOC_INCLUDES" : 
 	[
 		"/home/lpf/docker_shared/rltraining_ws/src/ui_control/include",
-		"/home/lpf/docker_shared/catkin_ws_local_server/devel/include",
-		"/home/lpf/docker_shared/catkin_ws_local_server/src/cloud_common/include",
 		"/opt/ros/noetic/include",
 		"/opt/ros/noetic/include/xmlrpcpp",
 		"/home/lpf/docker_shared/rltraining_ws/build/ui_control",

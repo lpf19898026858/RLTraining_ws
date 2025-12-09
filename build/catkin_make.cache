@@ -1,2 +1,2 @@
-astar_planner:custom_msgs:dt_launch:map_generator:nlp_drone_control:poi_state_server:ros_tcp_endpoint:ui_control:vlm_service
+astar_planner:custom_msgs:dt_launch:map_generator:nlp_drone_control:poi_state_server:ros_tcp_endpoint:uav_scheduler:ui_control:vlm_service
 -DCATKIN_DEVEL_PREFIX=/home/lpf/docker_shared/rltraining_ws/devel -DCMAKE_INSTALL_PREFIX=/home/lpf/docker_shared/rltraining_ws/install -G Unix Makefiles

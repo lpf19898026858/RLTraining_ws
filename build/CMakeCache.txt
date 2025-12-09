@@ -578,9 +578,6 @@ catkin_DIR:PATH=/opt/ros/noetic/share/catkin/cmake
 //The directory containing a CMake configuration file for class_loader.
 class_loader_DIR:PATH=/opt/ros/noetic/share/class_loader/cmake
 
-//The directory containing a CMake configuration file for cloud_common.
-cloud_common_DIR:PATH=/home/lpf/docker_shared/catkin_ws_local_server/devel/share/cloud_common/cmake
-
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/noetic/share/cpp_common/cmake
 
@@ -676,7 +673,7 @@ gtest_main_LIB_DEPENDS:STATIC=general;gtest;
 image_transport_DIR:PATH=/opt/ros/noetic/share/image_transport/cmake
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/noetic/lib/libcv_bridge.so
+lib:FILEPATH=/opt/ros/noetic/lib/libtf.so
 
 //Value Computed by CMake
 map_generator_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/map_generator
@@ -785,6 +782,18 @@ tf2_py_DIR:PATH=/opt/ros/noetic/share/tf2_py/cmake
 
 //The directory containing a CMake configuration file for tf2_ros.
 tf2_ros_DIR:PATH=/opt/ros/noetic/share/tf2_ros/cmake
+
+//The directory containing a CMake configuration file for tf.
+tf_DIR:PATH=/opt/ros/noetic/share/tf/cmake
+
+//Value Computed by CMake
+uav_scheduler_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/uav_scheduler
+
+//The directory containing a CMake configuration file for uav_scheduler.
+uav_scheduler_DIR:PATH=/home/lpf/docker_shared/rltraining_ws/devel/share/uav_scheduler/cmake
+
+//Value Computed by CMake
+uav_scheduler_SOURCE_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/src/uav_scheduler
 
 //Value Computed by CMake
 ui_control_BINARY_DIR:STATIC=/home/lpf/docker_shared/rltraining_ws/build/ui_control
@@ -955,7 +964,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=16
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=17
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

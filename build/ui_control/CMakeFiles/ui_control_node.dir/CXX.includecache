@@ -6,22 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/lpf/docker_shared/catkin_ws_local_server/devel/include/dt_message_package/mission_msg.h
-string
--
-vector
--
-map
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-
 /home/lpf/docker_shared/rltraining_ws/build/ui_control/ui_control_node_autogen/UVLADIE3JM/moc_log_in.cpp
 ../../../../src/ui_control/src/log_in.h
 /home/lpf/docker_shared/rltraining_ws/src/ui_control/src/log_in.h
@@ -203,8 +187,6 @@ cv_bridge/cv_bridge.h
 -
 std_msgs/String.h
 -
-dt_message_package/mission_msg.h
-/home/lpf/docker_shared/rltraining_ws/src/ui_control/src/dt_message_package/mission_msg.h
 QScrollBar
 -
 std_msgs/Empty.h

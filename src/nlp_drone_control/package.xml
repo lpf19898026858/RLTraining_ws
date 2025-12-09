@@ -65,6 +65,10 @@
   <depend>cv_bridge</depend>
   <depend>image_transport</depend>
   <depend>opencv3</depend>
+  <!-- 声明依赖 uav_scheduler 功能包 -->
+<build_depend>uav_scheduler</build_depend>
+<exec_depend>uav_scheduler</exec_depend>
+
   <!-- 在这里或其他地方添加下面的行 -->
   <!-- The export tag contains other, unspecified, tags -->
   <export>

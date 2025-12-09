@@ -28,8 +28,6 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "ui_control/ui_control_node_autogen/include"
   "/home/lpf/docker_shared/rltraining_ws/src/ui_control/include"
-  "/home/lpf/docker_shared/catkin_ws_local_server/devel/include"
-  "/home/lpf/docker_shared/catkin_ws_local_server/src/cloud_common/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "ui_control"

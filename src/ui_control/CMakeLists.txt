@@ -6,7 +6,7 @@ add_compile_options(-std=c++11)
 # Find Packages
 ##############################################################################
 find_package(catkin REQUIRED COMPONENTS 
-  roscpp nodelet sensor_msgs cv_bridge cloud_common)
+  roscpp nodelet sensor_msgs cv_bridge)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui)
 find_package(OpenCV REQUIRED)
 

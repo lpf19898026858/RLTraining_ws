@@ -1,6 +1,6 @@
 (cl:in-package nlp_drone_control-msg)
-(cl:export '(TOOL_CALLS-VAL
-          TOOL_CALLS
+(cl:export '(ACTIONS-VAL
+          ACTIONS
           REPLAN_MODE-VAL
           REPLAN_MODE
 ))

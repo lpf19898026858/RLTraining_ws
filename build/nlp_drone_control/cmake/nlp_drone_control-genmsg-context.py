@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/ToolCall.msg;/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/Plan.msg"
+messages_str = "/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/Action.msg;/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/msg/Plan.msg"
 services_str = "/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/srv/ExecuteDroneAction.srv"
 pkg_name = "nlp_drone_control"
 dependencies_str = "std_msgs;geometry_msgs"

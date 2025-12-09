@@ -15,7 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
-#include <nlp_drone_control/ToolCall.h>
+#include <nlp_drone_control/Action.h>
 
 namespace nlp_drone_control
 {
@@ -25,19 +25,19 @@ struct Plan_
   typedef Plan_<ContainerAllocator> Type;
 
   Plan_()
-    : tool_calls()
+    : actions()
     , replan_mode(0)  {
     }
   Plan_(const ContainerAllocator& _alloc)
-    : tool_calls(_alloc)
+    : actions(_alloc)
     , replan_mode(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef std::vector< ::nlp_drone_control::ToolCall_<ContainerAllocator> , typename ContainerAllocator::template rebind< ::nlp_drone_control::ToolCall_<ContainerAllocator> >::other >  _tool_calls_type;
-  _tool_calls_type tool_calls;
+   typedef std::vector< ::nlp_drone_control::Action_<ContainerAllocator> , typename ContainerAllocator::template rebind< ::nlp_drone_control::Action_<ContainerAllocator> >::other >  _actions_type;
+  _actions_type actions;
 
    typedef uint8_t _replan_mode_type;
   _replan_mode_type replan_mode;
@@ -71,7 +71,7 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::nlp_drone_control::Plan_<ContainerAllocator1> & lhs, const ::nlp_drone_control::Plan_<ContainerAllocator2> & rhs)
 {
-  return lhs.tool_calls == rhs.tool_calls &&
+  return lhs.actions == rhs.actions &&
     lhs.replan_mode == rhs.replan_mode;
 }
 
@@ -129,12 +129,12 @@ struct MD5Sum< ::nlp_drone_control::Plan_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "6b2a4346febb21fc1800dd9e94fdf8ca";
+    return "13f0666e18573937822408eb65c6a4cd";
   }
 
   static const char* value(const ::nlp_drone_control::Plan_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x6b2a4346febb21fcULL;
-  static const uint64_t static_value2 = 0x1800dd9e94fdf8caULL;
+  static const uint64_t static_value1 = 0x13f0666e18573937ULL;
+  static const uint64_t static_value2 = 0x822408eb65c6a4cdULL;
 };
 
 template<class ContainerAllocator>
@@ -154,12 +154,12 @@ struct Definition< ::nlp_drone_control::Plan_<ContainerAllocator> >
   static const char* value()
   {
     return "# Represents a list of tool calls (a full execution plan)\n"
-"nlp_drone_control/ToolCall[] tool_calls\n"
+"nlp_drone_control/Action[] actions\n"
 "uint8 replan_mode          # 0 = APPEND, 1 = REPLACE\n"
 "\n"
 "\n"
 "================================================================================\n"
-"MSG: nlp_drone_control/ToolCall\n"
+"MSG: nlp_drone_control/Action\n"
 "# Represents a single tool call produced by the LLM\n"
 "string function_name       # e.g. \"takeoff\"\n"
 "string arguments_json      # raw JSON string of arguments\n"
@@ -182,7 +182,7 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.tool_calls);
+      stream.next(m.actions);
       stream.next(m.replan_mode);
     }
 
@@ -202,13 +202,13 @@ struct Printer< ::nlp_drone_control::Plan_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::nlp_drone_control::Plan_<ContainerAllocator>& v)
   {
-    s << indent << "tool_calls[]" << std::endl;
-    for (size_t i = 0; i < v.tool_calls.size(); ++i)
+    s << indent << "actions[]" << std::endl;
+    for (size_t i = 0; i < v.actions.size(); ++i)
     {
-      s << indent << "  tool_calls[" << i << "]: ";
+      s << indent << "  actions[" << i << "]: ";
       s << std::endl;
       s << indent;
-      Printer< ::nlp_drone_control::ToolCall_<ContainerAllocator> >::stream(s, indent + "    ", v.tool_calls[i]);
+      Printer< ::nlp_drone_control::Action_<ContainerAllocator> >::stream(s, indent + "    ", v.actions[i]);
     }
     s << indent << "replan_mode: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.replan_mode);

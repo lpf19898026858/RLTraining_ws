@@ -13,10 +13,11 @@
 
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
-
+#include <tf/transform_listener.h>
 #include "nlp_drone_control/common_types.h"
 #include "nlp_drone_control/Plan.h"
-#include "nlp_drone_control/ToolCall.h"
+#include "nlp_drone_control/Action.h"
+#include <uav_scheduler/ComputeAssignment.h>
 
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
@@ -25,7 +26,22 @@
 #include <iterator>
 #include <boost/archive/iterators/base64_from_binary.hpp>
 #include <boost/archive/iterators/transform_width.hpp>
+
+#include "poi_state_server/ListPOIs.h"
+#include <unordered_set>
+#include <unordered_map>
+
 using json = nlohmann::json;
+// === forward declarations for helper functions ===
+static std::map<std::string, std::vector<std::string>>
+parseManualAssignments(const std::string& text);
+
+static std::map<std::string, std::vector<std::string>>
+assignTasksByDistance(const std::vector<std::string>& drones,
+                      const std::vector<std::string>& pois);
+
+static std::string
+buildDirectPlanText(const std::map<std::string, std::vector<std::string>>& assignments);
 
 /**
  * @brief Planner node: Handles LLM reasoning and tool call translation,
@@ -53,6 +69,7 @@ private:
     std::string last_reasoning_text_;
     std::string last_plan_text_;
     std::atomic<bool> has_cached_plan_{false};
+std::string chosen_algo_;
 
     // === LLM Streaming State ===
     std::string stream_buffer_;          ///< SSE data buffer
@@ -92,6 +109,11 @@ private:
     std::string latest_context_text_;
     sensor_msgs::Image latest_context_image_;
 
+ros::ServiceClient scheduler_client_;
+// 类成员变量（在 llm_planner_node.h 中添加）
+std::vector<std::string> configured_drones_;
+ros::ServiceClient list_pois_client_;
+std::vector<std::string> requested_pois_;
 
     // === Callbacks ===
     void centralNlpCommandCallback(const std_msgs::String::ConstPtr& msg);
@@ -112,5 +134,8 @@ private:
     std::string extractPlanFromReasoning(const std::string& md);
     json getGeminiToolDefinitions();
     void processingLoop(); ///< preserved from original (optional replan loop)
+     std::vector<nlp_drone_control::Action> convertTextPlanToActions(const std::string& plan_text);
+std::string extractDecisionFromReasoning(const std::string& md);
+std::vector<std::string> extractPOIsFromPlan(const std::string& plan_text);
 };
 

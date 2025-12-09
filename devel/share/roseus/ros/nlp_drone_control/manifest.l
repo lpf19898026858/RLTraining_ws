@@ -18,5 +18,6 @@
 (ros::load-ros-package "tf")
 (ros::load-ros-package "tf2_msgs")
 (ros::load-ros-package "topic_tools")
+(ros::load-ros-package "uav_scheduler")
 (ros::load-ros-package "vlm_service")
 (ros::load-ros-package "nlp_drone_control")

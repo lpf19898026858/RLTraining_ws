@@ -1,0 +1,9 @@
+# 输入
+string algorithm              # "hungarian", "auction", "genetic", "distributed_auction"
+string[] drones
+string[] pois
+---
+# 输出
+string[] assignments          # 匹配结果，例如 V_UAV_0->House1
+string plan_text              # 任务动作文本
+

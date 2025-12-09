@@ -49,7 +49,7 @@ limitations under the License.
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <std_msgs/String.h>
-#include "dt_message_package/mission_msg.h"
+//#include "dt_message_package/mission_msg.h"
 #include <QScrollBar> 
 #include <std_msgs/Empty.h> 
 
@@ -82,7 +82,7 @@ Q_SIGNALS:
 void newReasoningReceived(const QString &text); // ++ 新增：用于接收思考过程的信号
 public Q_SLOTS:
 
-  void on_v_uav_0_mission_start_button_clicked();
+  //void on_v_uav_0_mission_start_button_clicked();
 
   void on_v_uav_0_camera_open_button_clicked();
 
@@ -110,8 +110,8 @@ void updateReasoningDisplay(const QString &text); // 用于更新思考过程的
 private:
   Ui::v_uav_local_network *ui;
 
-  std::string _mission_start_pub_topic;
-  ros::Publisher _mission_start_pub;
+  //std::string _mission_start_pub_topic;
+  //ros::Publisher _mission_start_pub;
 
   std::string _current_pose_sub_topic;
   ros::Subscriber _current_pose_sub;

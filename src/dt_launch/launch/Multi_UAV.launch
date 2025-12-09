@@ -34,7 +34,9 @@
     <node pkg="poi_state_server" type="poi_state_server_node" name="poi_state_server" output="screen">
         <param name="poi_file" value="$(find nlp_drone_control)/config/points_of_interest.yaml"/>
     </node>
-    
+        <!-- Hungarian Scheduler Node -->
+    <node name="scheduler_node" pkg="uav_scheduler" type="scheduler_node" output="screen"/>
+
     <!-- ★★★ Section 2: Per-Drone Support Nodes (Start one for each UAV) ★★★ -->
     
     <!-- A* Planner for V_UAV_0 -->
@@ -70,7 +72,13 @@
     <param name="/doubao_api_key" value="sk-zk2c3a12508a3f9897f863156c027eadcee68ca63f4ad778" />
     <param name="/describe_scene_service" value="/vision_service/describe_scene" />
     <param name="overview_image_path" value="$(find nlp_drone_control)/config/overview.png"/>
-
+        <rosparam param="drone_ids" subst_value="True">
+            - V_UAV_0
+            - V_UAV_1
+            <!-- Add more UAV IDs here as needed -->
+            <!-- - V_UAV_2 -->
+        </rosparam>        
+        
     <!-- ★★★ Section 4: Launch the Central Commander Node (Start only ONCE) ★★★ -->
     <node name="task_executor_node" pkg="nlp_drone_control" type="task_executor_node" output="screen">
         <!-- CRITICAL: Tell the commander which drones it is responsible for -->

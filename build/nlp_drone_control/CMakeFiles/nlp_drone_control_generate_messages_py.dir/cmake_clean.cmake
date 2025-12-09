@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
+  "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/msg/_Action.py"
   "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/msg/_Plan.py"
-  "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/msg/_ToolCall.py"
   "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/msg/__init__.py"
   "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/srv/_ExecuteDroneAction.py"
   "/home/lpf/docker_shared/rltraining_ws/devel/lib/python3/dist-packages/nlp_drone_control/srv/__init__.py"

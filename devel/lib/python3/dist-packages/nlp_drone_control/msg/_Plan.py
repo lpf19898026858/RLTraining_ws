@@ -9,23 +9,23 @@ import struct
 import nlp_drone_control.msg
 
 class Plan(genpy.Message):
-  _md5sum = "6b2a4346febb21fc1800dd9e94fdf8ca"
+  _md5sum = "13f0666e18573937822408eb65c6a4cd"
   _type = "nlp_drone_control/Plan"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# Represents a list of tool calls (a full execution plan)
-nlp_drone_control/ToolCall[] tool_calls
+nlp_drone_control/Action[] actions
 uint8 replan_mode          # 0 = APPEND, 1 = REPLACE
 
 
 ================================================================================
-MSG: nlp_drone_control/ToolCall
+MSG: nlp_drone_control/Action
 # Represents a single tool call produced by the LLM
 string function_name       # e.g. "takeoff"
 string arguments_json      # raw JSON string of arguments
 
 """
-  __slots__ = ['tool_calls','replan_mode']
-  _slot_types = ['nlp_drone_control/ToolCall[]','uint8']
+  __slots__ = ['actions','replan_mode']
+  _slot_types = ['nlp_drone_control/Action[]','uint8']
 
   def __init__(self, *args, **kwds):
     """
@@ -35,7 +35,7 @@ string arguments_json      # raw JSON string of arguments
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       tool_calls,replan_mode
+       actions,replan_mode
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -44,12 +44,12 @@ string arguments_json      # raw JSON string of arguments
     if args or kwds:
       super(Plan, self).__init__(*args, **kwds)
       # message fields cannot be None, assign default values for those that are
-      if self.tool_calls is None:
-        self.tool_calls = []
+      if self.actions is None:
+        self.actions = []
       if self.replan_mode is None:
         self.replan_mode = 0
     else:
-      self.tool_calls = []
+      self.actions = []
       self.replan_mode = 0
 
   def _get_types(self):
@@ -64,9 +64,9 @@ string arguments_json      # raw JSON string of arguments
     :param buff: buffer, ``StringIO``
     """
     try:
-      length = len(self.tool_calls)
+      length = len(self.actions)
       buff.write(_struct_I.pack(length))
-      for val1 in self.tool_calls:
+      for val1 in self.actions:
         _x = val1.function_name
         length = len(_x)
         if python3 or type(_x) == unicode:
@@ -92,15 +92,15 @@ string arguments_json      # raw JSON string of arguments
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
-      if self.tool_calls is None:
-        self.tool_calls = None
+      if self.actions is None:
+        self.actions = None
       end = 0
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
-      self.tool_calls = []
+      self.actions = []
       for i in range(0, length):
-        val1 = nlp_drone_control.msg.ToolCall()
+        val1 = nlp_drone_control.msg.Action()
         start = end
         end += 4
         (length,) = _struct_I.unpack(str[start:end])
@@ -119,7 +119,7 @@ string arguments_json      # raw JSON string of arguments
           val1.arguments_json = str[start:end].decode('utf-8', 'rosmsg')
         else:
           val1.arguments_json = str[start:end]
-        self.tool_calls.append(val1)
+        self.actions.append(val1)
       start = end
       end += 1
       (self.replan_mode,) = _get_struct_B().unpack(str[start:end])
@@ -135,9 +135,9 @@ string arguments_json      # raw JSON string of arguments
     :param numpy: numpy python module
     """
     try:
-      length = len(self.tool_calls)
+      length = len(self.actions)
       buff.write(_struct_I.pack(length))
-      for val1 in self.tool_calls:
+      for val1 in self.actions:
         _x = val1.function_name
         length = len(_x)
         if python3 or type(_x) == unicode:
@@ -164,15 +164,15 @@ string arguments_json      # raw JSON string of arguments
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
-      if self.tool_calls is None:
-        self.tool_calls = None
+      if self.actions is None:
+        self.actions = None
       end = 0
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
-      self.tool_calls = []
+      self.actions = []
       for i in range(0, length):
-        val1 = nlp_drone_control.msg.ToolCall()
+        val1 = nlp_drone_control.msg.Action()
         start = end
         end += 4
         (length,) = _struct_I.unpack(str[start:end])
@@ -191,7 +191,7 @@ string arguments_json      # raw JSON string of arguments
           val1.arguments_json = str[start:end].decode('utf-8', 'rosmsg')
         else:
           val1.arguments_json = str[start:end]
-        self.tool_calls.append(val1)
+        self.actions.append(val1)
       start = end
       end += 1
       (self.replan_mode,) = _get_struct_B().unpack(str[start:end])

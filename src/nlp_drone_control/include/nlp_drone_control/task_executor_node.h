@@ -33,7 +33,7 @@ using json = nlohmann::json;
 #include "vlm_service/CaptureImage.h"
 
 #include "nlp_drone_control/Plan.h"
-#include "nlp_drone_control/ToolCall.h"
+#include "nlp_drone_control/Action.h"
 #include "nlp_drone_control/common_types.h"
 #include "poi_state_server/ListPOIs.h"
 #include "poi_state_server/GetPOIInfo.h"
