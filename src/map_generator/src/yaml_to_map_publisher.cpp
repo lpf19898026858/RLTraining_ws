@@ -7,7 +7,6 @@
 #include <cmath>
 #include <algorithm>
 
-// 为了方便，定义一个简单的Point和Boundary结构体
 struct Point3D { double x, y, z; };
 struct Boundary { Point3D min; Point3D max; };
 
@@ -53,11 +52,11 @@ bool loadAndPublishMap() {
 
     bool walls_found = false;
     for (const auto& poi : pois) {
-        // ******** 这是修改的核心 ********
+
         // 只关心 type 为 "Wall" 的对象来确定边界
         if (poi["type"].as<std::string>() == "Wall" && poi["simplified_boundary"]) {
             walls_found = true;
-            
+            ROS_INFO("Only Focus on type is Wall");
             // 更新世界坐标的极值
             world_min_x = std::min(world_min_x, poi["simplified_boundary"]["min"]["x"].as<double>());
             world_max_x = std::max(world_max_x, poi["simplified_boundary"]["max"]["x"].as<double>());
@@ -102,7 +101,7 @@ bool loadAndPublishMap() {
     // --- d. "绘制"障碍物---
     for (const auto& poi : pois) {
         std::string type = poi["type"].as<std::string>();
-
+	ROS_INFO("Draw Obstacles");
         // 跳过UAV和Ground
         if (type == "UAV" || type == "Ground" || !poi["simplified_boundary"]) {
             continue;

@@ -46,8 +46,8 @@
    <widget class="QLabel" name="v_uav_0_label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
+      <x>870</x>
+      <y>50</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -68,8 +68,8 @@
    <widget class="QLabel" name="v_uav_0_current_position_label">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>40</y>
+      <x>740</x>
+      <y>140</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -159,9 +159,9 @@
    <widget class="QLineEdit" name="v_uav_0_ref_nlp_command">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>80</y>
-      <width>501</width>
+      <x>40</x>
+      <y>60</y>
+      <width>531</width>
       <height>22</height>
      </rect>
     </property>
@@ -170,7 +170,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>80</y>
+      <y>60</y>
       <width>80</width>
       <height>22</height>
      </rect>
@@ -182,31 +182,18 @@
    <widget class="QPlainTextEdit" name="feedback_text_edit">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>120</y>
-      <width>611</width>
-      <height>311</height>
+      <x>290</x>
+      <y>110</y>
+      <width>391</width>
+      <height>271</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="v_uav_0_current_position_label_2">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>20</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Current Position&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="v_uav_0_mission_id_label_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>90</y>
+      <x>710</x>
+      <y>190</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -218,8 +205,8 @@
    <widget class="QLabel" name="v_uav_0_mission_id_label_3">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>120</y>
+      <x>710</x>
+      <y>220</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -231,8 +218,8 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_2">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>90</y>
+      <x>800</x>
+      <y>190</y>
       <width>81</width>
       <height>22</height>
      </rect>
@@ -244,8 +231,8 @@
    <widget class="QLabel" name="v_uav_0_mission_id_label_4">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>150</y>
+      <x>710</x>
+      <y>250</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -257,8 +244,8 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_3">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>120</y>
+      <x>800</x>
+      <y>220</y>
       <width>81</width>
       <height>22</height>
      </rect>
@@ -270,14 +257,63 @@
    <widget class="QLineEdit" name="v_uav_0_mission_id_edit_4">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>150</y>
+      <x>800</x>
+      <y>250</y>
       <width>81</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
      <string>0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="v_uav_0_stop_command_button">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>60</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="reasoning_text_edit">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>110</y>
+      <width>231</width>
+      <height>271</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clear_reasoning_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>390</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clear_feedback_button">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>390</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
     </property>
    </widget>
   </widget>

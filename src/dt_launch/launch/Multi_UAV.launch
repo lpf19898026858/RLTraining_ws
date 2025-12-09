@@ -8,7 +8,7 @@
     <!-- Map Generation and Publishing -->
     <node pkg="map_generator" type="yaml_to_map_publisher_node" name="yaml_to_map_publisher" output="screen">
         <param name="yaml_file_path" value="$(find nlp_drone_control)/config/points_of_interest.yaml"/>
-        <param name="resolution" value="0.1"/>
+        <param name="resolution" value="1.0"/>
         <param name="frame_id" value="map"/>
         <param name="map_topic" value="/map"/>
     </node>

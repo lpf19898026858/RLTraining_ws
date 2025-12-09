@@ -13,6 +13,8 @@
       <param name="request_camera_data_sub_topic" value="/camera/request_data"/>
       <param name="nlp_command_pub_topic" value="/nlp_command"/>
       <param name="nlp_feedback_sub_topic" value="/nlp_feedback"/>
+      <param name="nlp_stop_pub_topic" value="/nlp_stop"/>
+      <param name="nlp_reason_sub_topic" value="/nlp_reasoning"/>
   </node>
 </launch>
 

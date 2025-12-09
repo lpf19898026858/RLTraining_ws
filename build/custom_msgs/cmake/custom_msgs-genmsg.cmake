@@ -24,7 +24,7 @@ add_custom_target(_custom_msgs_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv" NAME_WE)
 add_custom_target(_custom_msgs_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "custom_msgs" "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv" "geometry_msgs/Point:geometry_msgs/Pose:geometry_msgs/Quaternion"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "custom_msgs" "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv" "geometry_msgs/Pose:geometry_msgs/Quaternion:geometry_msgs/Point"
 )
 
 get_filename_component(_filename "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/UpdateCurriculum.srv" NAME_WE)
@@ -49,7 +49,7 @@ _generate_msg_cpp(custom_msgs
 _generate_srv_cpp(custom_msgs
   "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/custom_msgs
 )
 _generate_srv_cpp(custom_msgs
@@ -98,7 +98,7 @@ _generate_msg_eus(custom_msgs
 _generate_srv_eus(custom_msgs
   "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/custom_msgs
 )
 _generate_srv_eus(custom_msgs
@@ -147,7 +147,7 @@ _generate_msg_lisp(custom_msgs
 _generate_srv_lisp(custom_msgs
   "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/custom_msgs
 )
 _generate_srv_lisp(custom_msgs
@@ -196,7 +196,7 @@ _generate_msg_nodejs(custom_msgs
 _generate_srv_nodejs(custom_msgs
   "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/custom_msgs
 )
 _generate_srv_nodejs(custom_msgs
@@ -245,7 +245,7 @@ _generate_msg_py(custom_msgs
 _generate_srv_py(custom_msgs
   "/home/lpf/docker_shared/rltraining_ws/src/custom_msgs/srv/ResetEpisode.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/custom_msgs
 )
 _generate_srv_py(custom_msgs

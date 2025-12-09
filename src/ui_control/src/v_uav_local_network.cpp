@@ -132,6 +132,10 @@ void v_uav_local_network::init_ros()
     n.getParam("nlp_feedback_sub_topic",tempString);
     _nlp_feedback_sub_topic =  tempString;
 
+    n.getParam("nlp_stop_pub_topic", tempString);
+    _nlp_stop_pub_topic = tempString;     
+    n.getParam("nlp_reason_sub_topic", tempString);
+    _nlp_reason_sub_topic = tempString; 
 
      _nlp_command_pub=n.advertise<std_msgs::String>(_nlp_command_pub_topic,10);
      _mission_start_pub = n.advertise<dt_message_package::mission_msg>(_mission_start_pub_topic,1);
@@ -142,6 +146,8 @@ void v_uav_local_network::init_ros()
      _current_camera_sub = n.subscribe(_current_camera_sub_topic,1,&v_uav_local_network::camera_sub_cb,this);
      _request_camera_data_pub = n.advertise<std_msgs::Bool>(_request_camera_data_pub_topic,1);
      _target_movement_track_pub = n.advertise<nav_msgs::Path>(_target_movement_track_pub_topic,1);
+     _nlp_stop_pub = n.advertise<std_msgs::Empty>(_nlp_stop_pub_topic, 1);
+    _nlp_reasoning_sub=n.subscribe(_nlp_reason_sub_topic, 100, &v_uav_local_network::reasoningCallback, this);
     
      std::string label_uav = "V_UAV_"+std::to_string(_object_id);
      QString label_uav_qt = QString::fromLocal8Bit(label_uav.data());
@@ -166,9 +172,13 @@ v_uav_local_network::v_uav_local_network(QWidget *parent) :
   // 连接信号和槽！
   connect(this, &v_uav_local_network::newFeedbackReceived, 
             this, &v_uav_local_network::updateFeedbackDisplay);
+  connect(this, &v_uav_local_network::newReasoningReceived, 
+            this, &v_uav_local_network::updateReasoningDisplay);
   // 设置只读和换行?
   ui->feedback_text_edit->setReadOnly(true);
   ui->feedback_text_edit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+  ui->reasoning_text_edit->setReadOnly(true);
+  ui->reasoning_text_edit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
 
 }
 
@@ -214,6 +224,16 @@ void v_uav_local_network::feedbackCallback(const std_msgs::String::ConstPtr& msg
     // 从ROS回调更新Qt UI需要使用信号/槽机制，确保线程安全
     Q_EMIT newFeedbackReceived(QString::fromStdString(msg->data));
 }
+void v_uav_local_network::on_v_uav_0_stop_command_button_clicked()
+{
+    ROS_INFO("Stop button clicked! Publishing stop command.");
+    
+    // 创建一个空的 std_msgs::Empty 消息
+    std_msgs::Empty stop_msg;
+    
+    // 发布消息到 /nlp_stop topic
+    _nlp_stop_pub.publish(stop_msg);
+}
 
 void v_uav_local_network::updateFeedbackDisplay(const QString &text)
 {
@@ -221,10 +241,9 @@ void v_uav_local_network::updateFeedbackDisplay(const QString &text)
     // 标记1: 这是一条开始流式会话的指令吗？
     if (text == "LLM_STREAM_START") {
         m_isStreamingInProgress = true; // 准备好接收流式消息
-        if (!ui->feedback_text_edit->toPlainText().isEmpty()) {
-            //ui->feedback_text_edit->appendPlainText(""); //换行
-            ui->feedback_text_edit->clear();
-        }
+        //if (!ui->feedback_text_edit->toPlainText().isEmpty()) {
+        //    ui->feedback_text_edit->clear();
+        //}
         return;
     }
     
@@ -234,6 +253,9 @@ void v_uav_local_network::updateFeedbackDisplay(const QString &text)
     if (isStreamingNow) {
     QString content = text.mid(5); // 去掉 "LLM: " 前缀
     	if (m_isStreamingInProgress) {
+    	    if (!ui->feedback_text_edit->toPlainText().isEmpty()) {
+                ui->feedback_text_edit->appendPlainText(""); 
+            }
         // 这是流式输出的第一个片段
         // 使用 appendPlainText 来开始一个新行（段落）
         ui->feedback_text_edit->appendPlainText(content);
@@ -258,4 +280,35 @@ void v_uav_local_network::updateFeedbackDisplay(const QString &text)
 
 // 同样，确保视图滚动到底部
 	ui->feedback_text_edit->verticalScrollBar()->setValue(ui->feedback_text_edit->verticalScrollBar()->maximum());
+}
+
+// ++ 新增：实现新的回调函数和槽函数
+void v_uav_local_network::reasoningCallback(const std_msgs::String::ConstPtr& msg)
+{
+    Q_EMIT newReasoningReceived(QString::fromStdString(msg->data));
+}
+void v_uav_local_network::updateReasoningDisplay(const QString &text)
+{
+    // 思考过程的显示逻辑可以简化
+    // 移动光标到末尾
+    QTextCursor cursor = ui->reasoning_text_edit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->reasoning_text_edit->setTextCursor(cursor);
+    
+    // 插入文本
+    ui->reasoning_text_edit->insertPlainText(text);
+    //ui->reasoning_text_edit->insertPlainText("\n");
+    
+    // 滚动到底部
+    ui->reasoning_text_edit->verticalScrollBar()->setValue(ui->reasoning_text_edit->verticalScrollBar()->maximum());
+}
+
+void v_uav_local_network::on_clear_reasoning_button_clicked()
+{
+    ui->reasoning_text_edit->clear();
+}
+
+void v_uav_local_network::on_clear_feedback_button_clicked()
+{
+    ui->feedback_text_edit->clear();
 }

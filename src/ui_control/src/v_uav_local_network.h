@@ -51,6 +51,7 @@ limitations under the License.
 #include <std_msgs/String.h>
 #include "dt_message_package/mission_msg.h"
 #include <QScrollBar> 
+#include <std_msgs/Empty.h> 
 
 namespace Ui {
 class v_uav_local_network;
@@ -63,11 +64,12 @@ class v_uav_local_network : public QMainWindow
 public:
   explicit v_uav_local_network(QWidget *parent = 0);
   ~v_uav_local_network();
-public:
+  
   void camera_sub_cb(const sensor_msgs::CompressedImage::ConstPtr &msg);
   void current_position_sub_cb(const geometry_msgs::PoseStamped::ConstPtr &msg);
   void camera_request_sub_cb(const std_msgs::Bool::ConstPtr &msg);
   void feedbackCallback(const std_msgs::String::ConstPtr& msg);
+  void reasoningCallback(const std_msgs::String::ConstPtr& msg); // ++ 新增：新的回调函数
   
   void init_ros();
   bool set_object_name(std::string objectName);
@@ -75,9 +77,9 @@ public:
   bool set_object_id(int id);
 
     int m_nTimerID;
-signals:
+Q_SIGNALS:
   void newFeedbackReceived(const QString &text);
-
+void newReasoningReceived(const QString &text); // ++ 新增：用于接收思考过程的信号
 public Q_SLOTS:
 
   void on_v_uav_0_mission_start_button_clicked();
@@ -88,10 +90,14 @@ public Q_SLOTS:
   
   void on_v_uav_0_send_command_button_clicked();
   
+  void on_v_uav_0_stop_command_button_clicked(); 
+  
    // 需要一个槽来接收这个信号
   void updateFeedbackDisplay(const QString &text); 
+void updateReasoningDisplay(const QString &text); // ++ 新增：用于更新思考过程的槽
 
-
+  void on_clear_reasoning_button_clicked(); // ++ 新增
+  void on_clear_feedback_button_clicked();  // ++ 新增
   //---->iot
 
   //ros
@@ -138,7 +144,13 @@ private:
   cv::Mat _camera_data;
   bool m_isStreamingInProgress; 
 
-    int _object_id;
+  int _object_id;
+  std::string _nlp_stop_pub_topic; // **新增：用于存储 stop topic 名称**
+  ros::Publisher _nlp_stop_pub;    // **新增：stop 命令的发布者**
+  std::string _nlp_reason_sub_topic;
+  ros::Subscriber _nlp_reasoning_sub; // ++ 新增：用于接收思考过程的订阅者
+  
+  
 };
 
 #endif // V_UAV_0_H

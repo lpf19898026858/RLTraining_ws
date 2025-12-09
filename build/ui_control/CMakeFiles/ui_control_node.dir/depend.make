@@ -80,6 +80,7 @@ ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/incl
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/sensor_msgs/Imu.h
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/std_msgs/Bool.h
+ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
 ui_control/CMakeFiles/ui_control_node.dir/src/log_in.cpp.o: /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
@@ -889,6 +890,7 @@ ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/sensor_msgs/Imu.h
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/std_msgs/Bool.h
+ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
 ui_control/CMakeFiles/ui_control_node.dir/src/main_window.cpp.o: /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
@@ -1641,6 +1643,7 @@ ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ro
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/sensor_msgs/Imu.h
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/std_msgs/Bool.h
+ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
 ui_control/CMakeFiles/ui_control_node.dir/src/v_uav_local_network.cpp.o: /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
@@ -2042,6 +2045,7 @@ ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilati
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/sensor_msgs/Imu.h
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/std_msgs/Bool.h
+ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
 ui_control/CMakeFiles/ui_control_node.dir/ui_control_node_autogen/mocs_compilation.cpp.o: /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
