@@ -15,7 +15,9 @@ from rl_env import DroneRLEnv
 from icm import ICM
 from torch.utils.tensorboard import SummaryWriter
 from curriculum_manager import CurriculumManager  
+from stable_baselines3.common.vec_env import VecNormalize
 import time
+import re
 
 # -------- Schedules --------
 def make_linear_schedule(start, end):
@@ -77,9 +79,11 @@ class CuriosityEnvWrapper(gym.Env):
             s, s_next, a_idx_t, act_dim=self._discretize_dim(), beta=0.2
         )
         r_int = float(intrinsic_vec.mean().item())
+        #r = r_ext + coef * r_int
         progress_remaining = max(1e-6, 1.0 - self._global_step / float(self.total_steps))
         coef = self.icm_coef_sched(progress_remaining)
         r = r_ext + coef * r_int
+        #self.logger.record("train/intrinsic_reward_mean", r_int)        
         self._global_step += 1
         self._last_obs = obs_next.copy()
         terminated = bool(done)
@@ -187,10 +191,6 @@ class TrainingMetricsCallback(BaseCallback):
         if self.num_timesteps % self.log_interval != 0:
             return True
 
-        # --- 学习率 ---
-        #lr_current = self.model.lr_schedule(self.num_timesteps)
-        #self.logger.record("train/learning_rate", lr_current)
-
         # --- ICM 内在奖励（若存在）---
         try:
             icm = self.model.env.envs[0].env.icm  # Monitor.env -> CuriosityEnvWrapper.icm
@@ -245,22 +245,69 @@ def make_env(yaml_path: str, device="cpu"):
         total_steps=8_000_000, device=device
     )
     return wrapped
+    
+def get_run_paths(base_checkpoint_dir="checkpoints", base_tb_dir="tb", run_name_prefix="PPO"):
+    """
+    为新的训练运行创建并返回唯一的路径。
+    该函数会查找从 1 开始的第一个未被使用的整数编号。
+    例如，如果 PPO_1 和 PPO_3 存在，则会创建 PPO_2。
+    """
+    # 确保基础目录存在
+    os.makedirs(base_checkpoint_dir, exist_ok=True)
+    os.makedirs(base_tb_dir, exist_ok=True)
 
+    # --- 核心逻辑变更 ---
+    # 旧逻辑：查找最大编号 + 1
+    # 新逻辑：从 1 开始查找第一个未使用的编号
+    new_run_num = 1
+    while True:
+        # 构造当前要检查的文件夹名
+        potential_run_name = f"{run_name_prefix}_{new_run_num}"
+        # 构造其完整路径
+        potential_checkpoint_path = os.path.join(base_checkpoint_dir, potential_run_name)
+        
+        # 检查该路径是否已存在
+        if not os.path.exists(potential_checkpoint_path):
+            # 如果不存在，说明我们找到了可以使用的编号，跳出循环
+            run_name = potential_run_name
+            break
+        
+        # 如果存在，则尝试下一个编号
+        new_run_num += 1
+    
+    # --- 逻辑变更结束 ---
+
+    # 使用找到的 run_name 创建新的路径
+    run_checkpoint_path = os.path.join(base_checkpoint_dir, run_name)
+    run_tb_path = os.path.join(base_tb_dir, run_name)
+
+    os.makedirs(run_checkpoint_path, exist_ok=True)
+    os.makedirs(run_tb_path, exist_ok=True)
+
+    print(f"本次训练将保存到: {run_checkpoint_path}")
+    print(f"TensorBoard 日志将保存到: {run_tb_path}")
+
+    return run_checkpoint_path, run_tb_path
+    
 # -------- 主函数 --------
 def main():
     rospy.init_node("ppo_trainer")
-    os.makedirs("checkpoints", exist_ok=True)
-    os.makedirs("tb", exist_ok=True)
+
+    # 1. 动态生成本次训练的保存路径和日志路径
+    save_path, tb_log_path = get_run_paths(run_name_prefix="PPO")
 
     yaml_path = "drone_config.yaml"
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Using device: {device}")
 
+    # 2. 更新 Monitor 的日志文件路径
     env = DummyVecEnv([lambda: Monitor(make_env(yaml_path, device=device),
-                                       filename="./tb/monitor.csv")])
+                                       filename=os.path.join(tb_log_path, "monitor.csv"))])
+    env = VecNormalize(env, norm_obs=True, norm_reward=True, gamma=0.995,
+                   clip_obs=10.0, clip_reward=10.0)
 
-    total_steps = 1_000_000
-    lr_sched = make_linear_schedule(3e-4, 1e-5,)
+    total_steps = 1_500_000
+    lr_sched = make_linear_schedule(3e-4, 1e-5)
     clip_sched = make_linear_schedule(0.10, 0.10)
     policy_kwargs = dict(net_arch=[512, 512, 512, 512], normalize_images=False)
 
@@ -271,21 +318,25 @@ def main():
         learning_rate=lr_sched, clip_range=clip_sched,
         ent_coef=1e-4, vf_coef=0.5, max_grad_norm=0.5,
         policy_kwargs=policy_kwargs, verbose=1,
-        tensorboard_log="./tb", device=device
+        # 3. 更新 TensorBoard 的日志路径
+        tensorboard_log=tb_log_path,
+        device=device
     )
 
-    ckpt_cb = CheckpointCallback(save_freq=50_000, save_path="./checkpoints", name_prefix="drone_ppo")
+    # 4. 更新 CheckpointCallback 的保存路径
+    ckpt_cb = CheckpointCallback(save_freq=50_000, save_path=save_path, name_prefix="drone_ppo")
     decay_cb = HyperDecayCallback(ent_start=1e-4, ent_end=1e-5,
                                   curiosity_start=0.02, curiosity_end=0.001,
                                   total_steps=total_steps)
     reward_cb = RewardLoggingCallback()
-
     metrics_cb = TrainingMetricsCallback()
 
     def handle_interrupt(sig, frame):
         print("\n KeyboardInterrupt detected! Gracefully stopping training...")
-        model.save("./checkpoints/ppo_interrupt_last.zip")
-        print("Model saved (ppo_interrupt_last.zip)")
+        # 5. 更新中断时模型的保存路径
+        interrupt_save_file = os.path.join(save_path, "ppo_interrupt_last.zip")
+        model.save(interrupt_save_file)
+        print(f"Model saved to {interrupt_save_file}")
         rospy.signal_shutdown("User interrupt")
         sys.exit(0)
 
@@ -297,8 +348,17 @@ def main():
         handle_interrupt(None, None)
     finally:
         print("Training finished. Saving final model...")
-        model.save("./checkpoints/ppo_final.zip")
+        # 6. 更新最终模型的保存路径
+        final_model_file = os.path.join(save_path, "ppo_final.zip")
+        model.save(final_model_file)
+        print(f"Final model saved to {final_model_file}")
         rospy.signal_shutdown("Training complete")
+
+    # 7. 更新 VecNormalize 统计数据的保存路径
+    vecnorm_file = os.path.join(save_path, "vecnorm.pkl")
+    env.save(vecnorm_file)
+    print(f"VecNormalize stats saved to {vecnorm_file}")
+
 
 if __name__ == "__main__":
     main()

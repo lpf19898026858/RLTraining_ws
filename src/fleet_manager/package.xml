@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<package format="2">
+  <!-- (1) 包的基本信息 -->
+  <name>fleet_manager</name>
+  <version>0.1.0</version>
+  <description>
+    A ROS node to monitor the status of a drone fleet,
+    manage tasks, and coordinate autonomous backup/relay behaviors.
+  </description>
+
+  <!-- (2) 维护者和许可证信息 -->
+  <!-- 强烈建议填写，替换成你自己的信息 -->
+  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <license>Apache-2.0</license> <!-- 或者 MIT, BSD, etc. -->
+
+  <!-- (3) 构建工具依赖 -->
+  <!-- 告诉ROS系统，这个包需要使用catkin来构建 -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- (4) 构建时依赖 (Build Dependencies) -->
+  <!-- 这些是在运行 catkin_make 时需要存在的包 -->
+  <!-- 它们与 CMakeLists.txt 中的 find_package(...) 列表紧密对应 -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <!-- [重要] 依赖 nlp_drone_control 包，因为我们在 .msg/.srv 中使用了它的类型 -->
+  <build_depend>nlp_drone_control</build_depend>
+  <build_depend>uav_scheduler</build_depend>
+  <!-- [重要] 依赖 message_generation，因为我们需要生成自定义消息/服务 -->
+  <build_depend>message_generation</build_depend>
+
+  <!-- (5) 构建导出时依赖 (Build Export Dependencies) -->
+  <!-- 如果其他包依赖本包，那么它们也需要这些依赖 -->
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>nlp_drone_control</build_export_depend>
+  <!-- message_generation 通常不需要导出 -->
+  <build_export_depend>uav_scheduler</build_export_depend>
+  
+  <!-- (6) 运行时依赖 (Execution Dependencies) -->
+  <!-- 这些是在运行你的节点时需要存在的包 -->
+  <!-- 通常包含了所有 build_export_depend 的内容 -->
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nlp_drone_control</exec_depend>
+  <exec_depend>uav_scheduler</exec_depend>
+  <!-- [重要] 任何定义了自定义消息/服务的包，在运行时都依赖 message_runtime -->
+  <exec_depend>message_runtime</exec_depend>
+
+  <!-- (可选) <doc_depend> 用于文档，<test_depend> 用于测试 -->
+
+  <!-- 这个标签是可选的，但建议保留，用于声明包的内容 -->
+  <export>
+  </export>
+</package>

@@ -31,8 +31,12 @@ PARAMS = {
     "obstacle_proximity_penalty": -0.03,
     "min_safe_obstacle_distance": 1.5,
 }
-
-
+_prev_distance = None
+def reset_reward_state():
+    """在每个 episode 开始时调用，清空内部状态。"""
+    global _prev_distance
+    _prev_distance = None
+    
 def compute_reward(event_type, data):
     """
     data = [distance, speed, alignment, altitude, ang_vel, prox_dist, vel_diff, obstacle_ahead, step_time]
@@ -47,6 +51,7 @@ def compute_reward(event_type, data):
       obstacle_ahead: 1 表示前方有障碍
       step_time: 每步时间
     """
+    global _prev_distance
     p = PARAMS
     r_total = 0.0
     done = False
@@ -70,21 +75,30 @@ def compute_reward(event_type, data):
         done = True
     
     elif event_type == "timeout":
+        distance = float(data[0])
+        r_total += -10.0 if distance > 3.0 else -5.0
+        #r_total=0.0
         done = True
 
     # ==================================================
     # 2️⃣ Process-Guiding Shaping Rewards
     # ==================================================
     elif event_type == "move":
-        distance = data[0]
-        speed = data[1]
-        alignment = data[2]
-        prox_dist = data[5] if len(data) > 5 else np.inf
-        obstacle_ahead = data[7] if len(data) > 7 else 0
+        distance = float(data[0])
+        speed = float(data[1])
+        alignment = float(data[2])
+        ang_vel = float(data[4])
+        prox_dist = float(data[5]) if len(data) > 5 else float("inf")
+        vel_diff = float(data[6]) if len(data) > 6 else 0.0
+        obstacle_ahead = int(data[7]) if len(data) > 7 else 0
 
         # (1) Potential: 距离缩短奖励
-        delta_d = data[0] - data[0] * 0.99  # 近似差分，可替换为历史缓存
-        r_potential = p["potential_k"] * (-delta_d)
+        if _prev_distance is None:
+            delta_d = 0.0
+        else:
+            delta_d = _prev_distance - distance
+        _prev_distance = distance
+        r_potential = p["potential_k"] * delta_d
 
         # (2) Align: 对准奖励
         r_align = p["align_k"] * (alignment ** 2) if alignment > 0 else 0.0
@@ -136,7 +150,10 @@ def compute_reward(event_type, data):
             r_total += p["obstacle_stagnation_penalty"]
 
     else:
-        r_total += 0.0
+        pass
+        
+    if done:
+        _prev_distance = None
 
     return float(r_total), done
 

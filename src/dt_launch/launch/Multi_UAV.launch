@@ -34,15 +34,16 @@
     <node pkg="poi_state_server" type="poi_state_server_node" name="poi_state_server" output="screen">
         <param name="poi_file" value="$(find nlp_drone_control)/config/points_of_interest.yaml"/>
     </node>
-        <!-- Hungarian Scheduler Node -->
+    
+    <!-- Hungarian Scheduler Node -->
     <node name="scheduler_node" pkg="uav_scheduler" type="scheduler_node" output="screen"/>
 
     <!-- ★★★ Section 2: Per-Drone Support Nodes (Start one for each UAV) ★★★ -->
   
     <!-- 顶部加参数 -->
-<arg name="model_path" default="$(find rl_bridge)/python/checkpoints/ppo_final.zip"/>
-<arg name="eval_mode"  default="3"/>   <!-- 2: 会reset; 3: 不reset -->
-<arg name="suppress_logs" default="true"/>
+    <arg name="model_path" default="$(find rl_bridge)/python/checkpoints/PPO_2/ppo_final.zip"/>
+    <arg name="eval_mode"  default="3"/>   <!-- 2: 会reset; 3: 不reset -->
+    <arg name="suppress_logs" default="true"/>
 
     <!-- A* Planner for V_UAV_0 -->
     <group ns="V_UAV_0">
@@ -52,16 +53,15 @@
             <param name="goal_topic" value="llm_goal" />
             <param name="waypoint_topic" value="drone_target" />
         </node>
-          <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
-    <param name="model_path" value="$(arg model_path)"/>
-    <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>       <!-- 2 或 3 -->
-    <param name="suppress_logs" value="$(arg suppress_logs)"/>  <!-- 等待目标时静默 -->
-    <!-- 用相对话题名，命名空间会自动加前缀 /V_UAV_0/ -->
-    <param name="obs_topic"   value="uav/observation"/>
-    <param name="act_topic"   value="uav/action"/>
-    <param name="event_topic" value="uav/event"/>
-    <param name="reset_topic" value="uav/reset"/>
-  </node>
+        <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
+            <param name="model_path" value="$(arg model_path)"/>
+            <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>
+            <param name="suppress_logs" value="$(arg suppress_logs)"/>
+            <param name="obs_topic"   value="uav/observation"/>
+            <param name="act_topic"   value="uav/action"/>
+            <param name="event_topic" value="uav/event"/>
+            <param name="reset_topic" value="uav/reset"/>
+        </node>
     </group>
     
     <!-- A* Planner for V_UAV_1 -->
@@ -72,21 +72,20 @@
             <param name="goal_topic" value="llm_goal" />
             <param name="waypoint_topic" value="drone_target" />
         </node>
-          <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
-    <param name="model_path" value="$(arg model_path)"/>
-    <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>
-    <param name="suppress_logs" value="$(arg suppress_logs)"/>  <!-- 等待目标时静默 -->
-    <!-- 用相对话题名，命名空间会自动加前缀 /V_UAV_1/ -->
-    <param name="obs_topic"   value="uav/observation"/>
-    <param name="act_topic"   value="uav/action"/>
-    <param name="event_topic" value="uav/event"/>
-    <param name="reset_topic" value="uav/reset"/>
-  </node>
+        <node pkg="rl_bridge" type="ppo_eval.py" name="ppo_eval" output="screen">
+            <param name="model_path" value="$(arg model_path)"/>
+            <param name="no_reset" value="$(eval arg('eval_mode') == 3)"/>
+            <param name="suppress_logs" value="$(arg suppress_logs)"/>
+            <param name="obs_topic"   value="uav/observation"/>
+            <param name="act_topic"   value="uav/action"/>
+            <param name="event_topic" value="uav/event"/>
+            <param name="reset_topic" value="uav/reset"/>
+        </node>
     </group>
     
-    <!-- Add more A* planners for other UAVs as needed -->
-    <param name="/planning/inflation_radius" value="1.0" /> <!-- 无人机半径+安全距离，例如0.5m+1.0m -->
     <!-- ★★★ Section 3: Global Parameters (Load only ONCE) ★★★ -->
+    
+    <param name="/planning/inflation_radius" value="1.0" />
     
     <!-- Load the shared POI file -->
     <rosparam command="load" file="$(find nlp_drone_control)/config/points_of_interest.yaml" />
@@ -97,16 +96,36 @@
     <param name="/doubao_api_key" value="sk-zk2c3a12508a3f9897f863156c027eadcee68ca63f4ad778" />
     <param name="/describe_scene_service" value="/vision_service/describe_scene" />
     <param name="overview_image_path" value="$(find nlp_drone_control)/config/overview.png"/>
-        <rosparam param="drone_ids" subst_value="True">
-            - V_UAV_0
-            - V_UAV_1
-            <!-- Add more UAV IDs here as needed -->
-            <!-- - V_UAV_2 -->
-        </rosparam>        
+    
+    <!-- CRITICAL: Define the list of all drones in the fleet. -->
+    <!-- This parameter will be used by task_executor_node AND fleet_manager_node. -->
+    <rosparam param="drone_ids" subst_value="True">
+        - V_UAV_0
+        - V_UAV_1
+        <!-- Add more UAV IDs here as needed -->
+        <!-- - V_UAV_2 -->
+    </rosparam>        
         
     <!-- ★★★ Section 4: Launch the Central Commander Node (Start only ONCE) ★★★ -->
+
+    <!-- Launch the new Fleet Manager Node -->
+    <!-- This node tracks the status of all drones and tasks, and provides services -->
+    <!-- for querying state and injecting new tasks into the system. -->
+  <!-- 如果是仿真，可统一决定是否用sim_time。使用墙钟看门狗时，这个对看门狗无影响 -->
+  <!-- <param name="use_sim_time" value="true"/> -->
+
+  <!-- 看门狗参数（可调） -->
+  <param name="watchdog_period_ms" value="2000"/>
+  <param name="heartbeat_timeout_ms" value="10000"/>
+
+  <node pkg="fleet_manager"
+        type="fleet_manager_node"
+        name="fleet_manager_node"
+        output="screen"/>
+
     <node name="task_executor_node" pkg="nlp_drone_control" type="task_executor_node" output="screen">
         <!-- CRITICAL: Tell the commander which drones it is responsible for -->
+        <!-- This is now redundant as it reads from the global /drone_ids param, but harmless. -->
         <rosparam param="drone_ids" subst_value="True">
             - V_UAV_0
             - V_UAV_1
@@ -115,6 +134,7 @@
         </rosparam>        
         <param name="image_save_base_path" value="/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/images" />
     </node>
+    
     <node name="llm_fleet_commander" pkg="nlp_drone_control" type="llm_planner_node" output="screen"/>
     
 </launch>

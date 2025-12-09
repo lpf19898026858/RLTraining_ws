@@ -24,17 +24,17 @@ add_custom_target(_poi_state_server_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg" NAME_WE)
 add_custom_target(_poi_state_server_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg" "geometry_msgs/Point:poi_state_server/NamedPoint"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg" "poi_state_server/NamedPoint:geometry_msgs/Point"
 )
 
 get_filename_component(_filename "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv" NAME_WE)
 add_custom_target(_poi_state_server_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv" "geometry_msgs/Point:poi_state_server/POIInfo:poi_state_server/NamedPoint"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv" "poi_state_server/POIInfo:poi_state_server/NamedPoint:geometry_msgs/Point"
 )
 
 get_filename_component(_filename "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv" NAME_WE)
 add_custom_target(_poi_state_server_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv" "geometry_msgs/Point:poi_state_server/POIInfo:poi_state_server/NamedPoint"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "poi_state_server" "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv" "poi_state_server/POIInfo:poi_state_server/NamedPoint:geometry_msgs/Point"
 )
 
 #
@@ -52,7 +52,7 @@ _generate_msg_cpp(poi_state_server
 _generate_msg_cpp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/poi_state_server
 )
 
@@ -60,13 +60,13 @@ _generate_msg_cpp(poi_state_server
 _generate_srv_cpp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/poi_state_server
 )
 _generate_srv_cpp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/poi_state_server
 )
 
@@ -109,7 +109,7 @@ _generate_msg_eus(poi_state_server
 _generate_msg_eus(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/poi_state_server
 )
 
@@ -117,13 +117,13 @@ _generate_msg_eus(poi_state_server
 _generate_srv_eus(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/poi_state_server
 )
 _generate_srv_eus(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/poi_state_server
 )
 
@@ -166,7 +166,7 @@ _generate_msg_lisp(poi_state_server
 _generate_msg_lisp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/poi_state_server
 )
 
@@ -174,13 +174,13 @@ _generate_msg_lisp(poi_state_server
 _generate_srv_lisp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/poi_state_server
 )
 _generate_srv_lisp(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/poi_state_server
 )
 
@@ -223,7 +223,7 @@ _generate_msg_nodejs(poi_state_server
 _generate_msg_nodejs(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/poi_state_server
 )
 
@@ -231,13 +231,13 @@ _generate_msg_nodejs(poi_state_server
 _generate_srv_nodejs(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/poi_state_server
 )
 _generate_srv_nodejs(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/poi_state_server
 )
 
@@ -280,7 +280,7 @@ _generate_msg_py(poi_state_server
 _generate_msg_py(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/poi_state_server
 )
 
@@ -288,13 +288,13 @@ _generate_msg_py(poi_state_server
 _generate_srv_py(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/GetPOIInfo.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/poi_state_server
 )
 _generate_srv_py(poi_state_server
   "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/srv/ListPOIs.srv"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg"
+  "/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/POIInfo.msg;/home/lpf/docker_shared/rltraining_ws/src/poi_state_server/msg/NamedPoint.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/poi_state_server
 )
 

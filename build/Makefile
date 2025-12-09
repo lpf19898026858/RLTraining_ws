@@ -2325,6 +2325,214 @@ cpr/fast:
 	$(MAKE) -f nlp_drone_control/lib/cpr/cpr/CMakeFiles/cpr.dir/build.make nlp_drone_control/lib/cpr/cpr/CMakeFiles/cpr.dir/build
 .PHONY : cpr/fast
 
+#=============================================================================
+# Target rules for targets named fleet_manager_node
+
+# Build rule for target.
+fleet_manager_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_node
+.PHONY : fleet_manager_node
+
+# fast build rule for target.
+fleet_manager_node/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_node.dir/build.make fleet_manager/CMakeFiles/fleet_manager_node.dir/build
+.PHONY : fleet_manager_node/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages_py
+
+# Build rule for target.
+fleet_manager_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages_py
+.PHONY : fleet_manager_generate_messages_py
+
+# fast build rule for target.
+fleet_manager_generate_messages_py/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages_py.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages_py.dir/build
+.PHONY : fleet_manager_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages
+
+# Build rule for target.
+fleet_manager_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages
+.PHONY : fleet_manager_generate_messages
+
+# fast build rule for target.
+fleet_manager_generate_messages/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages.dir/build
+.PHONY : fleet_manager_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_genpy
+
+# Build rule for target.
+fleet_manager_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_genpy
+.PHONY : fleet_manager_genpy
+
+# fast build rule for target.
+fleet_manager_genpy/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_genpy.dir/build.make fleet_manager/CMakeFiles/fleet_manager_genpy.dir/build
+.PHONY : fleet_manager_genpy/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages_nodejs
+
+# Build rule for target.
+fleet_manager_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages_nodejs
+.PHONY : fleet_manager_generate_messages_nodejs
+
+# fast build rule for target.
+fleet_manager_generate_messages_nodejs/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages_nodejs.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages_nodejs.dir/build
+.PHONY : fleet_manager_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named _fleet_manager_generate_messages_check_deps_DroneStatus
+
+# Build rule for target.
+_fleet_manager_generate_messages_check_deps_DroneStatus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _fleet_manager_generate_messages_check_deps_DroneStatus
+.PHONY : _fleet_manager_generate_messages_check_deps_DroneStatus
+
+# fast build rule for target.
+_fleet_manager_generate_messages_check_deps_DroneStatus/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_DroneStatus.dir/build.make fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_DroneStatus.dir/build
+.PHONY : _fleet_manager_generate_messages_check_deps_DroneStatus/fast
+
+#=============================================================================
+# Target rules for targets named _fleet_manager_generate_messages_check_deps_TaskStatus
+
+# Build rule for target.
+_fleet_manager_generate_messages_check_deps_TaskStatus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _fleet_manager_generate_messages_check_deps_TaskStatus
+.PHONY : _fleet_manager_generate_messages_check_deps_TaskStatus
+
+# fast build rule for target.
+_fleet_manager_generate_messages_check_deps_TaskStatus/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_TaskStatus.dir/build.make fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_TaskStatus.dir/build
+.PHONY : _fleet_manager_generate_messages_check_deps_TaskStatus/fast
+
+#=============================================================================
+# Target rules for targets named _fleet_manager_generate_messages_check_deps_QueryFleetAndTasks
+
+# Build rule for target.
+_fleet_manager_generate_messages_check_deps_QueryFleetAndTasks: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _fleet_manager_generate_messages_check_deps_QueryFleetAndTasks
+.PHONY : _fleet_manager_generate_messages_check_deps_QueryFleetAndTasks
+
+# fast build rule for target.
+_fleet_manager_generate_messages_check_deps_QueryFleetAndTasks/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_QueryFleetAndTasks.dir/build.make fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_QueryFleetAndTasks.dir/build
+.PHONY : _fleet_manager_generate_messages_check_deps_QueryFleetAndTasks/fast
+
+#=============================================================================
+# Target rules for targets named _fleet_manager_generate_messages_check_deps_InjectTasks
+
+# Build rule for target.
+_fleet_manager_generate_messages_check_deps_InjectTasks: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _fleet_manager_generate_messages_check_deps_InjectTasks
+.PHONY : _fleet_manager_generate_messages_check_deps_InjectTasks
+
+# fast build rule for target.
+_fleet_manager_generate_messages_check_deps_InjectTasks/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_InjectTasks.dir/build.make fleet_manager/CMakeFiles/_fleet_manager_generate_messages_check_deps_InjectTasks.dir/build
+.PHONY : _fleet_manager_generate_messages_check_deps_InjectTasks/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages_cpp
+
+# Build rule for target.
+fleet_manager_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages_cpp
+.PHONY : fleet_manager_generate_messages_cpp
+
+# fast build rule for target.
+fleet_manager_generate_messages_cpp/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages_cpp.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages_cpp.dir/build
+.PHONY : fleet_manager_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_gennodejs
+
+# Build rule for target.
+fleet_manager_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_gennodejs
+.PHONY : fleet_manager_gennodejs
+
+# fast build rule for target.
+fleet_manager_gennodejs/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_gennodejs.dir/build.make fleet_manager/CMakeFiles/fleet_manager_gennodejs.dir/build
+.PHONY : fleet_manager_gennodejs/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_gencpp
+
+# Build rule for target.
+fleet_manager_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_gencpp
+.PHONY : fleet_manager_gencpp
+
+# fast build rule for target.
+fleet_manager_gencpp/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_gencpp.dir/build.make fleet_manager/CMakeFiles/fleet_manager_gencpp.dir/build
+.PHONY : fleet_manager_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages_eus
+
+# Build rule for target.
+fleet_manager_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages_eus
+.PHONY : fleet_manager_generate_messages_eus
+
+# fast build rule for target.
+fleet_manager_generate_messages_eus/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages_eus.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages_eus.dir/build
+.PHONY : fleet_manager_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_geneus
+
+# Build rule for target.
+fleet_manager_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_geneus
+.PHONY : fleet_manager_geneus
+
+# fast build rule for target.
+fleet_manager_geneus/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_geneus.dir/build.make fleet_manager/CMakeFiles/fleet_manager_geneus.dir/build
+.PHONY : fleet_manager_geneus/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_generate_messages_lisp
+
+# Build rule for target.
+fleet_manager_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_generate_messages_lisp
+.PHONY : fleet_manager_generate_messages_lisp
+
+# fast build rule for target.
+fleet_manager_generate_messages_lisp/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_generate_messages_lisp.dir/build.make fleet_manager/CMakeFiles/fleet_manager_generate_messages_lisp.dir/build
+.PHONY : fleet_manager_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named fleet_manager_genlisp
+
+# Build rule for target.
+fleet_manager_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fleet_manager_genlisp
+.PHONY : fleet_manager_genlisp
+
+# fast build rule for target.
+fleet_manager_genlisp/fast:
+	$(MAKE) -f fleet_manager/CMakeFiles/fleet_manager_genlisp.dir/build.make fleet_manager/CMakeFiles/fleet_manager_genlisp.dir/build
+.PHONY : fleet_manager_genlisp/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -2504,6 +2712,22 @@ help:
 	@echo "... nlp_drone_control_genlisp"
 	@echo "... nlp_drone_control_generate_messages_nodejs"
 	@echo "... cpr"
+	@echo "... fleet_manager_node"
+	@echo "... fleet_manager_generate_messages_py"
+	@echo "... fleet_manager_generate_messages"
+	@echo "... fleet_manager_genpy"
+	@echo "... fleet_manager_generate_messages_nodejs"
+	@echo "... _fleet_manager_generate_messages_check_deps_DroneStatus"
+	@echo "... _fleet_manager_generate_messages_check_deps_TaskStatus"
+	@echo "... _fleet_manager_generate_messages_check_deps_QueryFleetAndTasks"
+	@echo "... _fleet_manager_generate_messages_check_deps_InjectTasks"
+	@echo "... fleet_manager_generate_messages_cpp"
+	@echo "... fleet_manager_gennodejs"
+	@echo "... fleet_manager_gencpp"
+	@echo "... fleet_manager_generate_messages_eus"
+	@echo "... fleet_manager_geneus"
+	@echo "... fleet_manager_generate_messages_lisp"
+	@echo "... fleet_manager_genlisp"
 .PHONY : help
 
 

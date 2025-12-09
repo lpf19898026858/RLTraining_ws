@@ -1188,6 +1188,10 @@ stdint.h
 
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/lib/json/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
 
+/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/src/task_executor_main.cpp
+nlp_drone_control/task_executor_node.h
+/home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/src/nlp_drone_control/task_executor_node.h
+
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/src/task_executor_node.cpp
 nlp_drone_control/task_executor_node.h
 /home/lpf/docker_shared/rltraining_ws/src/nlp_drone_control/src/nlp_drone_control/task_executor_node.h

@@ -53,8 +53,9 @@ TaskExecutorNode::TaskExecutorNode(ros::NodeHandle& nh) : nh_(nh) {
   // Feedback / reasoning (same topics)
   central_nlp_feedback_pub_  = nh_.advertise<std_msgs::String>("/nlp_feedback", 10);
   reasoning_pub_             = nh_.advertise<std_msgs::String>("/nlp_reasoning", 10);
+  hl_event_pub_ = nh_.advertise<std_msgs::String>("/fleet/hl_event", 10);
 
-  // [ADDED] Periodic context text publisher for planner
+  // Periodic context text publisher for planner
   fleet_context_pub_         = nh_.advertise<std_msgs::String>("/fleet/context_text", 1);
   context_timer_             = nh_.createTimer(ros::Duration(1.0), &TaskExecutorNode::onContextTimer, this);
 
@@ -85,6 +86,26 @@ TaskExecutorNode::~TaskExecutorNode() {
     if (pair.second.joinable()) pair.second.join();
   }
 }
+
+void TaskExecutorNode::publishInspectCaptured(const std::string& drone_id,
+                                              const std::string& target_name,
+                                              const std::string& save_dir,
+                                              const std::vector<std::string>& files)
+{
+  std_msgs::String msg;
+  json j{
+    {"type",   "INSPECT"},
+    {"stage",  "CAPTURED"},           // 现在只用这一种
+    {"drone_id", drone_id},
+    {"target",   target_name},
+    {"save_dir", save_dir},
+    {"files",    files}               // 传不传都行，先留接口
+  };
+  msg.data = j.dump();
+  hl_event_pub_.publish(msg);
+  ROS_INFO("[HL-EVENT] CAPTURED %s @ %s (%zu files)", target_name.c_str(), save_dir.c_str(), files.size());
+}
+
 
 // ================== Planner Plan Callback ==================
 
@@ -377,7 +398,7 @@ void TaskExecutorNode::executionLoop(const std::string& drone_id) {
         context.tool_call_queue.clear();
         context.is_task_executing = false;
 
-        send_simple_command(drone_id, "hover");
+        send_simple_command(drone_id, "wait");
         context.navigation_start_time_ = ros::Time(0);
       }
     }
@@ -893,6 +914,11 @@ NextMacroAction TaskExecutorNode::advance_visual_inspection_macro(const std::str
       break;
     case 15:
       publishFeedback("[" + drone_id + "] Inspection Step 15/15: All images captured. Requesting VLM analysis...");
+        // === 新增：给 FM 报告“该 POI 采集完成（不要重飞）” ===
+  std::string target_name = context.macro_task_data.value("target_name", "UNKNOWN");
+  std::string save_dir    = context.macro_task_data.value("save_directory", "");
+  std::vector<std::string> files; // 需要的话，把 0_up.jpg... 拼一下绝对路径
+  publishInspectCaptured(drone_id, target_name, save_dir, files);
       next_action.action_type = "ANALYZE_VLM";
       break;
     default:

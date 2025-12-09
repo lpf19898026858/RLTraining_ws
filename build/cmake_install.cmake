@@ -142,6 +142,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/lpf/docker_shared/rltraining_ws/build/ui_control/cmake_install.cmake")
   include("/home/lpf/docker_shared/rltraining_ws/build/vlm_service/cmake_install.cmake")
   include("/home/lpf/docker_shared/rltraining_ws/build/nlp_drone_control/cmake_install.cmake")
+  include("/home/lpf/docker_shared/rltraining_ws/build/fleet_manager/cmake_install.cmake")
 
 endif()
 

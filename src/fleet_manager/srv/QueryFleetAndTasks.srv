@@ -1,0 +1,5 @@
+# 请求部分为空
+---
+# 响应部分
+fleet_manager/DroneStatus[] drones
+fleet_manager/TaskStatus[] tasks

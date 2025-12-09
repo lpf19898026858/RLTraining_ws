@@ -78,6 +78,7 @@ cv::Mat overview_image_;
     ros::Publisher fleet_context_pub_;
     ros::Publisher central_nlp_feedback_pub_;
     ros::Publisher reasoning_pub_;
+    ros::Publisher hl_event_pub_;
     std::map<std::string, ros::Publisher> llm_goal_pubs_;
 
     std::map<std::string, ros::ServiceClient> execute_action_clients_;
@@ -95,6 +96,10 @@ cv::Mat overview_image_;
     void actionFeedbackCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
     void onContextTimer(const ros::TimerEvent&);
     void planningStatusCallback(const std_msgs::String::ConstPtr& msg, const std::string& drone_id);
+    void TaskExecutorNode::publishInspectCaptured(const std::string& drone_id,
+                                              const std::string& target_name,
+                                              const std::string& save_dir,
+                                              const std::vector<std::string>& files);
     
     // === Core Logic ===
     void executionLoop(const std::string& drone_id);

@@ -5,7 +5,7 @@ from rl_bridge.msg import RLEvent
 from reward_module import compute_reward
 from curriculum_manager import CurriculumManager
 from yaml_curriculum_loader import load_three_axes_from_yaml
-
+from reward_module import compute_reward, reset_reward_state
 
 class DroneRLEnv:
     """
@@ -27,9 +27,11 @@ class DroneRLEnv:
         self.done = False
         self.reward = 0.0
         self.total_reward = 0.0
-        self.waiting_for_first_obs = True # <-- 新增状态标志
-        self.info={} # 用于存储额外信息,如是否被截断
-        #rospy.loginfo("[DroneRLEnv] init ROS...")
+        #self.episode_active = True # ✅ 新增一个状态锁
+        #self.waiting_for_first_obs = True # <-- 新增状态标志
+        #self.info={} # 用于存储额外信息,如是否被截断
+        #self.new_obs_received = False # <-- ✅ 使用这个更清晰的标志
+        rospy.loginfo("[DroneRLEnv] init ROS...")
 
         # === ROS 通信 ===
         self.pub_action = rospy.Publisher("/uav/action", Float32MultiArray, queue_size=1)
@@ -42,7 +44,6 @@ class DroneRLEnv:
         self.cz = CurriculumManager("/uav/curriculum_z")
         self.cl = CurriculumManager("/uav/curriculum_local")
         
-
         x_list, z_list, l_list = load_three_axes_from_yaml(yaml_path)
         for n, t, m, v in x_list:
             self.cx.add_stage(n, t, m, v)
@@ -71,35 +72,43 @@ class DroneRLEnv:
     # ---------- ROS callbacks ----------
     def _on_obs(self, msg):
         """接收 Unity 观测"""
-        self.obs = np.asarray(msg.data, dtype=np.float32)
-        # 如果是在等待第一个观测，现在收到了，就更新标志
-        if self.waiting_for_first_obs:
-            self.waiting_for_first_obs = False
-        self.ready = True
+        self.obs = np.asarray(msg.data, dtype=np.float32)     
+        self.ready=True   
+        #self.obs = np.clip(self.obs / 10.0, -1.0, 1.0)
+        #if not self.episode_active:
+        #    self.episode_active = True
+        #self.new_obs_received = True # ✅ 收到新观测时，设置标志
 
     def _on_event(self, msg):
         """接收 Unity 事件（奖励 & done）"""
+         # ✅ 核心守卫：如果当前回合已经结束，则忽略所有后续的事件消息。
+        #if not self.episode_active:
+        #    # 可以取消下面这行注释来调试，看看是否真的拦截了很多“死亡回声”
+            # rospy.logwarn(f"Ignoring stale event '{msg.event_type}' because episode is already done.")
+        #    return
         r_ext, done = compute_reward(msg.event_type, msg.data)
         self.reward = float(r_ext)
         self.done = bool(done)
         self.total_reward += self.reward
 
-        self.info = {}
+        #self.info = {}
 	
         # ✅ 只在 episode 结束时统计
         if self.done:
-            if msg.event_type == "timeout":
-                self.info["TimeLimit.truncated"] = True
-                rospy.loginfo("Received timeout!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            else:
-                self.info["TimeLimit.truncated"] = False
+            #if msg.event_type == "timeout":
+            #    self.info["TimeLimit.truncated"] = True
+            #    rospy.loginfo("Received timeout!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            #else:
+            #    self.info["TimeLimit.truncated"] = False
             
         # 3.2 记录回合的最终信息到 info 字典，方便 Monitor 等回调使用
-            self.info["episode"] = {
-                "r": self.total_reward,
-                "l": 0, # 步长信息通常由 Wrapper (如Monitor) 统计，这里写0即可
-                "t": rospy.Time.now().to_sec()
-        }
+            #self.info["episode"] = {
+            #    "r": self.total_reward,
+            #    "l": 0, # 步长信息通常由 Wrapper (如Monitor) 统计，这里写0即可
+            #    "t": rospy.Time.now().to_sec()
+        #}
+            #self.episode_active = False 
+            
             is_success = (msg.event_type == "reached_target")
             # === 1. 记录全局成功率 ===
             self.total_episodes += 1
@@ -130,7 +139,7 @@ class DroneRLEnv:
             )
 
             # === 5. 通知 Unity 重置并清零累计 ===
-            #self.pub_reset.publish(Bool(True))
+            self.pub_reset.publish(Bool(True))
             self.total_reward = 0.0
 
     # ---------- 成功率属性 ----------
@@ -155,34 +164,53 @@ class DroneRLEnv:
         # 1. 重置内部状态
         self.total_reward = 0.0
         self.done = False
-        
-        # 2. 设置“等待首个观测”标志
-        #    这告诉 step() 函数，下一个 obs 才是有效的回合开始
-        self.waiting_for_first_obs = True
-        
-        # 3. 发布 reset 消息来触发 Unity 重置
-        self.pub_reset.publish(Bool(True))
-        
-        # 4. 立即返回一个占位的初始观测值
-        #    SB3会忽略这个值，因为它知道下一步会是 step()
-        return np.zeros(self.obs_dim, dtype=np.float32)
-
-    def step(self, action: np.ndarray):
-        """单步交互"""
-        # 如果还在等待 reset 后的第一个 obs，就忽略传入的 action，继续等待
-        if self.waiting_for_first_obs:
-            while self.waiting_for_first_obs and not rospy.is_shutdown():
-                rospy.sleep(self.spin_dt)
-            return self.obs, 0.0, False, {}
-
-        self.pub_action.publish(Float32MultiArray(data=action.astype(np.float32)))
-        t0 = rospy.Time.now().to_sec()
-        while not self.ready and (rospy.Time.now().to_sec() - t0) < 0.2:
-            rospy.sleep(self.spin_dt)
         self.ready = False
         
-        # --- ❗️ 关键修改: 返回 self.info 而不是空字典 ---
-        return self.obs, self.reward, self.done, self.info
+        #self.new_obs_received = False # <-- 清除观测接收标志
+        reset_reward_state()
+        # 3. 发布 reset 消息来触发 Unity 重置
+        self.pub_reset.publish(Bool(True))
+        #rospy.sleep(0.05)
+        #self.episode_active = True
+        
+        # 3. 在这里阻塞，直到收到 Unity 重置后的第一个观测
+        t0 = rospy.Time.now().to_sec()
+        timeout = 5.0 # 设置一个5秒的超时，防止无限等待
+        while not self.ready and (rospy.Time.now().to_sec() - t0) < 2.0:
+            rospy.sleep(self.spin_dt)
+
+        #if not self.new_obs_received:
+        #    rospy.logerr(f"Reset timeout! Did not receive observation from Unity within {timeout}s.")
+            # 在超时的情况下，返回一个零观测，但打印错误
+        #    return np.zeros(self.obs_dim, dtype=np.float32)
+
+        # 4. 返回真实、有效的初始观测
+        return self.obs
+
+    def step(self, action: np.ndarray):
+        """单步交互 (修正版)"""
+        # 1. 清除观测标志，准备接收下一步的观测
+        #self.new_obs_received = False
+        
+        # 2. 发布动作
+        self.pub_action.publish(Float32MultiArray(data=action.astype(np.float32)))
+        
+        # 3. 等待 Unity 响应 (收到新的观测)
+        #    这个循环确保了我们是在收到这个action的结果后才返回
+        t0 = rospy.Time.now().to_sec()
+        #timeout = 0.5 # 超时可以设短一些，比如0.5秒
+        while not self.ready and (rospy.Time.now().to_sec() - t0) < 0.5:
+            rospy.sleep(self.spin_dt)
+
+        #if not self.new_obs_received:
+        #    rospy.logwarn(f"Step timeout! Using stale observation/reward after {timeout}s.")
+            # 如果超时，我们只能返回上一步的数据，但self.done可能已经更新了
+            # 这种情况会引入噪声，但比完全卡死要好。
+            # 如果频繁出现此警告，说明Unity物理帧率或ROS通信有问题。
+        obs, r, d = self.obs, self.reward, self.done
+        self.ready = False
+        # 4. 返回最新的状态
+        return obs, r, d, {}
 
     # ---------- TensorBoard 用 ----------
     def get_curriculum_status(self):
