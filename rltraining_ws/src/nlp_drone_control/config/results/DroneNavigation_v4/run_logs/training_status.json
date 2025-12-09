@@ -1,0 +1,74 @@
+{
+    "target_spawn_range_x": {
+        "lesson_num": 20
+    },
+    "target_spawn_range_z": {
+        "lesson_num": 20
+    },
+    "local_target_range": {
+        "lesson_num": 20
+    },
+    "DroneNavigation": {
+        "checkpoints": [
+            {
+                "steps": 3749947,
+                "file_path": "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3749947.onnx",
+                "reward": 53.21943959718421,
+                "creation_time": 1754229632.6859791,
+                "auxillary_file_paths": [
+                    "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3749947.pt"
+                ]
+            },
+            {
+                "steps": 3799972,
+                "file_path": "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3799972.onnx",
+                "reward": 51.20337824317498,
+                "creation_time": 1754229849.1737525,
+                "auxillary_file_paths": [
+                    "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3799972.pt"
+                ]
+            },
+            {
+                "steps": 3849996,
+                "file_path": "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3849996.onnx",
+                "reward": 54.483242770036064,
+                "creation_time": 1754230064.8041012,
+                "auxillary_file_paths": [
+                    "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3849996.pt"
+                ]
+            },
+            {
+                "steps": 3899982,
+                "file_path": "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3899982.onnx",
+                "reward": 54.66857725865132,
+                "creation_time": 1754230289.2579975,
+                "auxillary_file_paths": [
+                    "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3899982.pt"
+                ]
+            },
+            {
+                "steps": 3934177,
+                "file_path": "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3934177.onnx",
+                "reward": 51.817485373637396,
+                "creation_time": 1754230430.4608483,
+                "auxillary_file_paths": [
+                    "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3934177.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3934177,
+            "file_path": "results/DroneNavigation_v4/DroneNavigation.onnx",
+            "reward": 51.817485373637396,
+            "creation_time": 1754230430.4608483,
+            "auxillary_file_paths": [
+                "results/DroneNavigation_v4/DroneNavigation/DroneNavigation-3934177.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.7.1+cu126"
+    }
+}

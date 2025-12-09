@@ -1,0 +1,923 @@
+using UnityEngine;
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using Random = UnityEngine.Random;
+using Unity.MLAgents.Policies;
+using System.Collections.Generic; // 引用Dictionary
+using System.IO; // >>> 新增: 用于文件读写 <<<
+using RosSharp.RosBridgeClient;
+
+public class PIDControlAgent : Agent
+{
+    [Header("Agent目标输出范围")]
+    [Tooltip("Agent输出的目标俯仰角最大值(度)")]
+    public float maxTargetPitch = 45f;
+    [Tooltip("Agent输出的目标横滚角最大值(度)")]
+    public float maxTargetRoll = 45f;
+    [Tooltip("Agent输出的目标前向/后向速度最大值 (米/秒)。对应Agent动作continuousActions[0]。")]
+    public float maxTargetVelocityX = 5f; // Forward/Backward velocity
+    [Tooltip("Agent输出的目标侧向速度最大值 (米/秒)。对应Agent动作continuousActions[1]。")]
+    public float maxTargetVelocityZ = 5f; // Left/Right velocity (Unity's X-axis)
+    [Tooltip("Agent输出的目标偏航角速度最大值 (度/秒)。对应Agent动作continuousActions[2]。")]
+    public float maxYawRate = 90f; // Yaw angular velocity
+    [Tooltip("Agent输出的目标高度最大值(米)。对应Agent动作continuousActions[3]。")]
+    public float maxTargetAltitude = 10f; // Agent现在直接控制目标高度
+    // 新增：用于限制高度PID计算出的目标垂直速度，防止过大指令
+    [Tooltip("高度PID计算出的目标垂直速度的最大值 (米/秒)。")]
+    public float maxVerticalVelocityForAltitudePID = 3f;
+
+    [Header("底层速度 & 姿态PID飞控设置")]
+    // 新增：水平速度PID（外环），输出姿态角目标
+    public PIDController velocityXPID = new PIDController { Kp = 0.5f, Ki = 0.0f, Kd = 0.1f }; // 将前向速度误差转换为俯仰角
+    public PIDController velocityZPID = new PIDController { Kp = 0.5f, Ki = 0.0f, Kd = 0.1f }; // 将侧向速度误差转换为横滚角
+    // 垂直速度PID（高度级联的内环），输出推力修正
+    public PIDController velocityYPID = new PIDController { Kp = 2.5f, Ki = 0.5f, Kd = 0.5f }; // **调高参数，使其更积极地稳定垂直速度**
+    public PIDController pitchController = new PIDController { Kp = 6f, Ki = 0f, Kd = 0.4f };
+    public PIDController rollController = new PIDController { Kp = 6f, Ki = 0f, Kd = 0.4f };
+    public PIDController yawController = new PIDController { Kp = 1.0f, Ki = 0f, Kd = 0f }; // 现在是偏航角度控制器
+    public PIDController altitudeController = new PIDController { Kp = 0.8f, Ki = 0.1f, Kd = 0.2f };
+
+    [Header("物理属性")]
+    public Rigidbody rBody;
+    [Tooltip("用于抵消重力的基础推力乘数。在考虑倾斜补偿后，可以设为1.0。")]
+    public float hoverThrustMultiplier = 1.0f;
+
+    [Header("奖励设置")]
+    public float timePenaltyPerStep = -0.002f;
+    public float excessiveAngularVelocityPenalty = -0.001f; // 惩罚无人机不稳定
+    public float maxAllowedAngularVelocity = 10.0f; // 最大允许角速度 (度/秒)
+    public float groundCollisionPenalty = -5.0f;
+    public float obstacleCollisionPenalty = -10.0f;
+    public float outOfBoundsPenalty = -0.05f; // 出界惩罚 (每次检测到时施加)
+    public float arrivalReward = 65.0f; // 到达目标点的奖励
+    [Tooltip("当远离目标且速度过低时的惩罚，鼓励Agent持续移动。")]
+    public float stagnationPenalty = -0.02f; // 新增：惩罚当离目标较远但没有移动的无人机
+
+    [Header("导航与奖励设置")] // 可以创建一个新分区
+    [Tooltip("用于路径规划的无人机等效半径 (米)")]
+    public float dronePathfindingRadius = 0.2f; 
+    [Tooltip("无人机与障碍物之间应保持的最小安全距离 (米)。靠近此距离会受到惩罚。")]
+    public float minSafeObstacleDistance = 1.0f; // 例如 1米，可以调优
+    [Tooltip("当靠近障碍物时，惩罚的强度。")]
+    public float obstacleProximityPenalty = -0.02f; // 例如 -0.02，可以调优
+    [Tooltip("探索射线的最大距离，用于判断开阔空间。")]
+    public float explorationRayDistance = 15f; // 新增：用于探索射线的最大距离
+
+    [Header("环境设置")]
+    [Tooltip("无人机出生范围的逻辑中心点。如果留空，将使用此物体在场景中的初始位置。")]
+    public Transform trainingArea; 
+    public Transform spawnAreaCenter;
+    public LayerMask groundLayer;
+    public LayerMask obstacleLayer;
+
+    // >>> MODIFIED: 目标生成现在是固定的局部范围 <<<
+    [Header("局部目标生成")]
+    [Tooltip("以无人机为中心生成目标点的固定水平范围 (米)。")]
+    public float fixedLocalTargetRange = 20.0f;
+    [Tooltip("生成新位置时，无人机/目标必须距离障碍物至少多远。")]
+    public float minClearanceFromObstacles = 2.0f;
+
+    [Header("边界范围")]
+    public float minX = -32f, maxX = 40f;
+    public float minY = 0.0f, maxY = 6f; // 无人机能飞行的最小和最大高度
+    public float minZ = -45f, maxZ = 40f;
+    public float severeHeightExceedThreshold = 4.0f;
+    public float severeHeightPenalty = -1.5f;
+
+    [Header("调试设置")]
+    [Tooltip("打印速度日志的间隔时间 (秒)。设置为0或负值将禁用日志。")]
+    public float velocityLogInterval = 5.0f; 
+    private float _currentVelocityLogTimer; // 计时器变量
+
+    // Agent决策的中间变量：现在用于存储目标速度、偏航角速度和目标高度
+    private float _targetVelocityX; // Agent的目标前向/后向速度
+    private float _targetVelocityZ; // Agent的目标侧向速度
+    private float _targetYawRate;   // Agent的目标偏航角速度
+    private float _targetAltitude;  // Agent的目标高度
+    public Transform target;
+
+    // 内部控制变量 (由速度PID计算得出，作为姿态PID的设定点)
+    private float _currentDesiredYawAngle; // 累积Agent的目标偏航角
+    private float _desiredPitchAngle;      // 由 velocityXPID 计算得出的目标俯仰角
+    private float _desiredRollAngle;       // 由 velocityZPID 计算得出的目标横滚角
+
+    #region Success Rate Tracking
+    // 使用静态变量，以便场景中所有Agent实例共享这些计数器
+    private static int totalEpisodes = 0;
+    private static int successfulEpisodes = 0;
+    private StatsRecorder statsRecorder; // 用于将自定义统计数据发送到TensorBoard
+    #endregion
+        // >>> 新增: 周期性成功率统计 <<<
+    [Header("周期性成功率统计")]
+    [Tooltip("每隔多少步报告一次近期的成功率。")]
+    public int stepReportInterval = 50000;
+    private static int totalStepCounter = 0; // <--- 新增这一行，用于追踪总步数
+    private static int windowTotalEpisodes = 0;      // 窗口期内的总回合数
+    private static int windowSuccessfulEpisodes = 0; // 窗口期内的成功回合数
+    private static int lastReportedStep = 0;         // 上一次报告时的步数
+
+    private Vector3 initialPosition;
+    private Vector3 _currentRosTargetPosition;
+    private float lastDistanceToTarget; // 您可能已经有了这个
+    //private bool[] wasRayBlockedLastStep;
+//private int[] rayCooldownCounters; 
+
+    #region Failure Point Logging
+    // >>> 新增: 用于文件日志的静态变量 <<<
+    private static string logFilePath;
+    private static bool isLogInitialized = false;
+       // >>> 新增: 用于通过监测参数值变化来追踪课程 <<<
+    private static float lastKnownRangeX = -1.0f;
+    private static float lastKnownRangeZ = -1.0f;
+    private static float lastKnownLocalRange = -1.0f;
+    private static int lessonCounter = 0; // 用于给课程编号
+    #endregion
+    private Vector3 currentEpisodeStartPosition; // <<< 新增这一行
+    #region ML-Agents Standard Methods
+
+    // >>> 新增: 添加一个公开的字段来引用ROS接收器脚本 <<<
+    [Header("推理模式设置 (Inference Settings)")]
+    [Tooltip("将场景中带有 RosTargetReceiver 组件的物体拖到这里。")]
+    public RosTargetReceiver rosTargetReceiver;
+
+    private bool _isAwaitingNextRosTarget = false;
+
+    public override void Initialize()
+    {
+        Debug.Log("Initialize");
+        rBody = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
+        //initialRotation = transform.rotation;
+        statsRecorder = Academy.Instance.StatsRecorder;
+        //m_BehaviorParameters = GetComponent<BehaviorParameters>();
+        if (!isLogInitialized)
+        {
+            // 定义日志文件路径，存储在项目根目录下的 "Logs" 文件夹中
+            string logDirectory = Path.Combine(Application.dataPath, "..", "Logs");
+            Directory.CreateDirectory(logDirectory); // 如果文件夹不存在，则创建
+            logFilePath = Path.Combine(logDirectory, $"FailureLog_{System.DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt");
+
+            // 写入文件头
+            File.WriteAllText(logFilePath, "--- Drone Failure Log ---\n\n");
+            Debug.Log($"Failure log file initialized at: {logFilePath}");
+            isLogInitialized = true;
+        }
+         if (spawnAreaCenter == null)
+        {
+            Debug.LogWarning($"'Spawn Area Center' 未设置，将使用Agent的初始位置 ({initialPosition}) 作为生成区域的中心。");
+            var centerObject = new GameObject($"{name}_SpawnCenter");
+            centerObject.transform.position = initialPosition;
+            spawnAreaCenter = centerObject.transform;
+        }
+        if (rBody == null)
+        {
+            Debug.LogError("Rigidbody component not found on the drone agent!");
+        }
+        rBody.useGravity = true;
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        // 重置物理状态
+        rBody.velocity = Vector3.zero;
+        rBody.angularVelocity = Vector3.zero;
+
+
+
+       // 2. >>> NEW LOGIC: 根据课程学习确定无人机的安全起始点 <<<
+        Vector3 startPos = GetSafeCurriculumStartPosition();
+        currentEpisodeStartPosition = startPos; // <<< 新增这一行，保存出生点
+        transform.position = startPos;
+        transform.rotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+
+        // 3. >>> NEW LOGIC: 基于新的起始点，在其固定的局部范围内找到安全的目标点 <<<
+        _currentRosTargetPosition = GetSafeRandomTargetPosition(startPos);
+        target.position = _currentRosTargetPosition;
+
+         // >>> 初始化目标偏航角为当前实际偏航角 <<<
+        _currentDesiredYawAngle = GetYaw(); // 从当前实际方向开始？？
+        lastDistanceToTarget = Vector3.Distance(transform.position, _currentRosTargetPosition);
+        // 重置所有PID控制器
+        pitchController.Reset();
+        rollController.Reset();
+        yawController.Reset(); // >>> 修改这里 <<<
+        altitudeController.Reset();
+        velocityYPID.Reset();       // 垂直速度内环PID重置
+        velocityXPID.Reset();       // 水平速度PID重置
+        velocityZPID.Reset();       // 水平速度PID重置
+
+        _targetAltitude = startPos.y; 
+           // 内部姿态目标也重置
+        _desiredPitchAngle = 0f;
+        _desiredRollAngle = 0f;
+
+        //Vector3[] explorationRayDirections = GetExplorationDirections(); // 您可能需要把射线方向的定义提取到一个方法中
+        //wasRayBlockedLastStep = new bool[explorationRayDirections.Length];
+        //rayCooldownCounters = new int[GetExplorationDirections().Length];
+        // 初始时可以认为所有方向都是堵塞的，这样第一步的探索就会被奖励
+        //for (int i = 0; i < wasRayBlockedLastStep.Length; i++)
+        //{
+        //    wasRayBlockedLastStep[i] = true; 
+        //}
+
+        // 重置调试计时器
+        _currentVelocityLogTimer = 0f;
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        // 自身状态
+        sensor.AddObservation(transform.InverseTransformDirection(rBody.angularVelocity)); // 3 - 自身坐标系下的角速度
+        sensor.AddObservation(transform.InverseTransformDirection(rBody.velocity));    // 3 - 自身坐标系下的线速度 (Z:forward, X:right, Y:up)
+        sensor.AddObservation(transform.localRotation);                                // 4 - 姿态 (Quaternion)
+
+        // 在世界坐标系中计算到目标的向量 相对于我当前朝向，目标在哪个方向？
+        Vector3 dirToTargetWorld = _currentRosTargetPosition - transform.localPosition;
+        sensor.AddObservation(transform.InverseTransformDirection(dirToTargetWorld.normalized)); // 3维
+        sensor.AddObservation(Vector3.Distance(transform.localPosition, _currentRosTargetPosition)); // 1维
+        // 在 CollectObservations() 的末尾添加
+        sensor.AddObservation(_targetVelocityX / maxTargetVelocityX); // 归一化到 -1到1
+        sensor.AddObservation(_targetVelocityZ / maxTargetVelocityZ); // 归一化到 -1到1
+        sensor.AddObservation(_targetYawRate / maxYawRate);           // 归一化到 -1到1
+        // 对于高度，考虑目标高度是否也需要归一化到0-1，以当前高度范围(minY到maxY)为基准
+        sensor.AddObservation((_targetAltitude - minY) / (maxY - minY)); // 归一化到 0到1
+        // 总计: 3+3+4+3+1= 14 维观察+4
+    }
+
+    /// <summary>
+    /// Agent接收动作，仅更新目标姿态角、目标偏航角速度和目标高度。
+    /// </summary>
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        ApplyActions(actions);
+
+    }
+    private void ApplyActions(ActionBuffers actions)
+    {
+        var continuousActions = actions.ContinuousActions;
+
+       // 映射Agent的动作到目标变量
+        _targetVelocityX = continuousActions[0] * maxTargetVelocityX; // 前向/后向速度
+        _targetVelocityZ = continuousActions[1] * maxTargetVelocityZ; // 侧向速度 (左/右)
+        _targetYawRate = continuousActions[2] * maxYawRate;           // 偏航角速度
+        // Agent现在直接控制目标高度，范围从 initialPosition.y 到 maxTargetAltitude
+        // 在 ApplyActions 方法中
+        // Agent现在直接控制目标高度，范围从 minY 到 maxY
+        // 将 -1 到 1 的动作映射到 minY 到 maxY
+        _targetAltitude = Mathf.Lerp(minY, maxY, (continuousActions[3] + 1) / 2f);
+
+        // 累积目标偏航角 (由偏航角速度指令累积)
+        _currentDesiredYawAngle += _targetYawRate * Time.fixedDeltaTime;
+        // 限制在-180到180度之间
+        if (_currentDesiredYawAngle > 180f) _currentDesiredYawAngle -= 360f;
+        if (_currentDesiredYawAngle < -180f) _currentDesiredYawAngle += 360f;
+    }    
+    /// <summary>
+    /// 计算并应用奖励
+    /// </summary>
+    private void CalculatedAndApplyRewards()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, _currentRosTargetPosition);
+        Vector3 droneToTargetDir = (_currentRosTargetPosition - transform.position).normalized;
+
+        // 结束条件：到达目标
+        if (distanceToTarget < 1f) // 到达目标点，距离在 1 米内
+        {
+            AddReward(arrivalReward);
+            Debug.Log("<color=green>Goal Reached!</color>");
+            // ******** 添加成功率统计 ********
+            totalEpisodes++;
+            successfulEpisodes++;
+            windowTotalEpisodes++;
+            windowSuccessfulEpisodes++;
+            RecordSuccessRate();
+            // **********************************
+            EndEpisode();
+            return;
+        }
+            // [需求层次 1: 生存]
+    // 首先，判断Agent是否处于直接危险中。
+    // OverlapSphere比单一射线检测更可靠。
+    bool isInDangerZone = Physics.CheckSphere(transform.position, minSafeObstacleDistance, obstacleLayer);
+    
+    // 为处于安全边际内的行为施加一个持续的、非线性的惩罚。
+    // 这是“恐惧力场”，它永远处于激活状态。
+    if (isInDangerZone)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, minSafeObstacleDistance, obstacleLayer);
+        float closestDist = float.MaxValue;
+        foreach (var col in hitColliders)
+        {
+            Vector3 closestPoint = col.ClosestPoint(transform.position);
+            closestDist = Mathf.Min(closestDist, Vector3.Distance(transform.position, closestPoint));
+        }
+        float normalizedProximity = Mathf.InverseLerp(minSafeObstacleDistance, 0f, closestDist);
+        float proximityPenalty = normalizedProximity * normalizedProximity * obstacleProximityPenalty; // obstacleProximityPenalty 是负数
+        AddReward(proximityPenalty);
+    }
+
+// ================== 层次 2: 方向与效率奖励 (当不处于直接危险时，才更看重这个) ==================
+    // 这里的奖励是“拉”力，但它的强度不应压过生存惩罚。
+    // 使用我们之前讨论的势能奖励，它比刷分奖励更稳健。
+    float distanceImprovement = lastDistanceToTarget - distanceToTarget;
+    // 我们可以根据Agent是否在危险区来动态调整这个奖励的权重。
+    float potentialRewardMultiplier = isInDangerZone ? 0.5f : 1.5f; // 在危险区时，减弱对目标的渴望；安全时，增强。
+    AddReward(distanceImprovement * potentialRewardMultiplier);
+
+// 定义关键区域
+float finalApproachRadius = 4.0f; 
+float arrivalRadius = 1.0f;
+
+// --- 核心逻辑开始 ---
+if (distanceToTarget < finalApproachRadius && distanceToTarget > arrivalRadius)
+{
+    // 1. 激励加倍：当进入这个关键区域时，为任何积极的距离缩短提供“奖金”。
+    // 这个奖励只在距离被缩短的“那一帧”给予，无法持续刷分。
+    if (distanceImprovement > 0) 
+    {
+        // 这里的 0.05f 是一个显著的“奖金”，让智能体觉得“冲一下”非常值得。
+        // 你可以把它看作是“冲刺奖励”。
+        AddReward(distanceImprovement * 0.05f); // 额外奖励
+    }
+
+    // 2. 打破僵局：只保留最关键的“懒惰惩罚”。
+    // 这是为了防止它在算不清楚收益时选择原地不动。
+    if (rBody.velocity.magnitude < 0.2f)
+    {
+        // 这个惩罚值(-0.05)应该要比单步时间惩罚(-0.002)大得多，才能有效。
+        AddReward(-0.05f); 
+    }
+}
+
+// --- [新增] 智能探索组合奖励 ---
+    // 这个组合只在安全移动时激活，用于引导复杂的绕路行为
+    if (!isInDangerZone && rBody.velocity.magnitude > 0.2f)
+    {
+        // 组合部分1: "视野开阔度" 奖励 (奖励飞向更开阔区域的行为)
+        float forwardClearance = explorationRayDistance; // 默认为最大距离
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, explorationRayDistance, obstacleLayer))
+        {
+            forwardClearance = hit.distance;
+        }
+        // 将前方无障碍距离归一化，并给予一个非常微弱的奖励。
+        // 它鼓励无人机选择前方更“深远”的路径。
+        float openViewBonus = (forwardClearance / explorationRayDistance) * 0.01f; 
+        AddReward(openViewBonus);
+
+
+        // 组合部分2: "侧方安全感" 奖励 (奖励保持在通道中央的行为)
+        float rightClearance = explorationRayDistance;
+        float leftClearance = explorationRayDistance;
+        if (Physics.Raycast(transform.position, transform.right, out RaycastHit rightHit, explorationRayDistance, obstacleLayer))
+        {
+            rightClearance = rightHit.distance;
+        }
+        if (Physics.Raycast(transform.position, -transform.right, out RaycastHit leftHit, explorationRayDistance, obstacleLayer))
+        {
+            leftClearance = leftHit.distance;
+        }
+        // 计算两侧距离的平衡度。当两侧距离相等时(min/max=1)，奖励最高。
+        // 这鼓励无人机在走廊中居中飞行，而不是贴墙。
+        float sideBalance = Mathf.Min(rightClearance, leftClearance) / Mathf.Max(rightClearance, leftClearance, 0.1f);
+        float sideSafetyBonus = sideBalance * 0.005f;
+        AddReward(sideSafetyBonus);
+
+        // 组合部分3: "脱困方向" 奖励 (当目标在墙后时，奖励飞向远离墙的方向)
+        Vector3 dirToTargetLocal = transform.InverseTransformDirection(droneToTargetDir);
+        // 检查目标是否在前方 (Z>0)，但前方近处有障碍物
+        if (dirToTargetLocal.z > 0 && forwardClearance < 3.0f) // 目标在前面，但前面3米内有墙
+        {
+            // 此时，正确的行为是向左或向右飞。
+            // 我们检查当前速度的侧向分量。
+            float sideVelocity = rBody.velocity.x; // 自身坐标系下的侧向速度
+            
+            // 如果有显著的侧向移动，给予一个明确的“绕路”奖励
+            if (Mathf.Abs(sideVelocity) > 0.5f) // 速度阈值
+            {
+                AddReward(0.03f); // 这是一个明确的信号：“你正在做对的事情来绕开障碍！”
+            }
+        }
+    }
+
+    // [可选，但推荐] 保留一个非常微弱的速度方向引导，但不足以刷分
+    //if (!isInDangerZone && rBody.velocity.magnitude > 0.1f)
+    //{
+    //    float velocityAlignment = Vector3.Dot(rBody.velocity.normalized, droneToTargetDir);
+    //    // 系数一定要非常小！
+   //     AddReward(velocityAlignment * 0.01f); 
+    //}
+        // --- 通用惩罚 ---
+        // 时间惩罚
+        AddReward(timePenaltyPerStep);
+
+        // 停滞惩罚：当远离目标但几乎不移动时
+        float currentSpeed = rBody.velocity.magnitude;
+        if (currentSpeed < 0.2f && distanceToTarget > finalApproachRadius) // 0.2m/s 是一个低速阈值
+        {
+            AddReward(stagnationPenalty);
+        }
+
+        // 过度角速度惩罚（用于保持姿态稳定）
+        if (rBody.angularVelocity.magnitude * Mathf.Rad2Deg > maxAllowedAngularVelocity)
+        {
+            AddReward(excessiveAngularVelocityPenalty);
+        }
+
+        // 出界惩罚
+        CheckBounds();
+        float hoverZoneOuterRadius = 3.0f;
+        // 更新距离，为下一步做准备
+        lastDistanceToTarget = distanceToTarget;
+    }
+    // 辅助函数，用于获取探索射线方向
+    private Vector3[] GetExplorationDirections()
+    {
+        return new Vector3[]
+        {
+                // 主要的水平方向 (更密集)
+                transform.forward,
+                (transform.forward + transform.right * 0.1f).normalized, // 5度角
+                (transform.forward - transform.right * 0.1f).normalized,
+                (transform.forward + transform.right * 0.25f).normalized, // 15度角
+                (transform.forward - transform.right * 0.25f).normalized,
+                (transform.forward + transform.right * 0.5f).normalized,  // 30度角
+                (transform.forward - transform.right * 0.5f).normalized,
+                (transform.forward + transform.right * 0.75f).normalized, // 45度角
+                (transform.forward - transform.right * 0.75f).normalized,
+                transform.right,                                          // 正右方
+                -transform.right,                                         // 正左方
+                (transform.forward * -0.5f + transform.right * 0.5f).normalized, // 后右方 (考虑向后转)
+                (transform.forward * -0.5f - transform.right * 0.5f).normalized, // 后左方
+                -transform.forward,                                       // 正后方
+
+                // 垂直方向 (如果您的障碍物是多层的或有空隙)
+                transform.up,                                             // 正上方
+                -transform.up,                                            // 正下方
+                // 稍微倾斜的垂直方向 (可以探测到斜上方/斜下方)
+                (transform.up + transform.forward * 0.5f).normalized,
+                (transform.up - transform.forward * 0.5f).normalized,
+                (transform.up + transform.right * 0.5f).normalized,
+                (transform.up - transform.right * 0.5f).normalized,
+    };
+}
+
+    /// <summary>
+    /// 定期打印无人机当前速度信息,调试PID参数用
+    /// </summary>
+    private void LogVelocityPeriodically()
+    {
+        if (velocityLogInterval <= 0) return;
+
+        _currentVelocityLogTimer += Time.fixedDeltaTime;
+
+        if (_currentVelocityLogTimer >= velocityLogInterval)
+        {
+            Vector3 currentWorldVelocity = rBody.velocity;
+            Vector3 currentLocalVelocity = transform.InverseTransformDirection(currentWorldVelocity);
+
+            Debug.Log($"<color=cyan>[{Time.timeSinceLevelLoad:F2}s]</color> " +
+                      $"<color=lime>Current Local Vel:</color> X={currentLocalVelocity.x:F2} (Right), Y={currentLocalVelocity.y:F2} (Up), Z={currentLocalVelocity.z:F2} (Forward)\n" +
+                      $"<color=yellow>Agent Target:</color> Fwd Vel={_targetVelocityX:F2}, Side Vel={_targetVelocityZ:F2}, Yaw Rate={_targetYawRate:F2}, Alt={_targetAltitude:F2}\n" +
+                      $"<color=blue>Current Alt:</color> {transform.localPosition.y:F2} m, <color=blue>Current Local Vert Vel:</color> {currentLocalVelocity.y:F2} m/s\n" +
+                      $"<color=orange>Total World Speed:</color> {currentWorldVelocity.magnitude:F2} m/s");
+
+            _currentVelocityLogTimer = 0f;
+        }
+    }
+
+    /// <summary>
+    /// 手动控制，用于测试底层飞控参数。
+    /// </summary>
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuousActions = actionsOut.ContinuousActions;
+        continuousActions.Clear();
+
+            // W/S -> 目标前向速度 (Agent 动作 0)
+        if (Input.GetKey(KeyCode.W)) continuousActions[0] = 1f;
+        else if (Input.GetKey(KeyCode.S)) continuousActions[0] = -1f;
+        else continuousActions[0] = 0f;
+
+        // A/D -> 目标侧向速度 (Agent 动作 1)
+        if (Input.GetKey(KeyCode.D)) continuousActions[1] = 1f; // Right
+        else if (Input.GetKey(KeyCode.A)) continuousActions[1] = -1f; // Left
+        else continuousActions[1] = 0f;
+
+        // Q/E -> 目标偏航角速度 (Agent 动作 2)
+        if (Input.GetKey(KeyCode.E)) continuousActions[2] = 1f; // Yaw Right
+        else if (Input.GetKey(KeyCode.Q)) continuousActions[2] = -1f; // Yaw Left
+        else continuousActions[2] = 0f;
+
+        // LeftShift/LeftControl -> 目标高度 (Agent 动作 3)
+        if (Input.GetKey(KeyCode.LeftShift)) continuousActions[3] = 1f; // 目标更高
+        else if (Input.GetKey(KeyCode.LeftControl)) continuousActions[3] = -1f; // 目标更低
+        else continuousActions[3] = 0f; // 保持目标高度不变
+    }
+
+    #endregion
+
+    #region Physics and Flight Control
+// >>> 新增: 检测并记录课程切换的函数 <<<
+    private void CheckAndLogLessonChange()
+    {
+        // 从环境参数中获取当前的范围值
+        // "target_spawn_range_x" 必须与你的 .yaml 文件中的参数名完全匹配
+        float currentRangeX = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_x", 5.0f);
+        float currentRangeZ = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_z", 5.0f);
+        float currentLocalRange = Academy.Instance.EnvironmentParameters.GetWithDefault("local_target_range", 5.0f);
+        // 检查当前值是否与我们记录的上一个值不同
+        if (Mathf.Abs(currentRangeX - lastKnownRangeX) > 0.01f || Mathf.Abs(currentRangeZ - lastKnownRangeZ) > 0.01f||Mathf.Abs(currentLocalRange - lastKnownLocalRange) > 0.01f)
+        {
+            // 值发生了变化，说明课程切换了！
+            
+            // 更新记录的值
+            lastKnownRangeX = currentRangeX;
+            lastKnownRangeZ = currentRangeZ;
+            lastKnownLocalRange = currentLocalRange;
+            
+            // 增加课程计数器
+            lessonCounter++;
+
+            // 向日志文件写入一个标记
+            string lessonMarker = $"\n=============== LESSON {lessonCounter} STARTED ===============\n" +
+                                  $"Global Range: X={currentRangeX:F1}, Z={currentRangeZ:F1}\n" +
+                                  $"Local Target Range: {currentLocalRange:F1}\n" +
+                                  $"============================================\n";
+
+            try
+            {
+                File.AppendAllText(logFilePath, lessonMarker);
+            }
+            catch (IOException ex)
+            {
+                 Debug.LogError($"Error writing lesson marker to log file: {ex.Message}");
+            }
+
+            Debug.Log($"<color=yellow>Lesson changed to {lessonCounter}. New Range: X={currentRangeX:F1}, Z={currentRangeZ:F1}</color>");
+        }
+    }
+    void FixedUpdate()
+    {
+        // >>> 在 FixedUpdate 的开头调用新的检测函数 <<<
+        CheckAndLogLessonChange();
+        totalStepCounter++; // <--- 在这里新增这一行
+        if (rBody)
+        {
+            ExecuteFlightController();
+            CalculatedAndApplyRewards();
+            //LogVelocityPeriodically(); // 打印调试信息
+            CheckAndReportWindowedSuccessRate();
+        }
+    }
+
+    /// <summary>
+    /// 底层飞控：读取Agent的目标，通过PID计算并施加物理力。
+    /// </summary>
+    private void ExecuteFlightController()
+    {
+        // --- 1. 获取当前姿态和角速度 ---
+        float currentPitch = GetPitch();
+        float currentRoll = GetRoll();
+        float currentYaw = GetYaw(); // >>> 获取当前偏航角 <<<
+        Vector3 currentLocalVelocity = transform.InverseTransformDirection(rBody.velocity); // 获取无人机自身坐标系下的线速度 (重要!)
+
+        // --- 2. 水平速度控制 (外环) -> 姿态角目标 (内环的设定点) ---
+        // 前向/后向速度控制俯仰角 (Unity的 Z 轴是 forward)
+        // 为了向前飞行 (_targetVelocityX 为正)，无人机需要俯冲（负的俯仰角），所以 PID 结果需要取反。
+        _desiredPitchAngle = -velocityXPID.Calculate(_targetVelocityX, currentLocalVelocity.z, Time.fixedDeltaTime);
+        // 侧向速度控制横滚角 (Unity的 X 轴是 right)
+        // 为了向右飞行 (_targetVelocityZ 为正)，无人机需要右倾（正的横滚角），所以 PID 结果不需要取反。
+        _desiredRollAngle = velocityZPID.Calculate(_targetVelocityZ, currentLocalVelocity.x, Time.fixedDeltaTime);
+
+        // 限制计算出的目标姿态角在物理允许范围内 (使用你原来的 maxTargetPitch/Roll 作为物理限制)
+        _desiredPitchAngle = -Mathf.Clamp(_desiredPitchAngle, -maxTargetPitch, maxTargetPitch);
+        _desiredRollAngle = Mathf.Clamp(_desiredRollAngle, -maxTargetRoll, maxTargetRoll);
+
+        // --- 3. 姿态控制 (内环) -> 扭矩 ---
+        // 使用水平速度PID计算出的 _desiredPitchAngle 和 _desiredRollAngle 作为设定点
+        float pitchTorque = pitchController.Calculate(_desiredPitchAngle, currentPitch, Time.fixedDeltaTime);
+        float rollTorque = rollController.Calculate(_desiredRollAngle, currentRoll, Time.fixedDeltaTime);
+        float yawTorque = yawController.Calculate(_currentDesiredYawAngle, currentYaw, Time.fixedDeltaTime);
+
+        // --- 4. 施加扭矩 ---
+        rBody.AddTorque(transform.right * pitchTorque);
+        rBody.AddTorque(transform.forward * -rollTorque); // 注意这里的负号，确保正rollTorque导致右滚
+        rBody.AddTorque(transform.up * yawTorque);
+
+        // --- 5. 垂直推力计算 (高度-速度级联控制) ---
+        // 基础悬停推力，抵消重力
+        float hoverThrust = rBody.mass * Physics.gravity.magnitude * hoverThrustMultiplier;
+
+        // **外环: 高度控制器 (altitudeController) 计算所需的目标垂直速度**
+        // 输入：Agent设定的目标高度 (_targetAltitude) 和当前实际高度 (transform.localPosition.y)
+        float targetVerticalVelocity = altitudeController.Calculate(_targetAltitude, transform.localPosition.y, Time.fixedDeltaTime);
+        // 限制由高度PID计算出的目标垂直速度，防止在高度误差大时生成过大的垂直速度指令
+        targetVerticalVelocity = Mathf.Clamp(targetVerticalVelocity, -maxVerticalVelocityForAltitudePID, maxVerticalVelocityForAltitudePID);
+
+        // **内环: 垂直速度控制器 (velocityYPID) 根据目标垂直速度和当前垂直速度，计算推力修正**
+        // 输入：外环生成的目标垂直速度 (targetVerticalVelocity) 和当前实际垂直速度 (currentLocalVelocity.y)
+        float thrustCorrection = velocityYPID.Calculate(targetVerticalVelocity, currentLocalVelocity.y, Time.fixedDeltaTime);
+
+        // 倾斜补偿：当无人机倾斜时，垂直向上的推力会减小，需要增加总推力来维持高度
+        float tiltAngle = Vector3.Angle(transform.up, Vector3.up); // 当前无人机向上方向与世界坐标系向上方向的夹角
+        float tiltCompensation = 1f / Mathf.Max(0.01f, Mathf.Cos(tiltAngle * Mathf.Deg2Rad)); // cos(0)=1, cos(90)=0
+
+        float finalThrust = (hoverThrust + thrustCorrection) * tiltCompensation; // 使用内环PID输出的修正量
+
+        // --- 6. 施加推力 ---
+        rBody.AddForce(transform.up * finalThrust);
+    }
+
+    #endregion
+
+    #region Collision and Helpers
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        string failureReason = "";
+        bool didFail = false;
+        if (((1 << collision.gameObject.layer) & obstacleLayer) != 0)
+        {
+            SetReward(obstacleCollisionPenalty);
+            Debug.Log($"<color=red>OnCollisionEnter: Hit Obstacle! Episode Ended. Hit: {collision.gameObject.name}</color>");
+            failureReason = $"Hit Obstacle: {collision.gameObject.name}";
+            didFail = true;
+        }
+        else if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            SetReward(groundCollisionPenalty);
+            Debug.Log($"<color=red>OnCollisionEnter: Hit Ground! Episode Ended. Hit: {collision.gameObject.name}</color>");
+            failureReason = "Hit Ground";
+            didFail = true;
+        }
+        if (didFail)
+        {
+            // >>> 在这里记录失败的目标点到文件 <<<
+            RecordFailurePoint(_currentRosTargetPosition, failureReason);
+
+            totalEpisodes++;
+            windowTotalEpisodes++;
+            RecordSuccessRate();
+            EndEpisode();
+        }
+    }
+
+    // 现在写入文件
+    private void RecordFailurePoint(Vector3 position, string reason)
+    {
+        // 将Vector3坐标格式化为字符串，例如 "(1.23, 4.56, 7.89)"
+        string positionString = $"({position.x:F2}, {position.y:F2}, {position.z:F2})";
+        string logEntry = $"Target: {positionString} - Reason: {reason}\n";
+        
+        // 使用 File.AppendAllText 来追加内容，这会自动处理文件的打开和关闭
+        try
+        {
+            File.AppendAllText(logFilePath, logEntry);
+        }
+        catch (IOException ex)
+        {
+            Debug.LogError($"Error writing to log file: {ex.Message}");
+        }
+    }
+// >>> 新增: 检查并报告窗口期成功率的函数 (已修正) <<<
+private void CheckAndReportWindowedSuccessRate()
+{
+    // 检查我们自己追踪的总步数是否已经超过了下一个报告点
+    if (totalStepCounter >= lastReportedStep + stepReportInterval)
+    {
+        float windowedSuccessRate = 0f;
+        // 避免除以零
+        if (windowTotalEpisodes > 0)
+        {
+            windowedSuccessRate = (float)windowSuccessfulEpisodes / windowTotalEpisodes;
+        }
+
+        // 在控制台打印详细信息
+        Debug.Log($"<color=magenta>--- SUCCESS RATE REPORT (Steps {lastReportedStep} to {totalStepCounter}) ---</color>");
+        Debug.Log($"<color=magenta>Episodes in this window: {windowTotalEpisodes}, Successes: {windowSuccessfulEpisodes}</color>");
+        Debug.Log($"<color=magenta>Windowed Success Rate: {windowedSuccessRate:P2}</color>"); // P2格式化为百分比
+
+        // 将这个窗口成功率也记录到TensorBoard，方便可视化
+        statsRecorder.Add("Custom/Windowed Success Rate", windowedSuccessRate);
+
+        // 重置窗口计数器，为下一个周期做准备
+        windowTotalEpisodes = 0;
+        windowSuccessfulEpisodes = 0;
+        
+        // 更新“上一次报告的步数”
+        lastReportedStep = totalStepCounter;
+    }
+}
+
+    // 辅助函数：获取正确的俯仰角 (-180 到 180)
+    private float GetPitch()
+    {
+        float pitch = transform.localEulerAngles.x;
+        if (pitch > 180f) { pitch -= 360f; }
+        return pitch;
+    }
+
+    // 辅助函数：获取正确的横滚角 (-180 到 180)
+    private float GetRoll()
+    {
+        float roll = transform.localEulerAngles.z;
+        if (roll > 180f) { roll -= 360f; }
+        return -roll; // 反转符号，使右滚为正
+    }
+
+    // >>> 新增辅助函数：获取正确的偏航角 (-180 到 180) <<<
+    private float GetYaw()
+    {
+        float yaw = transform.localEulerAngles.y;
+        if (yaw > 180f) { yaw -= 360f; }
+        return yaw;
+    }
+private void RecordSuccessRate()
+{
+    // 只有在totalEpisodes大于0时才计算，避免除以零错误
+    if (totalEpisodes > 0)
+    {
+        // 计算成功率
+        float successRate = (float)successfulEpisodes / totalEpisodes;
+
+        // 使用StatsRecorder将数据发送到TensorBoard
+        // 第一个参数是数据的键名（会显示在TensorBoard的左侧栏）
+        // 第二个参数是数据的值
+        statsRecorder.Add("Custom/Success Rate", successRate);
+    }
+}
+    #endregion
+     /// <summary>
+    /// 根据课程学习的范围，获取一个安全的无人机起始位置
+    /// </summary>
+    private Vector3 GetSafeCurriculumStartPosition()
+    {
+        // 从课程学习配置中读取当前的生成范围
+        float currentSpawnRangeX = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_x", 5.0f);
+        float currentSpawnRangeZ = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_z", 5.0f);
+        //float currentSpawnRangeX = 15.0f;
+        //float currentSpawnRangeZ = 20.0f;
+        //Vector3 spawnCenter = spawnAreaCenter.position;
+        Vector3 randomPos;
+        int attempts = 0;
+        Vector3 targetInitialPoint;
+        do
+        {
+            targetInitialPoint=trainingArea.position;
+            // 根据 targetSpawnRangeX/Z 和 initialPosition 计算随机范围
+            float randX = Random.Range(targetInitialPoint.x, targetInitialPoint.x + currentSpawnRangeX);
+            float randZ = Random.Range(targetInitialPoint.z, targetInitialPoint.z + currentSpawnRangeZ);
+
+            randomPos = new Vector3(
+                randX,
+                Random.Range(minY, maxY),
+                randZ
+            );
+
+            // 确保生成的随机点也在无人机的总飞行边界内
+            randomPos.x = Mathf.Clamp(randomPos.x, minX + minClearanceFromObstacles, maxX - minClearanceFromObstacles);
+            randomPos.y = Mathf.Clamp(randomPos.y, minY + minClearanceFromObstacles, maxY - minClearanceFromObstacles); // 也要考虑无人机飞行的最小高度
+            randomPos.z = Mathf.Clamp(randomPos.z, minZ + minClearanceFromObstacles, maxZ - minClearanceFromObstacles);
+
+            attempts++;
+            // 检查该位置对于无人机自身是否安全
+            if (!Physics.CheckSphere(randomPos, minClearanceFromObstacles, obstacleLayer))
+            {
+                return randomPos;
+            }
+
+        } while (attempts < 100);
+
+        Debug.LogError("无法为无人机找到一个安全的出生点！请检查课程学习范围、障碍物层或环境边界。将返回中心点。");
+        return targetInitialPoint;
+    }
+
+    /// <summary>
+    /// 基于给定的起始点，在固定的局部范围内生成一个安全的目标点。
+    /// </summary>
+    private Vector3 GetSafeRandomTargetPosition(Vector3 startPosition)
+    {
+        float currentLocalTargetRange = Academy.Instance.EnvironmentParameters.GetWithDefault("local_target_range", 5.0f);
+        //float currentLocalTargetRange = 20.0f;
+        Vector3 newPos;
+        int attempts = 0;
+        
+        // 定义一个以 startPosition 为中心的方形区域
+        float minTargetX = startPosition.x - currentLocalTargetRange / 2;
+        float maxTargetX = startPosition.x + currentLocalTargetRange / 2;
+        float minTargetZ = startPosition.z - currentLocalTargetRange / 2;
+        float maxTargetZ = startPosition.z + currentLocalTargetRange / 2;
+
+        do
+        {
+            newPos = new Vector3(
+                Random.Range(minTargetX, maxTargetX),
+                Random.Range(minY, maxY), // 高度在整个允许范围内随机
+                Random.Range(minTargetZ, maxTargetZ)
+            );
+
+            // 确保生成点本身没有超出整个环境的大边界
+            newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
+            newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
+            newPos.z = Mathf.Clamp(newPos.z, minZ, maxZ);
+
+            attempts++;
+
+            // 检查目标点是否离起始点太近，并确保目标点本身是安全的
+            if (Vector3.Distance(newPos, startPosition) > 3.0f && !Physics.CheckSphere(newPos, minClearanceFromObstacles, obstacleLayer))
+            {
+                return newPos;
+            }
+
+        } while (attempts < 100);
+
+        Debug.LogWarning($"无法在 {startPosition} 附近找到安全的目标点。将返回起始点前方5米处作为备用目标。");
+        return startPosition + transform.forward * 5f;
+    }
+
+    // 检查是否超出边界，并分级处理 - 保持不变 在调优模式下不 EndEpisode
+    private void CheckBounds()
+    {
+        Vector3 currentPos = transform.localPosition;
+        bool outOfBounds = false;
+
+        if (currentPos.x < minX || currentPos.x > maxX ||
+            currentPos.y < minY || currentPos.y > maxY ||
+            currentPos.z < minZ || currentPos.z > maxZ)
+        {
+            AddReward(outOfBoundsPenalty); // 小幅持续惩罚
+            outOfBounds = true;
+        }
+
+        // 如果无人机高度严重超出最大 Y 值，施加严重惩罚
+        if (currentPos.y > (maxY + severeHeightExceedThreshold))
+        {
+            AddReward(severeHeightPenalty);
+            // 可选：EndEpisode(); 如果希望这是终止条件
+        }
+
+        // 如果无人机撞击地面（例如，Y <= 0.1），视为坠毁
+        if (currentPos.y <= 0.1f && rBody.velocity.y < 0.1f) // 确保它不仅仅是瞬间接触
+        {
+            SetReward(groundCollisionPenalty);
+            Debug.Log("<color=red>Ground Collision!</color>");
+            EndEpisode();
+            return;
+        }
+        
+    }
+   void OnDrawGizmos()
+    {
+
+        // 1. 绘制目标点
+        if (target != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(target.position, 1.0f);
+        }
+
+        // 2. 绘制整个环境的边界 (红色)
+        Gizmos.color = Color.red;
+        Vector3 boundsCenter = new Vector3((minX + maxX) / 2f, (minY + maxY) / 2f, (minZ + maxZ) / 2f);
+        Vector3 boundsSize = new Vector3(maxX - minX, maxY - minY, maxZ - minZ);
+        Gizmos.DrawWireCube(boundsCenter, boundsSize);
+
+        // 3. 绘制当前课程的无人机出生区域 (青色)
+        float currentSpawnRangeX = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_x", 5.0f);
+        float currentSpawnRangeZ = Academy.Instance.EnvironmentParameters.GetWithDefault("target_spawn_range_z", 5.0f);
+        //float currentSpawnRangeX = 15.0f;
+        //float currentSpawnRangeZ = 20.0f;        
+        // 绘制目标点随机化范围 (青色线框) - 以无人机初始位置为中心
+        Vector3 targetInitialPoint=trainingArea.position;
+        Gizmos.color = Color.cyan;
+        // 目标随机化区域的中心点
+        // 目标随机化区域的尺寸
+        Vector3 targetSpawnSize = new Vector3(
+            currentSpawnRangeX, // X尺寸直接使用 targetSpawnRangeX
+            maxY - minY, // Y尺寸由 targetMaxHeight - targetMinHeight 决定
+            currentSpawnRangeZ  // Z尺寸直接使用 targetSpawnRangeZ
+        );
+        Vector3 targetSpawnCenter = new Vector3(
+            targetInitialPoint.x + targetSpawnSize.x / 2f, // X中心：起始X + X尺寸一半
+            minY + targetSpawnSize.y / 2f,   // Y中心：最小Y + Y尺寸一半 (即 (targetMinHeight + targetMaxHeight) / 2f)
+            targetInitialPoint.z + targetSpawnSize.z / 2f    // Z中心：起始Z + Z尺寸一半
+        );
+
+        Gizmos.DrawWireCube(targetSpawnCenter, targetSpawnSize);
+        //Gizmos.color = Color.cyan;
+        //Vector3 spawnAreaSize = new Vector3(currentSpawnRangeX, maxY - minY, currentSpawnRangeZ);
+        //Gizmos.DrawWireCube(spawnAreaCenter.position, spawnAreaSize);
+        
+        // 4. >>> 步骤 3: 修改此部分以绘制动态的局部目标范围 <<<
+        Gizmos.color = Color.yellow;
+        // 从环境中读取当前的局部范围
+        float currentLocalTargetRange = Academy.Instance.EnvironmentParameters.GetWithDefault("local_target_range", 5.0f);
+        //float currentLocalTargetRange = 20.0f;
+        Vector3 targetAreaCenter = currentEpisodeStartPosition; // 使用当前回合的出生点作为中心
+        targetAreaCenter.y = (minY + maxY) / 2f;
+        // 使用动态读取的范围
+        Vector3 targetAreaSize = new Vector3(currentLocalTargetRange, maxY - minY, currentLocalTargetRange);
+        Gizmos.DrawWireCube(targetAreaCenter, targetAreaSize);
+    }
+}

@@ -1,0 +1,8 @@
+prefix=/home/lpf/docker_shared/rltraining_ws/install
+
+Name: dt_launch
+Description: Description of dt_launch
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

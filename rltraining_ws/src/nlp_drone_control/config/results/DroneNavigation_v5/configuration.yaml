@@ -1,0 +1,1179 @@
+default_settings: null
+behaviors:
+  DroneNavigation:
+    trainer_type: custom_ppo
+    hyperparameters:
+      batch_size: 2048
+      buffer_size: 20480
+      learning_rate: 0.0003
+      beta: 0.0001
+      epsilon: 0.1
+      lambd: 0.98
+      num_epoch: 3
+      shared_critic: false
+      learning_rate_schedule: constant
+      beta_schedule: constant
+      epsilon_schedule: constant
+    checkpoint_interval: 50000
+    network_settings:
+      normalize: true
+      hidden_units: 512
+      num_layers: 4
+      vis_encode_type: simple
+      memory:
+        sequence_length: 64
+        memory_size: 256
+      goal_conditioning_type: hyper
+      deterministic: false
+    reward_signals:
+      extrinsic:
+        gamma: 0.995
+        strength: 1.0
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+          deterministic: false
+      curiosity:
+        gamma: 0.99
+        strength: 0.02
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+          deterministic: false
+        learning_rate: 0.0003
+        encoding_size: null
+    init_path: null
+    keep_checkpoints: 5
+    even_checkpoints: false
+    max_steps: 5000000
+    time_horizon: 2048
+    summary_freq: 50000
+    threaded: true
+    custom_decay_settings:
+      min_learning_rate: 1.0e-05
+      min_beta: 0.0001
+      min_epsilon: 0.1
+      min_curiosity_strength: 0.001
+    self_play: null
+    behavioral_cloning: null
+env_settings:
+  env_path: /home/lpf/unity-project/MultiAgentRL/headless_training/headless.x86_64
+  env_args: null
+  base_port: 5005
+  num_envs: 1
+  num_areas: 1
+  timeout_wait: 60
+  seed: -1
+  max_lifetime_restarts: 10
+  restarts_rate_limit_n: 1
+  restarts_rate_limit_period_s: 60
+engine_settings:
+  width: 84
+  height: 84
+  quality_level: 5
+  time_scale: 20
+  target_frame_rate: -1
+  capture_frame_rate: 60
+  no_graphics: false
+  no_graphics_monitor: false
+environment_parameters:
+  target_spawn_range_x:
+    curriculum:
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 337
+          value: 5.0
+      name: Stage0_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 338
+          value: 5.0
+      name: Stage0_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.3
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 339
+          value: 5.0
+      name: Stage0_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.7
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 340
+          value: 5.0
+      name: Stage0_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 7.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 341
+          value: 15.0
+      name: Stage1_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.2
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 342
+          value: 15.0
+      name: Stage1_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.4
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 343
+          value: 15.0
+      name: Stage1_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.6
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 344
+          value: 15.0
+      name: Stage1_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.8
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 345
+          value: 25.0
+      name: Stage2_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 346
+          value: 25.0
+      name: Stage2_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 347
+          value: 25.0
+      name: Stage2_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 348
+          value: 25.0
+      name: Stage2_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 349
+          value: 35.0
+      name: Stage3_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 350
+          value: 35.0
+      name: Stage3_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 351
+          value: 35.0
+      name: Stage3_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 352
+          value: 35.0
+      name: Stage3_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 353
+          value: 40.0
+      name: Stage4_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 354
+          value: 40.0
+      name: Stage4_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 355
+          value: 40.0
+      name: Stage4_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 356
+          value: 40.0
+      name: Stage4_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 357
+          value: 45.0
+      name: Stage5_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 358
+          value: 45.0
+      name: Stage5_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 359
+          value: 45.0
+      name: Stage5_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 360
+          value: 45.0
+      name: Stage5_Final_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 361
+          value: 55.0
+      name: Stage6_Local1_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 16.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 362
+          value: 55.0
+      name: Stage6_Local2_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 17.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 363
+          value: 55.0
+      name: Stage6_Local3_x
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 18.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 364
+          value: 55.0
+      name: Stage6_Final_x
+      completion_criteria: null
+  target_spawn_range_z:
+    curriculum:
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 365
+          value: 5.0
+      name: Stage0_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 366
+          value: 5.0
+      name: Stage0_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.3
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 367
+          value: 5.0
+      name: Stage0_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.7
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 368
+          value: 5.0
+      name: Stage0_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 7.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 369
+          value: 20.0
+      name: Stage1_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.2
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 370
+          value: 20.0
+      name: Stage1_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.4
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 371
+          value: 20.0
+      name: Stage1_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.6
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 372
+          value: 20.0
+      name: Stage1_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.8
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 373
+          value: 35.0
+      name: Stage2_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 374
+          value: 35.0
+      name: Stage2_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 375
+          value: 35.0
+      name: Stage2_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 376
+          value: 35.0
+      name: Stage2_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 377
+          value: 50.0
+      name: Stage3_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 378
+          value: 50.0
+      name: Stage3_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 379
+          value: 50.0
+      name: Stage3_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 380
+          value: 50.0
+      name: Stage3_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 381
+          value: 60.0
+      name: Stage4_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 382
+          value: 60.0
+      name: Stage4_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 383
+          value: 60.0
+      name: Stage4_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 384
+          value: 60.0
+      name: Stage4_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 385
+          value: 65.0
+      name: Stage5_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 386
+          value: 65.0
+      name: Stage5_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 387
+          value: 65.0
+      name: Stage5_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 388
+          value: 65.0
+      name: Stage5_Final_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 389
+          value: 80.0
+      name: Stage6_Local1_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 16.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 390
+          value: 80.0
+      name: Stage6_Local2_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 17.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 391
+          value: 80.0
+      name: Stage6_Local3_z
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 18.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 392
+          value: 80.0
+      name: Stage6_Final_z
+      completion_criteria: null
+  local_target_range:
+    curriculum:
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 393
+          value: 5.0
+      name: Stage0_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 394
+          value: 10.0
+      name: Stage0_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.3
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 395
+          value: 15.0
+      name: Stage0_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 6.7
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 396
+          value: 20.0
+      name: Stage0_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1000
+        signal_smoothing: true
+        threshold: 7.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 397
+          value: 5.0
+      name: Stage1_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.2
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 398
+          value: 10.0
+      name: Stage1_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.4
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 399
+          value: 15.0
+      name: Stage1_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.6
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 400
+          value: 20.0
+      name: Stage1_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 1500
+        signal_smoothing: true
+        threshold: 7.8
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 401
+          value: 5.0
+      name: Stage2_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 402
+          value: 10.0
+      name: Stage2_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 8.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 403
+          value: 15.0
+      name: Stage2_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 404
+          value: 20.0
+      name: Stage2_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2000
+        signal_smoothing: true
+        threshold: 9.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 405
+          value: 5.0
+      name: Stage3_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 406
+          value: 10.0
+      name: Stage3_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 10.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 407
+          value: 15.0
+      name: Stage3_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 408
+          value: 20.0
+      name: Stage3_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 2500
+        signal_smoothing: true
+        threshold: 11.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 409
+          value: 5.0
+      name: Stage4_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 410
+          value: 10.0
+      name: Stage4_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 12.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 411
+          value: 15.0
+      name: Stage4_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 412
+          value: 20.0
+      name: Stage4_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 13.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 413
+          value: 5.0
+      name: Stage5_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 414
+          value: 10.0
+      name: Stage5_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 14.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 415
+          value: 15.0
+      name: Stage5_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 416
+          value: 20.0
+      name: Stage5_Final
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 15.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 417
+          value: 5.0
+      name: Stage6_Local1
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 16.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 418
+          value: 10.0
+      name: Stage6_Local2
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 16.5
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 419
+          value: 15.0
+      name: Stage6_Local3
+      completion_criteria:
+        behavior: DroneNavigation
+        measure: reward
+        min_lesson_length: 3000
+        signal_smoothing: true
+        threshold: 17.0
+        require_reset: false
+    - value:
+        sampler_type: constant
+        sampler_parameters:
+          seed: 420
+          value: 20.0
+      name: Stage6_Final
+      completion_criteria: null
+checkpoint_settings:
+  run_id: DroneNavigation_v5
+  initialize_from: null
+  load_model: false
+  resume: false
+  force: true
+  train_model: true
+  inference: false
+  results_dir: results
+torch_settings:
+  device: cuda
+debug: true

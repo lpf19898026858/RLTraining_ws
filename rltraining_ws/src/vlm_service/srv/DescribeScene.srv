@@ -1,0 +1,7 @@
+# Request part (can be empty if we always use the latest image)
+string prompt  # 允许调用者指定一个问题，例如 "Is the window open?"
+sensor_msgs/Image[] images  # <-- 关键修改：从单个隐式图像变为一个显式图像数组
+---
+# Response part
+bool success   # 指示VLM调用是否成功
+string description # VLM返回的文本描述

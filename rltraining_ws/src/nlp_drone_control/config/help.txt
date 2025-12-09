@@ -1,0 +1,215 @@
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson0_RangeX' and has value 'Float: value=5.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson0_RangeZ' and has value 'Float: value=5.0'.
+[INFO] DroneNavigation. Step: 50000. Time Elapsed: 599.125 s. Mean Reward: -7.702. Std of Reward: 100.416. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-49795.onnx
+[INFO] DroneNavigation. Step: 100000. Time Elapsed: 979.881 s. Mean Reward: 60.444. Std of Reward: 23.017. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-99983.onnx
+[INFO] DroneNavigation. Step: 150000. Time Elapsed: 1348.807 s. Mean Reward: 63.831. Std of Reward: 5.882. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-149994.onnx
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson1_RangeX' and has value 'Float: value=15.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson1_RangeZ' and has value 'Float: value=20.0'.
+[INFO] DroneNavigation. Step: 200000. Time Elapsed: 1717.371 s. Mean Reward: 61.789. Std of Reward: 20.318. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-199624.onnx
+[INFO] DroneNavigation. Step: 250000. Time Elapsed: 2078.591 s. Mean Reward: 10.906. Std of Reward: 75.650. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-249995.onnx
+[INFO] DroneNavigation. Step: 300000. Time Elapsed: 2437.155 s. Mean Reward: 37.036. Std of Reward: 59.859. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-299984.onnx
+[INFO] DroneNavigation. Step: 350000. Time Elapsed: 2795.878 s. Mean Reward: 53.120. Std of Reward: 39.255. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-349990.onnx
+[INFO] DroneNavigation. Step: 400000. Time Elapsed: 3157.441 s. Mean Reward: 61.902. Std of Reward: 15.169. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-399858.onnx
+[INFO] DroneNavigation. Step: 450000. Time Elapsed: 3626.104 s. Mean Reward: 61.759. Std of Reward: 16.843. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-449988.onnx
+[INFO] DroneNavigation. Step: 500000. Time Elapsed: 3986.957 s. Mean Reward: 62.659. Std of Reward: 12.557. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-499996.onnx
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson2_RangeX' and has value 'Float: value=25.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson2_RangeZ' and has value 'Float: value=35.0'.
+[INFO] DroneNavigation. Step: 550000. Time Elapsed: 4350.361 s. Mean Reward: 62.545. Std of Reward: 13.052. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-549986.onnx
+[INFO] DroneNavigation. Step: 600000. Time Elapsed: 4699.613 s. Mean Reward: 29.615. Std of Reward: 65.564. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-599859.onnx
+[INFO] DroneNavigation. Step: 650000. Time Elapsed: 5110.660 s. Mean Reward: 43.234. Std of Reward: 51.786. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-649997.onnx
+[INFO] DroneNavigation. Step: 700000. Time Elapsed: 5461.180 s. Mean Reward: 46.195. Std of Reward: 48.295. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-699973.onnx
+[INFO] DroneNavigation. Step: 750000. Time Elapsed: 5811.827 s. Mean Reward: 54.016. Std of Reward: 36.394. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-749995.onnx
+[INFO] DroneNavigation. Step: 800000. Time Elapsed: 6163.349 s. Mean Reward: 52.303. Std of Reward: 38.366. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-799995.onnx
+[INFO] DroneNavigation. Step: 850000. Time Elapsed: 6516.269 s. Mean Reward: 55.584. Std of Reward: 32.718. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-849980.onnx
+[INFO] DroneNavigation. Step: 900000. Time Elapsed: 6870.395 s. Mean Reward: 58.528. Std of Reward: 25.122. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-899955.onnx
+[INFO] DroneNavigation. Step: 950000. Time Elapsed: 7300.793 s. Mean Reward: 58.576. Std of Reward: 24.798. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-949936.onnx
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson3_RangeX' and has value 'Float: value=35.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson3_RangeZ' and has value 'Float: value=50.0'.
+[INFO] DroneNavigation. Step: 1000000. Time Elapsed: 7662.873 s. Mean Reward: 48.718. Std of Reward: 44.752. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-999798.onnx
+[INFO] DroneNavigation. Step: 1050000. Time Elapsed: 8054.955 s. Mean Reward: 46.321. Std of Reward: 46.827. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1049925.onnx
+[INFO] DroneNavigation. Step: 1100000. Time Elapsed: 8410.065 s. Mean Reward: 47.129. Std of Reward: 45.214. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1099937.onnx
+[INFO] DroneNavigation. Step: 1150000. Time Elapsed: 8766.036 s. Mean Reward: 53.565. Std of Reward: 35.911. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1149986.onnx
+[INFO] DroneNavigation. Step: 1200000. Time Elapsed: 9121.292 s. Mean Reward: 52.248. Std of Reward: 37.379. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1199964.onnx
+[INFO] DroneNavigation. Step: 1250000. Time Elapsed: 9477.928 s. Mean Reward: 52.781. Std of Reward: 37.045. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1249950.onnx
+[INFO] DroneNavigation. Step: 1300000. Time Elapsed: 9835.825 s. Mean Reward: 54.309. Std of Reward: 34.715. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1299919.onnx
+[INFO] DroneNavigation. Step: 1350000. Time Elapsed: 10195.539 s. Mean Reward: 52.878. Std of Reward: 37.534. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1349979.onnx
+[INFO] DroneNavigation. Step: 1400000. Time Elapsed: 10553.880 s. Mean Reward: 51.675. Std of Reward: 37.823. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1399981.onnx
+[INFO] DroneNavigation. Step: 1450000. Time Elapsed: 10914.396 s. Mean Reward: 52.618. Std of Reward: 36.993. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1449935.onnx
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson4_RangeX' and has value 'Float: value=45.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson4_RangeZ' and has value 'Float: value=65.0'.
+[INFO] DroneNavigation. Step: 1500000. Time Elapsed: 11270.348 s. Mean Reward: 36.724. Std of Reward: 57.546. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1499995.onnx
+[INFO] DroneNavigation. Step: 1550000. Time Elapsed: 11623.708 s. Mean Reward: 26.121. Std of Reward: 66.733. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1549968.onnx
+[INFO] DroneNavigation. Step: 1600000. Time Elapsed: 11976.729 s. Mean Reward: 25.786. Std of Reward: 66.469. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1599901.onnx
+[INFO] DroneNavigation. Step: 1650000. Time Elapsed: 12331.038 s. Mean Reward: 28.405. Std of Reward: 64.542. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1649956.onnx
+[INFO] DroneNavigation. Step: 1700000. Time Elapsed: 12685.783 s. Mean Reward: 28.526. Std of Reward: 64.635. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1699948.onnx
+[INFO] DroneNavigation. Step: 1750000. Time Elapsed: 13040.486 s. Mean Reward: 30.578. Std of Reward: 63.707. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1749969.onnx
+[INFO] DroneNavigation. Step: 1800000. Time Elapsed: 13394.743 s. Mean Reward: 37.112. Std of Reward: 58.282. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1799988.onnx
+[INFO] DroneNavigation. Step: 1850000. Time Elapsed: 13749.728 s. Mean Reward: 37.458. Std of Reward: 56.843. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1849995.onnx
+[INFO] DroneNavigation. Step: 1900000. Time Elapsed: 14106.019 s. Mean Reward: 26.176. Std of Reward: 62.831. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1899967.onnx
+[INFO] DroneNavigation. Step: 1950000. Time Elapsed: 14460.526 s. Mean Reward: 31.698. Std of Reward: 65.346. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1949835.onnx
+[INFO] DroneNavigation. Step: 2000000. Time Elapsed: 14818.950 s. Mean Reward: 27.051. Std of Reward: 66.190. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-1999964.onnx
+[INFO] DroneNavigation. Step: 2050000. Time Elapsed: 15171.605 s. Mean Reward: 33.535. Std of Reward: 64.641. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2049988.onnx
+[INFO] DroneNavigation. Step: 2100000. Time Elapsed: 15526.623 s. Mean Reward: 35.830. Std of Reward: 61.875. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2099894.onnx
+[INFO] DroneNavigation. Step: 2150000. Time Elapsed: 15884.850 s. Mean Reward: 28.059. Std of Reward: 67.501. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2149944.onnx
+[INFO] Parameter 'target_spawn_range_x' is in lesson 'Lesson5_RangeX' and has value 'Float: value=55.0'.
+[INFO] Parameter 'target_spawn_range_z' is in lesson 'Lesson5_RangeZ' and has value 'Float: value=80.0'.
+[INFO] DroneNavigation. Step: 2200000. Time Elapsed: 16230.937 s. Mean Reward: -10.982. Std of Reward: 84.085. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2199753.onnx
+[INFO] DroneNavigation. Step: 2250000. Time Elapsed: 16575.815 s. Mean Reward: -14.635. Std of Reward: 90.707. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2249970.onnx
+[INFO] DroneNavigation. Step: 2300000. Time Elapsed: 16920.858 s. Mean Reward: 1.435. Std of Reward: 84.921. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2299971.onnx
+[INFO] DroneNavigation. Step: 2350000. Time Elapsed: 17266.039 s. Mean Reward: 1.394. Std of Reward: 84.838. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2349867.onnx
+[INFO] DroneNavigation. Step: 2400000. Time Elapsed: 17612.543 s. Mean Reward: -4.204. Std of Reward: 79.251. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2399940.onnx
+[INFO] DroneNavigation. Step: 2450000. Time Elapsed: 17959.736 s. Mean Reward: -2.095. Std of Reward: 86.070. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2449989.onnx
+[INFO] DroneNavigation. Step: 2500000. Time Elapsed: 18302.682 s. Mean Reward: -5.682. Std of Reward: 79.548. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2499972.onnx
+[INFO] DroneNavigation. Step: 2550000. Time Elapsed: 18650.956 s. Mean Reward: -6.128. Std of Reward: 78.437. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2549943.onnx
+[INFO] DroneNavigation. Step: 2600000. Time Elapsed: 18999.946 s. Mean Reward: -5.748. Std of Reward: 81.692. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2599866.onnx
+[INFO] DroneNavigation. Step: 2650000. Time Elapsed: 19347.530 s. Mean Reward: 3.548. Std of Reward: 75.529. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2649975.onnx
+[INFO] DroneNavigation. Step: 2700000. Time Elapsed: 19697.970 s. Mean Reward: 6.421. Std of Reward: 77.880. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2699731.onnx
+[INFO] DroneNavigation. Step: 2750000. Time Elapsed: 20047.955 s. Mean Reward: 3.000. Std of Reward: 80.643. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2749886.onnx
+[INFO] DroneNavigation. Step: 2800000. Time Elapsed: 20397.927 s. Mean Reward: 5.915. Std of Reward: 79.394. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2799783.onnx
+[INFO] DroneNavigation. Step: 2850000. Time Elapsed: 20748.530 s. Mean Reward: 0.407. Std of Reward: 81.800. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2849979.onnx
+[INFO] DroneNavigation. Step: 2900000. Time Elapsed: 21101.565 s. Mean Reward: -1.844. Std of Reward: 83.496. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2899988.onnx
+[INFO] DroneNavigation. Step: 2950000. Time Elapsed: 21450.957 s. Mean Reward: -6.645. Std of Reward: 73.796. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2949778.onnx
+[INFO] DroneNavigation. Step: 3000000. Time Elapsed: 21801.227 s. Mean Reward: 4.431. Std of Reward: 77.950. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-2999950.onnx
+[INFO] DroneNavigation. Step: 3050000. Time Elapsed: 22155.386 s. Mean Reward: -1.687. Std of Reward: 69.567. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3049917.onnx
+[INFO] DroneNavigation. Step: 3100000. Time Elapsed: 22509.456 s. Mean Reward: -10.954. Std of Reward: 63.708. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3099977.onnx
+[INFO] DroneNavigation. Step: 3150000. Time Elapsed: 22863.690 s. Mean Reward: -12.157. Std of Reward: 52.565. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3149996.onnx
+[INFO] DroneNavigation. Step: 3200000. Time Elapsed: 23219.276 s. Mean Reward: -20.187. Std of Reward: 46.782. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3199996.onnx
+[INFO] DroneNavigation. Step: 3250000. Time Elapsed: 23578.201 s. Mean Reward: -18.936. Std of Reward: 40.298. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3249991.onnx
+[INFO] DroneNavigation. Step: 3300000. Time Elapsed: 23939.284 s. Mean Reward: -20.459. Std of Reward: 30.045. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3299662.onnx
+[INFO] DroneNavigation. Step: 3350000. Time Elapsed: 24298.954 s. Mean Reward: -21.029. Std of Reward: 32.070. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3349697.onnx
+[INFO] DroneNavigation. Step: 3400000. Time Elapsed: 24661.388 s. Mean Reward: -17.735. Std of Reward: 33.793. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3399996.onnx
+[INFO] DroneNavigation. Step: 3450000. Time Elapsed: 25020.696 s. Mean Reward: -18.548. Std of Reward: 32.002. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3449665.onnx
+[INFO] DroneNavigation. Step: 3500000. Time Elapsed: 25380.368 s. Mean Reward: -19.266. Std of Reward: 32.684. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3499992.onnx
+[INFO] DroneNavigation. Step: 3550000. Time Elapsed: 25744.224 s. Mean Reward: -21.253. Std of Reward: 24.254. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3549892.onnx
+[INFO] DroneNavigation. Step: 3600000. Time Elapsed: 26103.021 s. Mean Reward: -18.577. Std of Reward: 32.041. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3599995.onnx
+[INFO] DroneNavigation. Step: 3650000. Time Elapsed: 26466.584 s. Mean Reward: -22.295. Std of Reward: 27.405. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3649992.onnx
+[INFO] DroneNavigation. Step: 3700000. Time Elapsed: 26829.975 s. Mean Reward: -21.086. Std of Reward: 23.729. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3699613.onnx
+[INFO] DroneNavigation. Step: 3750000. Time Elapsed: 27193.180 s. Mean Reward: -20.403. Std of Reward: 28.215. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3749992.onnx
+[INFO] DroneNavigation. Step: 3800000. Time Elapsed: 27552.465 s. Mean Reward: -18.973. Std of Reward: 28.215. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3799996.onnx
+[INFO] DroneNavigation. Step: 3850000. Time Elapsed: 27916.160 s. Mean Reward: -21.598. Std of Reward: 19.017. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3849987.onnx
+[INFO] DroneNavigation. Step: 3900000. Time Elapsed: 28274.856 s. Mean Reward: -19.785. Std of Reward: 29.581. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3899970.onnx
+[INFO] DroneNavigation. Step: 3950000. Time Elapsed: 28631.913 s. Mean Reward: -18.644. Std of Reward: 35.442. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3949989.onnx
+[INFO] DroneNavigation. Step: 4000000. Time Elapsed: 28997.249 s. Mean Reward: -21.747. Std of Reward: 16.867. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-3999877.onnx
+[INFO] DroneNavigation. Step: 4050000. Time Elapsed: 29354.830 s. Mean Reward: -17.644. Std of Reward: 36.913. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4049997.onnx
+[INFO] DroneNavigation. Step: 4100000. Time Elapsed: 29711.665 s. Mean Reward: -17.180. Std of Reward: 33.944. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4099898.onnx
+[INFO] DroneNavigation. Step: 4150000. Time Elapsed: 30073.228 s. Mean Reward: -19.355. Std of Reward: 27.619. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4149667.onnx
+[INFO] DroneNavigation. Step: 4200000. Time Elapsed: 30432.849 s. Mean Reward: -15.855. Std of Reward: 37.519. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4199707.onnx
+[INFO] DroneNavigation. Step: 4250000. Time Elapsed: 30796.540 s. Mean Reward: -19.478. Std of Reward: 26.747. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4249951.onnx
+[INFO] DroneNavigation. Step: 4300000. Time Elapsed: 31158.322 s. Mean Reward: -20.339. Std of Reward: 23.119. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4299999.onnx
+[INFO] DroneNavigation. Step: 4350000. Time Elapsed: 31521.122 s. Mean Reward: -19.458. Std of Reward: 25.677. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4349616.onnx
+[INFO] DroneNavigation. Step: 4400000. Time Elapsed: 31883.449 s. Mean Reward: -20.183. Std of Reward: 23.138. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4399661.onnx
+[INFO] DroneNavigation. Step: 4450000. Time Elapsed: 32243.668 s. Mean Reward: -18.908. Std of Reward: 30.684. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4449992.onnx
+[INFO] DroneNavigation. Step: 4500000. Time Elapsed: 32604.181 s. Mean Reward: -17.616. Std of Reward: 36.580. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4499916.onnx
+[INFO] DroneNavigation. Step: 4550000. Time Elapsed: 32968.310 s. Mean Reward: -20.671. Std of Reward: 21.226. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4549988.onnx
+[INFO] DroneNavigation. Step: 4600000. Time Elapsed: 33331.681 s. Mean Reward: -18.919. Std of Reward: 30.324. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4599968.onnx
+[INFO] DroneNavigation. Step: 4650000. Time Elapsed: 33694.588 s. Mean Reward: -18.654. Std of Reward: 24.139. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4649929.onnx
+[INFO] DroneNavigation. Step: 4700000. Time Elapsed: 34057.276 s. Mean Reward: -20.427. Std of Reward: 21.146. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4699755.onnx
+[INFO] DroneNavigation. Step: 4750000. Time Elapsed: 34415.164 s. Mean Reward: -15.116. Std of Reward: 37.910. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4749675.onnx
+[INFO] DroneNavigation. Step: 4800000. Time Elapsed: 34775.053 s. Mean Reward: -18.259. Std of Reward: 25.844. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4799944.onnx
+[INFO] DroneNavigation. Step: 4850000. Time Elapsed: 35136.237 s. Mean Reward: -18.441. Std of Reward: 26.155. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4849992.onnx
+[INFO] DroneNavigation. Step: 4900000. Time Elapsed: 35498.434 s. Mean Reward: -20.044. Std of Reward: 22.600. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4899996.onnx
+[INFO] DroneNavigation. Step: 4950000. Time Elapsed: 35854.720 s. Mean Reward: -14.718. Std of Reward: 50.283. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4949965.onnx
+[INFO] DroneNavigation. Step: 5000000. Time Elapsed: 36212.947 s. Mean Reward: -14.708. Std of Reward: 37.705. Training.
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-4999939.onnx
+[INFO] Exported results/DroneNavigation_v2/DroneNavigation/DroneNavigation-5000005.onnx
+[INFO] Copied results/DroneNavigation_v2/DroneNavigation/DroneNavigation-5000005.onnx to results/DroneNavigation_v2/DroneNavigation.onnx.
+

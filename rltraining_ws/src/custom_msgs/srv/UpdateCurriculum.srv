@@ -1,0 +1,5 @@
+float32 spawn_range_x
+float32 spawn_range_z
+float32 local_target_range
+---
+bool success

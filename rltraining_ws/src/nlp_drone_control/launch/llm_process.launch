@@ -1,0 +1,16 @@
+<launch>
+  <!-- Load the points of interest YAML file into the ROS parameter server -->
+  <rosparam command="load" file="$(find nlp_drone_control)/config/points_of_interest.yaml" />
+  
+    <param name="deepseek_api_key" value="sk-6564f32186784d328bb377de23269813" />
+    <param name="system_prompt_file" value="$(find nlp_drone_control)/config/system_prompt.txt" />
+    <node name="llm_processor" pkg="nlp_drone_control" type="llm_processor_node" output="screen">
+    </node>
+        <!-- 启动VLM服务节点 -->
+    <node name="vlm_service_node" pkg="vlm_service" type="vlm_service_node" output="screen"/>
+    <param name="doubao_api_key" value="7ce853e0-e7b3-4760-9517-c84232e222ce" />
+    
+<!--后面有一个斜杠表示自闭合不需要再/node-->
+    <node name="image_raw_to_compressed_node" pkg="image_processing" type="image_raw_to_compressed_node" output="screen"/>
+        <node name="inspection_hub_node" pkg="nlp_drone_control" type="inspection_hub_node" output="screen"/>
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/lpf/docker_shared/rltraining_ws/devel
+
+Name: ui_control
+Description: Description of ui_control
+Version: 0.1.0
+Cflags: -I/home/lpf/docker_shared/rltraining_ws/src/ui_control/include
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,50 @@
+<launch>
+    <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
+        <param name="waypoint_distance" value="7.0" /> <!-- 设置航点距离为7米 -->
+    </node>
+
+    <arg name="map_yaml_file" default="$(find map_generator)/config/points_of_interest.yaml"/>
+
+    <node pkg="map_generator" type="yaml_to_map_publisher_node" name="yaml_to_map_publisher" output="screen">
+        <param name="yaml_file_path" value="$(arg map_yaml_file)"/>
+        <param name="resolution" value="0.1"/>
+        <param name="frame_id" value="map"/>
+        <param name="map_topic" value="/map"/>
+    </node>
+
+    <rosparam command="load" file="$(find nlp_drone_control)/config/points_of_interest.yaml" />
+    
+    	<param name="deepseek_api_key" value="sk-037f7a9c11394735a93918fad11eb962" />
+    	<param name="system_prompt_file" value="$(find nlp_drone_control)/config/system_prompt.txt" /> 
+    	   
+    <node name="llm_processor" pkg="nlp_drone_control" type="llm_processor_node" output="screen">
+
+        <!-- Topic Names -->
+        <param name="nlp_feedback_topic"    value="/nlp_feedback" />
+        <param name="nlp_command_topic"     value="/nlp_command" />
+        <param name="drone_pose_topic"      value="/drone_pose" />
+        <param name="drone_status_topic"    value="/drone_status" />
+        <param name="llm_goal_topic"        value="/llm_goal" />
+        <param name="drone_target_topic"    value="/drone_target" />
+        <param name="action_feedback_topic" value="/drone_action_feedback" />
+
+        <!-- Service Names -->
+        <param name="describe_scene_service" value="/vision_service/describe_scene" />
+        <param name="execute_action_service" value="/execute_drone_action" />
+        <param name="capture_image_service"  value="/vision_service/capture_image" />       
+    </node>
+   
+    <node name="vlm_service_node" pkg="vlm_service" type="vlm_service_node" output="screen"/>
+    <param name="doubao_api_key" value="7ce853e0-e7b3-4760-9517-c84232e222ce" />
+    
+    <node name="image_raw_to_compressed_node" pkg="image_processing" type="image_raw_to_compressed_node" output="screen"/>
+
+    <arg name="tcp_ip" default="0.0.0.0"/>
+    <arg name="tcp_port" default="10000"/>
+
+    <node name="unity_endpoint" pkg="ros_tcp_endpoint" type="default_server_endpoint.py" output="screen">
+        <param name="tcp_ip" type="string" value="$(arg tcp_ip)"/>
+        <param name="tcp_port" type="int" value="$(arg tcp_port)"/>
+    </node>
+
+</launch>

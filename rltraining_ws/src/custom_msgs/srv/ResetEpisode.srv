@@ -1,0 +1,15 @@
+# custom_msgs/srv/ResetEpisode.srv
+
+# --- Request ---
+# 请求可以是空的，因为我们只是想触发一个重置
+# 可以加一个bool来支持课程学习，但现在先保持简单
+# bool use_curriculum
+
+---
+
+# --- Response ---
+# Unity找到的安全点将在这里返回
+bool success          # 标记重置是否成功
+string message        # 附带信息 (例如，失败原因)
+geometry_msgs/Pose start_pose
+geometry_msgs/Point goal_position

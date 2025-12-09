@@ -1,0 +1,265 @@
+.49 (N=6000, Min=-14.0, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:29:06 DEBUG [trainer.py:193] Step: 4160023, Lesson: 27, Reward: 22.45 (N=6000, Min=-14.0, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:29:29 DEBUG [trainer.py:193] Step: 4165031, Lesson: 27, Reward: 22.42 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:29:52 DEBUG [trainer.py:193] Step: 4170029, Lesson: 27, Reward: 22.43 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:30:15 DEBUG [trainer.py:193] Step: 4175018, Lesson: 27, Reward: 22.42 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:30:38 DEBUG [trainer.py:193] Step: 4180028, Lesson: 27, Reward: 22.44 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:31:01 DEBUG [trainer.py:193] Step: 4185055, Lesson: 27, Reward: 22.44 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:31:24 DEBUG [trainer.py:193] Step: 4190026, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:31:47 DEBUG [trainer.py:193] Step: 4195015, Lesson: 27, Reward: 22.42 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:32:09 INFO [stats.py:197] DroneNavigation. Step: 4200000. Time Elapsed: 18679.000 s. Mean Reward: 22.360. Std of Reward: 8.613. Training.
+2025-08-16 03:32:10 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4199988.onnx
+2025-08-16 03:32:10 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4199988.onnx
+2025-08-16 03:32:10 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-3949965.onnx.
+2025-08-16 03:32:10 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-3949965.pt.
+2025-08-16 03:32:10 DEBUG [trainer.py:193] Step: 4200015, Lesson: 27, Reward: 22.40 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:32:33 DEBUG [trainer.py:193] Step: 4205054, Lesson: 27, Reward: 22.36 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:32:56 DEBUG [trainer.py:193] Step: 4210027, Lesson: 27, Reward: 22.35 (N=6000, Min=-70.7, Max=50.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:33:19 DEBUG [trainer.py:193] Step: 4215012, Lesson: 27, Reward: 22.36 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:33:42 DEBUG [trainer.py:193] Step: 4220042, Lesson: 27, Reward: 22.37 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:34:05 DEBUG [trainer.py:193] Step: 4225015, Lesson: 27, Reward: 22.38 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:34:28 DEBUG [trainer.py:193] Step: 4230045, Lesson: 27, Reward: 22.41 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:34:51 DEBUG [trainer.py:193] Step: 4235003, Lesson: 27, Reward: 22.40 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:35:14 DEBUG [trainer.py:193] Step: 4240024, Lesson: 27, Reward: 22.40 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:35:36 DEBUG [trainer.py:193] Step: 4245032, Lesson: 27, Reward: 22.38 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:35:59 INFO [stats.py:197] DroneNavigation. Step: 4250000. Time Elapsed: 18908.679 s. Mean Reward: 22.444. Std of Reward: 8.356. Training.
+2025-08-16 03:35:59 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4249939.onnx
+2025-08-16 03:35:59 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4249939.onnx
+2025-08-16 03:35:59 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-3999955.onnx.
+2025-08-16 03:35:59 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-3999955.pt.
+2025-08-16 03:35:59 DEBUG [trainer.py:193] Step: 4250003, Lesson: 27, Reward: 22.38 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:36:22 DEBUG [trainer.py:193] Step: 4255011, Lesson: 27, Reward: 22.41 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:36:45 DEBUG [trainer.py:193] Step: 4260007, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:37:08 DEBUG [trainer.py:193] Step: 4265014, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:37:31 DEBUG [trainer.py:193] Step: 4270030, Lesson: 27, Reward: 22.44 (N=6000, Min=-70.7, Max=45.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:37:54 DEBUG [trainer.py:193] Step: 4275006, Lesson: 27, Reward: 22.47 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:38:18 DEBUG [trainer.py:193] Step: 4280026, Lesson: 27, Reward: 22.44 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:38:41 DEBUG [trainer.py:193] Step: 4285007, Lesson: 27, Reward: 22.41 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:39:04 DEBUG [trainer.py:193] Step: 4290027, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:39:27 DEBUG [trainer.py:193] Step: 4295030, Lesson: 27, Reward: 22.46 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:39:50 INFO [stats.py:197] DroneNavigation. Step: 4300000. Time Elapsed: 19139.371 s. Mean Reward: 22.712. Std of Reward: 8.281. Training.
+2025-08-16 03:39:50 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4299946.onnx
+2025-08-16 03:39:50 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4299946.onnx
+2025-08-16 03:39:50 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4049939.onnx.
+2025-08-16 03:39:50 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4049939.pt.
+2025-08-16 03:39:50 DEBUG [trainer.py:193] Step: 4300045, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:40:13 DEBUG [trainer.py:193] Step: 4305007, Lesson: 27, Reward: 22.47 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:40:36 DEBUG [trainer.py:193] Step: 4310096, Lesson: 27, Reward: 22.50 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:40:59 DEBUG [trainer.py:193] Step: 4315028, Lesson: 27, Reward: 22.50 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:41:22 DEBUG [trainer.py:193] Step: 4320010, Lesson: 27, Reward: 22.52 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:41:45 DEBUG [trainer.py:193] Step: 4325021, Lesson: 27, Reward: 22.54 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:42:08 DEBUG [trainer.py:193] Step: 4330026, Lesson: 27, Reward: 22.57 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:42:31 DEBUG [trainer.py:193] Step: 4335071, Lesson: 27, Reward: 22.53 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:42:54 DEBUG [trainer.py:193] Step: 4340016, Lesson: 27, Reward: 22.52 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:43:17 DEBUG [trainer.py:193] Step: 4345076, Lesson: 27, Reward: 22.48 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:43:40 INFO [stats.py:197] DroneNavigation. Step: 4350000. Time Elapsed: 19369.269 s. Mean Reward: 22.472. Std of Reward: 8.437. Training.
+2025-08-16 03:43:40 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4349997.onnx
+2025-08-16 03:43:40 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4349997.onnx
+2025-08-16 03:43:40 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4099997.onnx.
+2025-08-16 03:43:40 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4099997.pt.
+2025-08-16 03:43:40 DEBUG [trainer.py:193] Step: 4350021, Lesson: 27, Reward: 22.51 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:44:03 DEBUG [trainer.py:193] Step: 4355016, Lesson: 27, Reward: 22.50 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:44:26 DEBUG [trainer.py:193] Step: 4360046, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:44:49 DEBUG [trainer.py:193] Step: 4365020, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:45:12 DEBUG [trainer.py:193] Step: 4370014, Lesson: 27, Reward: 22.43 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:45:35 DEBUG [trainer.py:193] Step: 4375007, Lesson: 27, Reward: 22.45 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:45:58 DEBUG [trainer.py:193] Step: 4380059, Lesson: 27, Reward: 22.46 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:46:21 DEBUG [trainer.py:193] Step: 4385016, Lesson: 27, Reward: 22.48 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:46:44 DEBUG [trainer.py:193] Step: 4390029, Lesson: 27, Reward: 22.48 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:47:07 DEBUG [trainer.py:193] Step: 4395057, Lesson: 27, Reward: 22.49 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:47:30 INFO [stats.py:197] DroneNavigation. Step: 4400000. Time Elapsed: 19599.231 s. Mean Reward: 22.274. Std of Reward: 8.733. Training.
+2025-08-16 03:47:30 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4399961.onnx
+2025-08-16 03:47:30 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4399961.onnx
+2025-08-16 03:47:30 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4149993.onnx.
+2025-08-16 03:47:30 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4149993.pt.
+2025-08-16 03:47:30 DEBUG [trainer.py:193] Step: 4400003, Lesson: 27, Reward: 22.49 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:47:53 DEBUG [trainer.py:193] Step: 4405014, Lesson: 27, Reward: 22.49 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:48:16 DEBUG [trainer.py:193] Step: 4410056, Lesson: 27, Reward: 22.49 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:48:39 DEBUG [trainer.py:193] Step: 4415051, Lesson: 27, Reward: 22.48 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:49:02 DEBUG [trainer.py:193] Step: 4420018, Lesson: 27, Reward: 22.47 (N=6000, Min=-70.7, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:49:25 DEBUG [trainer.py:193] Step: 4425058, Lesson: 27, Reward: 22.49 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:49:48 DEBUG [trainer.py:193] Step: 4430016, Lesson: 27, Reward: 22.50 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:50:11 DEBUG [trainer.py:193] Step: 4435020, Lesson: 27, Reward: 22.49 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:50:34 DEBUG [trainer.py:193] Step: 4440002, Lesson: 27, Reward: 22.48 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:50:57 DEBUG [trainer.py:193] Step: 4445040, Lesson: 27, Reward: 22.48 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:51:20 INFO [stats.py:197] DroneNavigation. Step: 4450000. Time Elapsed: 19829.998 s. Mean Reward: 22.596. Std of Reward: 8.144. Training.
+2025-08-16 03:51:21 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4449991.onnx
+2025-08-16 03:51:21 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4449991.onnx
+2025-08-16 03:51:21 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4199988.onnx.
+2025-08-16 03:51:21 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4199988.pt.
+2025-08-16 03:51:21 DEBUG [trainer.py:193] Step: 4450039, Lesson: 27, Reward: 22.50 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:51:44 DEBUG [trainer.py:193] Step: 4455020, Lesson: 27, Reward: 22.54 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:52:07 DEBUG [trainer.py:193] Step: 4460020, Lesson: 27, Reward: 22.57 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:52:30 DEBUG [trainer.py:193] Step: 4465030, Lesson: 27, Reward: 22.59 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:52:53 DEBUG [trainer.py:193] Step: 4470030, Lesson: 27, Reward: 22.58 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:53:16 DEBUG [trainer.py:193] Step: 4475014, Lesson: 27, Reward: 22.58 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:53:39 DEBUG [trainer.py:193] Step: 4480008, Lesson: 27, Reward: 22.58 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:54:02 DEBUG [trainer.py:193] Step: 4485028, Lesson: 27, Reward: 22.53 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:54:25 DEBUG [trainer.py:193] Step: 4490023, Lesson: 27, Reward: 22.56 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:54:48 DEBUG [trainer.py:193] Step: 4495046, Lesson: 27, Reward: 22.58 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:55:11 INFO [stats.py:197] DroneNavigation. Step: 4500000. Time Elapsed: 20060.167 s. Mean Reward: 22.789. Std of Reward: 7.983. Training.
+2025-08-16 03:55:11 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4499984.onnx
+2025-08-16 03:55:11 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4499984.onnx
+2025-08-16 03:55:11 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4249939.onnx.
+2025-08-16 03:55:11 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4249939.pt.
+2025-08-16 03:55:11 DEBUG [trainer.py:193] Step: 4500032, Lesson: 27, Reward: 22.59 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:55:34 DEBUG [trainer.py:193] Step: 4505014, Lesson: 27, Reward: 22.55 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:55:57 DEBUG [trainer.py:193] Step: 4510044, Lesson: 27, Reward: 22.52 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:56:20 DEBUG [trainer.py:193] Step: 4515024, Lesson: 27, Reward: 22.49 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:56:42 DEBUG [trainer.py:193] Step: 4520000, Lesson: 27, Reward: 22.46 (N=6000, Min=-53.8, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:57:06 DEBUG [trainer.py:193] Step: 4525008, Lesson: 27, Reward: 22.48 (N=6000, Min=-15.2, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:57:29 DEBUG [trainer.py:193] Step: 4530026, Lesson: 27, Reward: 22.49 (N=6000, Min=-15.2, Max=64.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:57:52 DEBUG [trainer.py:193] Step: 4535019, Lesson: 27, Reward: 22.47 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:58:15 DEBUG [trainer.py:193] Step: 4540000, Lesson: 27, Reward: 22.49 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:58:38 DEBUG [trainer.py:193] Step: 4545089, Lesson: 27, Reward: 22.50 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:59:01 INFO [stats.py:197] DroneNavigation. Step: 4550000. Time Elapsed: 20290.233 s. Mean Reward: 22.131. Std of Reward: 8.546. Training.
+2025-08-16 03:59:01 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4549990.onnx
+2025-08-16 03:59:01 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4549990.onnx
+2025-08-16 03:59:01 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4299946.onnx.
+2025-08-16 03:59:01 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4299946.pt.
+2025-08-16 03:59:01 DEBUG [trainer.py:193] Step: 4550014, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:59:24 DEBUG [trainer.py:193] Step: 4555012, Lesson: 27, Reward: 22.46 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 03:59:47 DEBUG [trainer.py:193] Step: 4560021, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:00:10 DEBUG [trainer.py:193] Step: 4565002, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:00:33 DEBUG [trainer.py:193] Step: 4570000, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:00:56 DEBUG [trainer.py:193] Step: 4575004, Lesson: 27, Reward: 22.47 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:01:19 DEBUG [trainer.py:193] Step: 4580070, Lesson: 27, Reward: 22.46 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:01:42 DEBUG [trainer.py:193] Step: 4585037, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:02:05 DEBUG [trainer.py:193] Step: 4590029, Lesson: 27, Reward: 22.47 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:02:28 DEBUG [trainer.py:193] Step: 4595013, Lesson: 27, Reward: 22.44 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:02:51 INFO [stats.py:197] DroneNavigation. Step: 4600000. Time Elapsed: 20520.705 s. Mean Reward: 22.450. Std of Reward: 7.998. Training.
+2025-08-16 04:02:51 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4599992.onnx
+2025-08-16 04:02:51 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4599992.onnx
+2025-08-16 04:02:51 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4349997.onnx.
+2025-08-16 04:02:51 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4349997.pt.
+2025-08-16 04:02:51 DEBUG [trainer.py:193] Step: 4600036, Lesson: 27, Reward: 22.46 (N=6000, Min=-15.2, Max=53.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:03:14 DEBUG [trainer.py:193] Step: 4605037, Lesson: 27, Reward: 22.44 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:03:38 DEBUG [trainer.py:193] Step: 4610057, Lesson: 27, Reward: 22.45 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:04:00 DEBUG [trainer.py:193] Step: 4615003, Lesson: 27, Reward: 22.49 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:04:23 DEBUG [trainer.py:193] Step: 4620020, Lesson: 27, Reward: 22.50 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:04:46 DEBUG [trainer.py:193] Step: 4625009, Lesson: 27, Reward: 22.51 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:05:09 DEBUG [trainer.py:193] Step: 4630010, Lesson: 27, Reward: 22.55 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:05:32 DEBUG [trainer.py:193] Step: 4635020, Lesson: 27, Reward: 22.53 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:05:55 DEBUG [trainer.py:193] Step: 4640043, Lesson: 27, Reward: 22.54 (N=6000, Min=-15.2, Max=49.9), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:06:18 DEBUG [trainer.py:193] Step: 4645014, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:06:41 INFO [stats.py:197] DroneNavigation. Step: 4650000. Time Elapsed: 20750.872 s. Mean Reward: 22.627. Std of Reward: 7.892. Training.
+2025-08-16 04:06:41 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4649991.onnx
+2025-08-16 04:06:42 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4649991.onnx
+2025-08-16 04:06:42 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4399961.onnx.
+2025-08-16 04:06:42 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4399961.pt.
+2025-08-16 04:06:42 DEBUG [trainer.py:193] Step: 4650009, Lesson: 27, Reward: 22.51 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:07:04 DEBUG [trainer.py:193] Step: 4655007, Lesson: 27, Reward: 22.53 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:07:28 DEBUG [trainer.py:193] Step: 4660008, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:07:51 DEBUG [trainer.py:193] Step: 4665015, Lesson: 27, Reward: 22.47 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:08:14 DEBUG [trainer.py:193] Step: 4670046, Lesson: 27, Reward: 22.50 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:08:37 DEBUG [trainer.py:193] Step: 4675009, Lesson: 27, Reward: 22.53 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:09:00 DEBUG [trainer.py:193] Step: 4680030, Lesson: 27, Reward: 22.57 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:09:23 DEBUG [trainer.py:193] Step: 4685019, Lesson: 27, Reward: 22.55 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:09:46 DEBUG [trainer.py:193] Step: 4690049, Lesson: 27, Reward: 22.53 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:10:09 DEBUG [trainer.py:193] Step: 4695047, Lesson: 27, Reward: 22.57 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:10:32 INFO [stats.py:197] DroneNavigation. Step: 4700000. Time Elapsed: 20981.123 s. Mean Reward: 22.827. Std of Reward: 7.593. Training.
+2025-08-16 04:10:32 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4699965.onnx
+2025-08-16 04:10:32 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4699965.onnx
+2025-08-16 04:10:32 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4449991.onnx.
+2025-08-16 04:10:32 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4449991.pt.
+2025-08-16 04:10:32 DEBUG [trainer.py:193] Step: 4700013, Lesson: 27, Reward: 22.58 (N=6000, Min=-15.2, Max=45.2), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:10:55 DEBUG [trainer.py:193] Step: 4705005, Lesson: 27, Reward: 22.56 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:11:18 DEBUG [trainer.py:193] Step: 4710040, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:11:41 DEBUG [trainer.py:193] Step: 4715029, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:12:04 DEBUG [trainer.py:193] Step: 4720008, Lesson: 27, Reward: 22.50 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:12:27 DEBUG [trainer.py:193] Step: 4725017, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:12:50 DEBUG [trainer.py:193] Step: 4730022, Lesson: 27, Reward: 22.52 (N=6000, Min=-15.2, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:13:13 DEBUG [trainer.py:193] Step: 4735002, Lesson: 27, Reward: 22.54 (N=6000, Min=-14.9, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:13:36 DEBUG [trainer.py:193] Step: 4740011, Lesson: 27, Reward: 22.55 (N=6000, Min=-14.9, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:14:02 DEBUG [trainer.py:193] Step: 4745524, Lesson: 27, Reward: 22.51 (N=6000, Min=-14.9, Max=44.0), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:14:22 INFO [stats.py:197] DroneNavigation. Step: 4750000. Time Elapsed: 21212.002 s. Mean Reward: 22.434. Std of Reward: 8.475. Training.
+2025-08-16 04:14:23 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4749976.onnx
+2025-08-16 04:14:23 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4749976.onnx
+2025-08-16 04:14:23 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4499984.onnx.
+2025-08-16 04:14:23 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4499984.pt.
+2025-08-16 04:14:23 DEBUG [trainer.py:193] Step: 4750009, Lesson: 27, Reward: 22.51 (N=6000, Min=-14.9, Max=44.3), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:14:46 DEBUG [trainer.py:193] Step: 4755037, Lesson: 27, Reward: 22.46 (N=6000, Min=-14.9, Max=44.3), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:15:09 DEBUG [trainer.py:193] Step: 4760068, Lesson: 27, Reward: 22.50 (N=6000, Min=-14.9, Max=44.3), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:15:32 DEBUG [trainer.py:193] Step: 4765004, Lesson: 27, Reward: 22.50 (N=6000, Min=-14.9, Max=44.3), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:15:56 DEBUG [trainer.py:193] Step: 4770294, Lesson: 27, Reward: 22.52 (N=6000, Min=-14.9, Max=44.3), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:16:18 DEBUG [trainer.py:193] Step: 4775000, Lesson: 27, Reward: 22.51 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:16:40 DEBUG [trainer.py:193] Step: 4780045, Lesson: 27, Reward: 22.52 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:17:03 DEBUG [trainer.py:193] Step: 4785005, Lesson: 27, Reward: 22.55 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:17:26 DEBUG [trainer.py:193] Step: 4790038, Lesson: 27, Reward: 22.57 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:17:52 DEBUG [trainer.py:193] Step: 4795017, Lesson: 27, Reward: 22.58 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:18:12 INFO [stats.py:197] DroneNavigation. Step: 4800000. Time Elapsed: 21441.964 s. Mean Reward: 22.739. Std of Reward: 8.118. Training.
+2025-08-16 04:18:13 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4799948.onnx
+2025-08-16 04:18:13 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4799948.onnx
+2025-08-16 04:18:13 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4549990.onnx.
+2025-08-16 04:18:13 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4549990.pt.
+2025-08-16 04:18:13 DEBUG [trainer.py:193] Step: 4800031, Lesson: 27, Reward: 22.60 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:18:35 DEBUG [trainer.py:193] Step: 4805001, Lesson: 27, Reward: 22.59 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:18:59 DEBUG [trainer.py:193] Step: 4810027, Lesson: 27, Reward: 22.60 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:19:22 DEBUG [trainer.py:193] Step: 4815068, Lesson: 27, Reward: 22.63 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:19:44 DEBUG [trainer.py:193] Step: 4820021, Lesson: 27, Reward: 22.66 (N=6000, Min=-14.9, Max=49.5), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:20:07 DEBUG [trainer.py:193] Step: 4825042, Lesson: 27, Reward: 22.67 (N=6000, Min=-14.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:20:30 DEBUG [trainer.py:193] Step: 4830007, Lesson: 27, Reward: 22.66 (N=6000, Min=-14.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:20:54 DEBUG [trainer.py:193] Step: 4835042, Lesson: 27, Reward: 22.64 (N=6000, Min=-14.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:21:17 DEBUG [trainer.py:193] Step: 4840032, Lesson: 27, Reward: 22.62 (N=6000, Min=-13.6, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:21:42 DEBUG [trainer.py:193] Step: 4845583, Lesson: 27, Reward: 22.58 (N=6000, Min=-13.6, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:22:02 INFO [stats.py:197] DroneNavigation. Step: 4850000. Time Elapsed: 21671.811 s. Mean Reward: 22.471. Std of Reward: 8.319. Training.
+2025-08-16 04:22:02 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4849970.onnx
+2025-08-16 04:22:02 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4849970.onnx
+2025-08-16 04:22:02 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4599992.onnx.
+2025-08-16 04:22:02 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4599992.pt.
+2025-08-16 04:22:03 DEBUG [trainer.py:193] Step: 4850006, Lesson: 27, Reward: 22.61 (N=6000, Min=-13.6, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:22:26 DEBUG [trainer.py:193] Step: 4855006, Lesson: 27, Reward: 22.62 (N=6000, Min=-13.6, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:22:49 DEBUG [trainer.py:193] Step: 4860016, Lesson: 27, Reward: 22.62 (N=6000, Min=-13.6, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:23:12 DEBUG [trainer.py:193] Step: 4865028, Lesson: 27, Reward: 22.61 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:23:35 DEBUG [trainer.py:193] Step: 4870049, Lesson: 27, Reward: 22.61 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:23:58 DEBUG [trainer.py:193] Step: 4875038, Lesson: 27, Reward: 22.58 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:24:21 DEBUG [trainer.py:193] Step: 4880025, Lesson: 27, Reward: 22.53 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:24:44 DEBUG [trainer.py:193] Step: 4885013, Lesson: 27, Reward: 22.50 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:25:07 DEBUG [trainer.py:193] Step: 4890077, Lesson: 27, Reward: 22.50 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:25:31 DEBUG [trainer.py:193] Step: 4895086, Lesson: 27, Reward: 22.44 (N=6000, Min=-14.7, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:25:54 INFO [stats.py:197] DroneNavigation. Step: 4900000. Time Elapsed: 21903.028 s. Mean Reward: 21.612. Std of Reward: 9.178. Training.
+2025-08-16 04:25:54 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4899978.onnx
+2025-08-16 04:25:54 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4899978.onnx
+2025-08-16 04:25:54 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4649991.onnx.
+2025-08-16 04:25:54 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4649991.pt.
+2025-08-16 04:25:54 DEBUG [trainer.py:193] Step: 4900002, Lesson: 27, Reward: 22.42 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:26:17 DEBUG [trainer.py:193] Step: 4905028, Lesson: 27, Reward: 22.41 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:26:40 DEBUG [trainer.py:193] Step: 4910091, Lesson: 27, Reward: 22.42 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:27:03 DEBUG [trainer.py:193] Step: 4915002, Lesson: 27, Reward: 22.40 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:27:26 DEBUG [trainer.py:193] Step: 4920000, Lesson: 27, Reward: 22.38 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:27:49 DEBUG [trainer.py:193] Step: 4925002, Lesson: 27, Reward: 22.36 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:28:12 DEBUG [trainer.py:193] Step: 4930024, Lesson: 27, Reward: 22.35 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:28:35 DEBUG [trainer.py:193] Step: 4935035, Lesson: 27, Reward: 22.33 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:28:58 DEBUG [trainer.py:193] Step: 4940035, Lesson: 27, Reward: 22.33 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:29:21 DEBUG [trainer.py:193] Step: 4945024, Lesson: 27, Reward: 22.29 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:29:44 INFO [stats.py:197] DroneNavigation. Step: 4950000. Time Elapsed: 22133.442 s. Mean Reward: 22.291. Std of Reward: 8.495. Training.
+2025-08-16 04:29:44 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4949964.onnx
+2025-08-16 04:29:44 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4949964.onnx
+2025-08-16 04:29:44 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4699965.onnx.
+2025-08-16 04:29:44 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4699965.pt.
+2025-08-16 04:29:44 DEBUG [trainer.py:193] Step: 4950022, Lesson: 27, Reward: 22.32 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:30:07 DEBUG [trainer.py:193] Step: 4955040, Lesson: 27, Reward: 22.30 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:30:30 DEBUG [trainer.py:193] Step: 4960029, Lesson: 27, Reward: 22.32 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:30:53 DEBUG [trainer.py:193] Step: 4965030, Lesson: 27, Reward: 22.34 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:31:16 DEBUG [trainer.py:193] Step: 4970009, Lesson: 27, Reward: 22.33 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:31:39 DEBUG [trainer.py:193] Step: 4975014, Lesson: 27, Reward: 22.34 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:32:02 DEBUG [trainer.py:193] Step: 4980028, Lesson: 27, Reward: 22.34 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:32:25 DEBUG [trainer.py:193] Step: 4985005, Lesson: 27, Reward: 22.34 (N=6000, Min=-15.9, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:32:48 DEBUG [trainer.py:193] Step: 4990020, Lesson: 27, Reward: 22.31 (N=6000, Min=-35.0, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:33:11 DEBUG [trainer.py:193] Step: 4995045, Lesson: 27, Reward: 22.32 (N=6000, Min=-35.0, Max=53.7), G-Prog: 1.00, S-Prog: 0.00, LR: 1.00e-05, Curiosity: 0.0010
+2025-08-16 04:33:34 INFO [stats.py:197] DroneNavigation. Step: 5000000. Time Elapsed: 22363.719 s. Mean Reward: 22.444. Std of Reward: 8.177. Training.
+2025-08-16 04:33:34 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4999973.onnx
+2025-08-16 04:33:34 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4999973.onnx
+2025-08-16 04:33:34 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4749976.onnx.
+2025-08-16 04:33:34 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4749976.pt.
+2025-08-16 04:33:34 DEBUG [model_serialization.py:161] Converting to results/DroneNavigation_v1/DroneNavigation/DroneNavigation-5000029.onnx
+2025-08-16 04:33:35 INFO [model_serialization.py:173] Exported results/DroneNavigation_v1/DroneNavigation/DroneNavigation-5000029.onnx
+2025-08-16 04:33:35 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4799948.onnx.
+2025-08-16 04:33:35 DEBUG [checkpoint_manager.py:46] Removed checkpoint model results/DroneNavigation_v1/DroneNavigation/DroneNavigation-4799948.pt.
+2025-08-16 04:33:35 INFO [torch_model_saver.py:151] Copied results/DroneNavigation_v1/DroneNavigation/DroneNavigation-5000029.onnx to results/DroneNavigation_v1/DroneNavigation.onnx.
+2025-08-16 04:33:35 DEBUG [trainer_controller.py:81] Saved Model
+2025-08-16 04:33:35 DEBUG [subprocess_env_manager.py:482] SubprocessEnvManager closing.
+2025-08-16 04:33:35 DEBUG [subprocess_env_manager.py:237] UnityEnvironment worker 0 closing.
+2025-08-16 04:33:35 DEBUG [environment.py:444] Environment shut down with return code 0.
+2025-08-16 04:33:35 DEBUG [subprocess_env_manager.py:240] UnityEnvironment worker 0 done.
+

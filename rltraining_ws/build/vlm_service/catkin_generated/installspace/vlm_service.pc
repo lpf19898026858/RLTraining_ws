@@ -1,0 +1,8 @@
+prefix=/home/lpf/docker_shared/rltraining_ws/install
+
+Name: vlm_service
+Description: Description of vlm_service
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs sensor_msgs message_runtime

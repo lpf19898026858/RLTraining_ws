@@ -1,0 +1,7 @@
+<launch>
+    <!-- 启动A*规划器节点 -->
+    <node pkg="astar_planner" type="astar_planner_node" name="astar_planner_node" output="screen">
+        <!-- 在这里可以设置参数，例如期望的航点距离 -->
+        <param name="waypoint_downsample_distance" value="7.0" /> <!-- 设置航点距离为7米 -->
+    </node>
+</launch>

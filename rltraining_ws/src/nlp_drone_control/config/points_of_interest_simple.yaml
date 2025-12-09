@@ -1,0 +1,5 @@
+# nlp_drone_control/config/points_of_interest.yaml
+points_of_interest:
+  charging_station: {x: 0.0, y: 0.0, z: 0.1}
+  window_1: {x: 5.0, y: 2.0, z: 2.5}
+  machine_A: {x: 5.0, y: -3.0, z: 1.0}

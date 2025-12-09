@@ -1,0 +1,13 @@
+<launch>
+    <!-- 定义YAML文件的路径 -->
+    <arg name="yaml_file" default="$(find map_generator)/config/points_of_interest.yaml"/>
+
+    <!-- 启动地图生成器节点 -->
+    <node pkg="map_generator" type="yaml_to_map_publisher_node" name="yaml_to_map_publisher" output="screen">
+        <!-- 将参数传递给节点 -->
+        <param name="yaml_file_path" value="$(arg yaml_file)"/>
+        <param name="resolution" value="0.1"/>
+        <param name="frame_id" value="map"/>
+        <param name="map_topic" value="/map"/>
+    </node>
+</launch>

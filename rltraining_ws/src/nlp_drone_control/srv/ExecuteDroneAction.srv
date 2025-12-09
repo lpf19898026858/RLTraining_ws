@@ -1,0 +1,13 @@
+# --- Request ---
+# 动作的类型，例如 "adjust_camera", "rotate_360", "hover_and_monitor"
+string action_type
+
+# (可选) 动作的参数，我们可以用一个JSON字符串来灵活地传递
+# 例如：对于adjust_camera, params可以是 "{\"pitch_angle\": -90.0}"
+# 对于hover_and_monitor, params可以是 "{\"duration_seconds\": 5.0}"
+string params_json
+
+---
+# --- Response ---
+bool success          # 动作是否成功执行
+string message        # 返回给LLM的信息，例如 "Camera adjusted." 或 "Rotation failed."
